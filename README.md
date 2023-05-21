@@ -1,6 +1,7 @@
 # Tema Flixnet para pegasus.
 Author: Mátyás Mustoha - modified by ZagonAb
 - Bifurcado de mmatyas/pegasus-theme-flixnet
+
 Un tema inspirado en los televisores inteligentes y las aplicaciones de transmisión de video.
 
 # Algunos cambios:
