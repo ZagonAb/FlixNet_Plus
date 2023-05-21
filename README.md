@@ -1,4 +1,5 @@
-# Tema Flixnet para pegasus. 
+# Tema Flixnet para pegasus.
+# Author: Mátyás Mustoha - modified by ZagonAb
 Un tema inspirado en los televisores inteligentes y las aplicaciones de transmisión de video.
 
 # Algunos cambios:
@@ -19,9 +20,11 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 # Demostración
 
 
+https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/376d9bab-8563-4788-9616-a8ea5d273bb1
 
 
-https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/d7b88322-26f3-4970-9128-6c97aeee87c0
+
+
 
 # Licencia
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"></a>
