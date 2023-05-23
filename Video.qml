@@ -51,9 +51,13 @@ Item {
 
     Image {
         id: screenshotImg
-        width: vid.width
-        height: vid.height
+        anchors.top: parent.top
+        anchors.right: parent.right
         fillMode: Image.Stretch
+        height: parent.height / 1.12
+        anchors.bottomMargin: parent.height / 1
+        width: parent.width / 0.80
+        anchors.leftMargin: parent.width / 2
 
         visible: videoEnded
 
