@@ -15,8 +15,11 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 
 # Pequeños detalles.
 - Todos los cambios se han probado en mi notebook con resolución de 1366x768
-- Intento portarlo a distintas resoluciones de monitor. (Resuelto)
+
+<del> Intento portarlo a distintas resoluciones de monitor. (Resuelto)</del>
+
 - No soy programador por lo que utilizo chatgpt para aprender del código original Flixnet y obviamente aprender algo de qt.
+
 <del> Disculpe si no funciona correctamente en la resolución de su monitor.</del>
 
 # Demostración
