@@ -1,4 +1,4 @@
-# Tema Flixnet para pegasus.
+# Tema Flixnet_Pus para pegasus-frontend.
 Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Bifurcado de [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet)
 
