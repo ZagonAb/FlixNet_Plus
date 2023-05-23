@@ -11,6 +11,7 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 - Se utiliza un aspecto ratio de 10 / 16
 - Se ha utilizado boxFront por captura.
 - Se ha utilizado wheel por texto.
+- Se ha estirado la captura al final del video para mejor presentación.
 - Y algunos detalles más insignificantes...
 
 # Pequeños detalles.
