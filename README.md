@@ -28,8 +28,9 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 
 https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/376d9bab-8563-4788-9616-a8ea5d273bb1
 
+## Instalación
 
-
+[Descargar](https://github.com/ZagonAb/FlixNet_Plus/archive/refs/heads/main.zip) y extrae el tema a tu [directorio de temas](http://pegasus-frontend.org/docs/user-guide/installing-themes). Luego puede seleccionarlo en el menú de configuración de Pegasus.
 
 
 # Licencia
