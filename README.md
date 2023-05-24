@@ -4,7 +4,7 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 
 Un tema inspirado en los televisores inteligentes y las aplicaciones de transmisión de video.
 
-# Algunos cambios:
+# Algunos cambios
 - Se ha agregado video por captura del juego.
 - Se ha agregado captura al final del video para evitar bucle de reproducción.
 - Se ha agrandado Detalles y corrido más a la izquierda.
@@ -14,7 +14,7 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 - Se ha estirado la captura al final del video para mejor presentación.
 - Y algunos detalles más insignificantes...
 
-# Pequeños detalles.
+# Pequeños detalles
 - Todos los cambios se han probado en mi notebook con resolución de 1366x768
 
 <del> Intento portarlo a distintas resoluciones de monitor.</del>
@@ -30,7 +30,7 @@ https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/376d9bab-8563-4788-9616
 
 ## Instalación
 
-[Descargar](https://github.com/ZagonAb/FlixNet_Plus/archive/refs/heads/main.zip) y extrae el tema a tu [directorio de temas](http://pegasus-frontend.org/docs/user-guide/installing-themes). Luego puede seleccionarlo en el menú de configuración de Pegasus.
+[Descarga](https://github.com/ZagonAb/FlixNet_Plus/archive/refs/heads/main.zip) y extrae el tema a tu [directorio de temas](http://pegasus-frontend.org/docs/user-guide/installing-themes). Luego puede seleccionarlo en el menú de configuración de Pegasus.
 
 
 # Licencia
