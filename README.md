@@ -7,7 +7,7 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 # Algunos cambios
 - Se ha agregado video por captura del juego.
 - Se ha agregado captura al final del video para evitar bucle de reproducción.
-- Se ha agrandado Detalles y corrido más a la izquierda.
+- Se ha agrandado Details y corrido más a la izquierda.
 - Se utiliza un aspecto ratio de 10 / 16
 - Se ha utilizado boxFront por captura.
 - Se ha utilizado wheel por texto.
