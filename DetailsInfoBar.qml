@@ -17,7 +17,6 @@
 
 import QtQuick 2.7
 
-
 Row {
     property int fontSize: vpx(16)
 
@@ -60,6 +59,46 @@ Row {
         size: fontSize
         playerCount: game ? game.players : 1
         visible: playerCount > 1
+        anchors.verticalCenter: parent.verticalCenter
+    }
+
+    Rectangle {
+        width: 120 // Longitud fija de la barra de progreso
+        //width: parent.width
+        anchors.verticalCenter: parent.verticalCenter
+        height: vpx(7)
+        color: "lightgray"
+        visible: game.playTime > 0
+        border.color: "gray"
+        radius: vpx(4)
+
+        Rectangle {
+            width: parent.width * (game.playTime / (60 * 60))
+            height: parent.height
+            color: "red"
+            radius: vpx(4)
+        }
+
+        Behavior on width {
+            NumberAnimation { duration: 500 }
+        }
+    }
+
+    Text {
+        text: {
+            function formatTiempoReproduccion(tiempoSegundos) {
+                var minutos = Math.floor(tiempoSegundos / 60);
+                return "Tiempo jugado:  " + minutos + " minutos";
+            }
+            return "" + formatTiempoReproduccion(game ? game.playTime : 0);
+        }
+        color: "#eee"
+        font {
+            pixelSize: fontSize
+            family: globalFonts.sans
+        }
+
+        visible: game && game.playTime > 0
         anchors.verticalCenter: parent.verticalCenter
     }
 }
