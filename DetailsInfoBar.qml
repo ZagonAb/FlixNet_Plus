@@ -64,7 +64,6 @@ Row {
 
     Rectangle {
         width: 120 // Longitud fija de la barra de progreso
-        //width: parent.width
         anchors.verticalCenter: parent.verticalCenter
         height: vpx(7)
         color: "lightgray"
@@ -73,7 +72,7 @@ Row {
         radius: vpx(4)
 
         Rectangle {
-            width: parent.width * (game.playTime / (60 * 60))
+            width: parent.width * Math.min(game.playTime / (60 * 60), 1)
             height: parent.height
             color: "red"
             radius: vpx(4)
@@ -87,8 +86,8 @@ Row {
     Text {
         text: {
             function formatTiempoReproduccion(tiempoSegundos) {
-                var minutos = Math.floor(tiempoSegundos / 60);
-                return "Tiempo jugando:  " + minutos + " minutos";
+                var minutos = Math.floor(tiempoSegundos / 60) % 60;
+                return "Tiempo Jugando:  " + minutos + " minutos";
             }
             return "" + formatTiempoReproduccion(game ? game.playTime : 0);
         }
