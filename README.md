@@ -12,15 +12,13 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 - Se ha utilizado boxFront por captura.
 - Se ha utilizado wheel por texto.
 - Se ha estirado la captura al final del video para mejor presentación.
-- Se ha agregado playedTime en una barra de progreso con limite de 1 hora luego la barra se reinicia.
-  (Limite de 1 hora ya es que el tiempo que le dedico a los juegos en general.)
+- Se ha agregado playTime en una barra de progreso. (1 hora como limite, luego reiniara la barra para evitar sumar horas y horas jugando.)
 - Y algunos detalles más insignificantes...
 
 # Pequeños detalles
 - Todos los cambios se han probado en mi notebook con resolución de 1366x768
 
 <del> Intento portarlo a distintas resoluciones de monitor.</del>
-
 - No soy programador por lo que utilizo chatgpt para aprender del código original [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet) y obviamente [qt](https://doc.qt.io/qt-6/gettingstarted.html).
 
 <del> Disculpe si no funciona correctamente en la resolución de su monitor.</del>
