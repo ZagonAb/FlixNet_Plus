@@ -25,7 +25,7 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 
 # Demostración
 
-https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/b04f1ed7-64e3-4195-8815-ff8021c0f198
+https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/e69f29a9-abba-4898-a346-5a74c0aa0d43
 
 ## Instalación
 
