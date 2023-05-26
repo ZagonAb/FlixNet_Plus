@@ -88,7 +88,7 @@ Row {
         text: {
             function formatTiempoReproduccion(tiempoSegundos) {
                 var minutos = Math.floor(tiempoSegundos / 60);
-                return "Tiempo jugado:  " + minutos + " minutos";
+                return "Tiempo jugando:  " + minutos + " minutos";
             }
             return "" + formatTiempoReproduccion(game ? game.playTime : 0);
         }
