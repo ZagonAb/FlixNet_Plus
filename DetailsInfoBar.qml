@@ -13,13 +13,10 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
 import QtQuick 2.7
 
 Row {
     property int fontSize: vpx(16)
-
     height: fontSize + vpx(2)
     spacing: vpx(10)
 
@@ -62,32 +59,15 @@ Row {
         anchors.verticalCenter: parent.verticalCenter
     }
 
-    Rectangle {
-        width: 120 // Longitud fija de la barra de progreso
-        anchors.verticalCenter: parent.verticalCenter
-        height: vpx(7)
-        color: "lightgray"
-        visible: game.playTime > 0
-        border.color: "gray"
-        radius: vpx(4)
-
-        Rectangle {
-            width: parent.width * Math.min(game.playTime / (60 * 60), 1)
-            height: parent.height
-            color: "red"
-            radius: vpx(4)
-        }
-
-        Behavior on width {
-            NumberAnimation { duration: 500 }
-        }
-    }
 
     Text {
         text: {
             function formatTiempoReproduccion(tiempoSegundos) {
-                var minutos = Math.floor(tiempoSegundos / 60) % 60;
-                return "Tiempo Jugando:  " + minutos + " minutos";
+                var horas = Math.floor(tiempoSegundos / (60 * 60));
+                var minutos = Math.floor((tiempoSegundos % (60 * 60)) / 60);
+                var segundos = tiempoSegundos % 60;
+                return "Tiempo de juego:  " + horas  + " horas " + minutos + "  minutos  " + segundos + "  segundos  ";
+               // return horas + " horas y " + minutos + " minutos" + segundos + "segundos";
             }
             return "" + formatTiempoReproduccion(game ? game.playTime : 0);
         }
