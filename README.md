@@ -12,7 +12,7 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 - Se ha utilizado boxFront por captura.
 - Se ha utilizado wheel por texto.
 - Se ha estirado la captura al final del video para mejor presentación.
-- Se ha agregado playTime como barra de progreso. (1 hora como limite, luego reiniara la barra para evitar sumar horas y horas jugando.)
+- Se ha agregado playTime como barra de progreso.
 - Y algunos detalles más insignificantes...
 
 # Pequeños detalles
