@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import QtQuick 2.7
 
 Row {
@@ -65,9 +66,8 @@ Row {
             function formatTiempoReproduccion(tiempoSegundos) {
                 var horas = Math.floor(tiempoSegundos / (60 * 60));
                 var minutos = Math.floor((tiempoSegundos % (60 * 60)) / 60);
-                var segundos = tiempoSegundos % 60;
-                return "Tiempo de juego:  " + horas  + " horas " + minutos + "  minutos  " + segundos + "  segundos  ";
-               // return horas + " horas y " + minutos + " minutos" + segundos + "segundos";
+                var segundos = tiempoSegundos % 60;  
+                return "<font color='grey'>Tiempo de juego:</font> <font color='#dd1425'>" + horas + " horas " + minutos + " minutos " + segundos + " segundos</font>";
             }
             return "" + formatTiempoReproduccion(game ? game.playTime : 0);
         }
@@ -81,3 +81,4 @@ Row {
         anchors.verticalCenter: parent.verticalCenter
     }
 }
+
