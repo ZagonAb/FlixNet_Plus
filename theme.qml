@@ -72,7 +72,7 @@ FocusScope {
 
 
         color: "transparent"
-        border { width: 5; color: "white" }
+        border { width: 3; color: "white" }
     }
 
 
