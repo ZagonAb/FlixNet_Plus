@@ -13,19 +13,19 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-
 import QtQuick 2.7
 
 Row {
     property int fontSize: vpx(16)
+    property int maxHours: 1
+    property int maxBarWidth: 150
+
     height: fontSize + vpx(2)
     spacing: vpx(10)
-
 
     RatingBar {
         percent: game ? game.rating : 0
         size: fontSize
-
         visible: percent > 0
         anchors.verticalCenter: parent.verticalCenter
     }
@@ -37,7 +37,6 @@ Row {
             pixelSize: fontSize
             family: globalFonts.sans
         }
-
         visible: text
         anchors.verticalCenter: parent.verticalCenter
     }
@@ -49,7 +48,6 @@ Row {
             pixelSize: fontSize
             family: globalFonts.sans
         }
-
         anchors.verticalCenter: parent.verticalCenter
     }
 
@@ -60,14 +58,35 @@ Row {
         anchors.verticalCenter: parent.verticalCenter
     }
 
+    Rectangle {
+        width: maxBarWidth
+        anchors.verticalCenter: parent.verticalCenter
+        height: vpx(6)
+        color: "#5b5a5b"
+        visible: game.playTime > 0
+        border.color: "#5b5a5b"
+        radius: vpx(4)
+
+        Rectangle {
+            width: Math.min(parent.width, maxBarWidth * (Math.min(game.playTime / (60 * 60), maxHours) / maxHours))
+            height: parent.height
+            color: "#ea0000"
+            radius: vpx(6)
+
+            Behavior on width {
+                NumberAnimation { duration: 500 }
+            }
+        }
+    }
 
     Text {
         text: {
             function formatTiempoReproduccion(tiempoSegundos) {
                 var horas = Math.floor(tiempoSegundos / (60 * 60));
                 var minutos = Math.floor((tiempoSegundos % (60 * 60)) / 60);
-                var segundos = tiempoSegundos % 60;  
-                return "<font color='grey'>Tiempo de juego:</font> <font color='#dd1425'>" + horas + " horas " + minutos + " minutos " + segundos + " segundos</font>";
+                return "Tiempo de juego:  " + horas + " h y " + minutos + " min";
+
+                //return horas + " horas y " + minutos + " minutos";
             }
             return "" + formatTiempoReproduccion(game ? game.playTime : 0);
         }
@@ -80,5 +99,15 @@ Row {
         visible: game && game.playTime > 0
         anchors.verticalCenter: parent.verticalCenter
     }
-}
 
+    Timer {
+        interval: 1000 // Actualizar cada segundo
+        running: game.playTime > 0
+        repeat: true
+        onTriggered: {
+            if (game.playTime >= maxHours * 60 * 60) {
+                maxHours++;
+            }
+        }
+    }
+}
