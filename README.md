@@ -37,7 +37,11 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 
 
 
-https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/5fc57793-6212-446d-9932-a9995542c7e7
+
+
+https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/db4b96cf-f8b4-4ca0-98b8-e1991be12f17
+
+
 
 
 
