@@ -1,10 +1,14 @@
 # Tema Flixnet_Pus para pegasus-frontend.
+ - Un tema inspirado en los televisores inteligentes y las aplicaciones de transmisión de video.
+
 Author: Mátyás Mustoha - modified by Gonzalo Abbate
+
 - Bifurcado de [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet)
 
-Un tema inspirado en los televisores inteligentes y las aplicaciones de transmisión de video.
 
-- Sigo actualizando partes del codigo por lo que pude variar, no olvide hacer una copia de su tema instalo antes de remplazar  con una version nueva.
+
+- Sigo actualizando partes del codigo por lo que pude variar este repositorio. No olvide hacer una copia de su tema instalado.
+- Tambien puede ver las versiones remplazadas [Aqui](https://www.mediafire.com/folder/wycdtzwa6hdoh/FlixNet_Plus_Versiones)
 
 # Algunos cambios
 - Se ha agregado video por captura del juego.
@@ -14,8 +18,8 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 - Se ha utilizado boxFront por captura.
 - Se ha utilizado wheel por texto.
 - Se ha estirado la captura al final del video para mejor presentación.
-- Se ha agregado playTime como informacion adicional en DetailsInfoBar.
-- Y algunos detalles más insignificantes...
+- Se ha agregado barra de progreso utilizando "playTime" como informacion adicional en DetailsInfoBar.
+- Y algunos detalles más insignificantes... (Esto es siempre)
 
 # Pequeños detalles
 - Todos los cambios se han probado en mi notebook con resolución de 1366x768 Windows - GNU/Linux <del>"Android"</del> 
@@ -27,6 +31,7 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 [Skraper](https://www.skraper.net/) y Crear los metadatos con [Bellerophon](https://github.com/valsou/bellerophon)
 
 <del> Disculpe si no funciona correctamente en la resolución de su monitor(resuelto).</del>
+
 
 # Demostración
 
