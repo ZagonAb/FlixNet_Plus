@@ -26,7 +26,7 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 - Requiere ciertos elementos del juego para lucir el tema:  "Screenshots,boxFront,Videos y Wheel"  que los puedes obtener de 
 [Skraper](https://www.skraper.net/) y Crear los metadatos con [Bellerophon](https://github.com/valsou/bellerophon)
 
-<del> Disculpe si no funciona correctamente en la resolución de su monitor.(resuelto)</del>
+<del> Disculpe si no funciona correctamente en la resolución de su monitor(resuelto).</del>
 
 # Demostración
 
