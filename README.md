@@ -18,6 +18,7 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 # Pequeños detalles
 - Todos los cambios se han probado en mi notebook con resolución de 1366x768 Windows - GNU/Linux <del>"Android"</del> 
 - Sigo actualizando partes del codigo por lo que pude variar, no olvide hacer una copia de su tema instalo antes de remplazar  con una version nueva.
+
 <del> Intento portarlo a distintas resoluciones de monitor.</del>
 - No soy programador por lo que utilizo chatgpt para aprender del código original [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet) y obviamente [qt](https://doc.qt.io/qt-6/gettingstarted.html).
 
