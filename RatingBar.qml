@@ -28,7 +28,7 @@ Item {
     Image {
         anchors.fill: parent
 
-        source: "assets/star_empty.svg"
+        source: "assets/star_empty.png"
         sourceSize { width: parent.height; height: parent.height }
 
         fillMode: Image.TileHorizontally
@@ -43,7 +43,7 @@ Item {
 
         anchors.left: parent.left
 
-        source: "assets/star_filled.svg"
+        source: "assets/star_filled.png"
         sourceSize { width: parent.height; height: parent.height }
 
         fillMode: Image.TileHorizontally
