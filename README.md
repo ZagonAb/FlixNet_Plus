@@ -22,6 +22,7 @@ Un tema inspirado en los televisores inteligentes y las aplicaciones de transmis
 
 <del> Intento portarlo a distintas resoluciones de monitor.</del>
 - No soy programador por lo que utilizo chatgpt para aprender del código original [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet) y obviamente [qt](https://doc.qt.io/qt-6/gettingstarted.html).
+
 -Requiere ciertos elementos del juego para lucir el tema:  "Screenshots,boxFront,Videos y Wheel"  que los puedes obtener de 
 [Skraper](https://www.skraper.net/) y Crear los metadatos con [Bellerophon](https://github.com/valsou/bellerophon)
 
