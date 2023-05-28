@@ -22,7 +22,7 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Y algunos detalles más insignificantes... (Esto es siempre)
 
 # Pequeños detalles
-- Todos los cambios se han probado en mi notebook con resolución de 1366x768 Windows - GNU/Linux <del>"Android"</del> 
+- Todos los cambios se han probado en resolución de 1366x768 Windows - GNU/Linux <del>"Android"</del> 
 
 <del> Intento portarlo a distintas resoluciones de monitor (resuelto).</del>
 - No soy programador por lo que utilizo chatgpt para aprender del código original [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet) y obviamente [qt](https://doc.qt.io/qt-6/gettingstarted.html).
