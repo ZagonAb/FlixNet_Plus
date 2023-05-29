@@ -7,7 +7,7 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 
 
 
-- Sigo actualizando partes del codigo por lo que pude variar este repositorio. No olvide hacer una copia de su tema instalado.
+- Sigo actualizando partes del codigo por lo que puede variar este repositorio. No olvide hacer una copia de su tema instalado.
 - Tambien puede ver las versiones remplazadas [Aqui](https://www.mediafire.com/folder/wycdtzwa6hdoh/FlixNet_Plus_Versiones)
 
 # Algunos cambios
