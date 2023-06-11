@@ -19,6 +19,7 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Se ha utilizado wheel por texto.
 - Se ha estirado la captura al final del video para mejor presentación.
 - Se ha agregado barra de progreso utilizando "playTime" como informacion adicional en DetailsInfoBar.
+- Se ha agregado "Juegos disponibles: " utilizando "game.count" para la ver la cantidad de juegos en cada coleccion.
 - Y algunos detalles más insignificantes... (Esto es siempre)
 
 # Pequeños detalles
