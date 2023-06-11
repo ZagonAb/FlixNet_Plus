@@ -133,13 +133,13 @@ FocusScope {
             Behavior on opacity { NumberAnimation { duration: 150 } }
 
             Text {
-                text: modelData.name || modelData.shortName
+                text: modelData.name + "<font color='grey'>  |  Juegos disponibles: <font color='grey'>" + games.count + "</font></font>"
 
                 height: labelHeight
                 verticalAlignment: Text.AlignVCenter
 
-                anchors.left: parent.left
-                anchors.leftMargin: leftGuideline
+                anchors.left: parent.left 
+                anchors.leftMargin: leftGuideline - 70
 
                 color: "white"
                 font {
@@ -149,6 +149,7 @@ FocusScope {
                     capitalization: modelData.name ? Font.MixedCase : Font.AllUppercase
                 }
             }
+
 
             PathView {
                 id: gameAxis
