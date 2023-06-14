@@ -1,5 +1,6 @@
 // Pegasus Frontend - Flixnet theme
 // Copyright (C) 2017  Mátyás Mustoha
+// Author: Mátyás Mustoha - modified by Gonzalo Abbate for GNU/LINUX - WINDOWS
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,7 +45,6 @@ FocusScope {
         }
     }
 
-
     Details {
         game: collectionAxis.currentItem.currentGame
         anchors {
@@ -55,26 +55,23 @@ FocusScope {
         }
     }
 
-        Rectangle {
+    Rectangle {
         id: selectionMarker
 
         width: cellWidth
         height: cellHeight
         z: 100
 
-    anchors {
+        anchors {
             left: parent.left
             leftMargin: leftGuideline
             bottom: parent.bottom
             bottomMargin: labelHeight - cellHeight + vpx(306)
-    }
-
-
+        }
 
         color: "transparent"
         border { width: 3; color: "white" }
     }
-
 
     PathView {
         id: collectionAxis
@@ -113,8 +110,12 @@ FocusScope {
         Keys.onLeftPressed: currentItem.axis.decrementCurrentIndex()
         Keys.onRightPressed: currentItem.axis.incrementCurrentIndex()
         Keys.onPressed: {
-            if (!event.isAutoRepeat && api.keys.isAccept(event))
-                currentItem.currentGame.launch();
+            if (!event.isAutoRepeat && api.keys.isAccept(event)) {
+                var game = currentItem.currentGame;
+                game.launch();
+                api.memory.set('lastLaunchedCollectionIndex', collectionAxis.currentIndex);
+                api.memory.set('lastLaunchedGameIndex', gameAxis.currentIndex);
+            }
         }
     }
 
@@ -149,7 +150,6 @@ FocusScope {
                     capitalization: modelData.name ? Font.MixedCase : Font.AllUppercase
                 }
             }
-
 
             PathView {
                 id: gameAxis
@@ -191,5 +191,17 @@ FocusScope {
                 preferredHighlightEnd: preferredHighlightBegin
             }
         }
+    }
+
+    function loadLastLaunchedGame() {
+        var lastCollectionIndex = api.memory.get('lastLaunchedCollectionIndex') || 0;
+        var lastGameIndex = api.memory.get('lastLaunchedGameIndex') || 0;
+
+        collectionAxis.currentIndex = lastCollectionIndex;
+        collectionAxis.currentItem.axis.gameAxis.currentIndex = lastGameIndex;
+    }
+
+    Component.onCompleted: {
+        loadLastLaunchedGame();
     }
 }
