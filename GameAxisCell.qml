@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import QtQuick 2.7
-
 
 Item {
     property var game
+    property int gameAxisIndex: -1 // Nueva propiedad para almacenar el índice del juego
 
     Rectangle {
         anchors.fill: parent
@@ -40,14 +39,14 @@ Item {
         }
 
         Text {
-            text: model.title
+            text: game.title // Cambiado de model.title a game.title
 
             width: parent.width * 0.8
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
 
             anchors.centerIn: parent
-            visible: !model.assets.gridicon
+            visible: !game.assets.gridicon // Cambiado de model.assets.gridicon a game.assets.gridicon
 
             color: "#eee"
             font {
