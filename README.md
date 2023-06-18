@@ -20,6 +20,7 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Se ha estirado la captura al final del video para mejor presentación.
 - Se ha agregado barra de progreso utilizando "playTime" como informacion adicional en DetailsInfoBar.
 - Se ha agregado "Juegos disponibles: " utilizando "game.count" para la ver la cantidad de juegos en cada coleccion.
+- Se ha agregado el uso de "api.memory" para iniciar el tema en la colección donde se lanzó el último juego.
 - Y algunos detalles más insignificantes... (Esto es siempre)
 
 # Pequeños detalles
