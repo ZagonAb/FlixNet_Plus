@@ -113,95 +113,98 @@ FocusScope {
             if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                 var game = currentItem.currentGame;
                 game.launch();
-                api.memory.set('lastLaunchedCollectionIndex', collectionAxis.currentIndex);
-                api.memory.set('lastLaunchedGameIndex', gameAxis.currentIndex);
+                api.memory.set('coleccion', collectionAxis.currentIndex);
             }
         }
     }
 
-    Component {
-        id: collectionAxisDelegate
+        Component {
+            id: collectionAxisDelegate
 
-        Item {
-            property alias axis: gameAxis
-            readonly property var currentGame: axis.currentGame
+            Item {
+                property alias axis: gameAxis
+                readonly property var currentGame: axis.currentGame
 
-            width: PathView.view.width
-            height: labelHeight + cellHeight
+                width: PathView.view.width
+                height: labelHeight + cellHeight
 
-            visible: PathView.onPath
-            opacity: PathView.isCurrentItem ? 1.0 : 0.6
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+                visible: PathView.onPath
+                opacity: PathView.isCurrentItem ? 1.0 : 0.6
+                Behavior on opacity { NumberAnimation { duration: 150 } }
 
-            Text {
-                text: modelData.name + "<font color='grey'>  |  Juegos disponibles: <font color='grey'>" + games.count + "</font></font>"
+                Text {
+                    text: modelData.name + "<font color='grey'>  |  Juegos disponibles: <font color='grey'>" + games.count + "</font></font>"
 
-                height: labelHeight
-                verticalAlignment: Text.AlignVCenter
+                    height: labelHeight
+                    verticalAlignment: Text.AlignVCenter
 
-                anchors.left: parent.left 
-                anchors.leftMargin: leftGuideline - 70
+                    anchors.left: parent.left
+                    anchors.leftMargin: leftGuideline - 70
 
-                color: "white"
-                font {
-                    pixelSize: labelFontSize
-                    family: globalFonts.sans
-                    bold: true
-                    capitalization: modelData.name ? Font.MixedCase : Font.AllUppercase
-                }
-            }
-
-            PathView {
-                id: gameAxis
-
-                width: parent.width
-                height: cellHeight
-                anchors.bottom: parent.bottom
-
-                model: games
-                delegate: GameAxisCell {
-                    game: modelData
-                    width: cellWidth
-                    height: cellHeight
-                }
-                readonly property var currentGame: games.get(currentIndex)
-
-                readonly property int maxItemCount: 2 + Math.ceil(width / cellPaddedWidth)
-                pathItemCount: Math.min(maxItemCount, model.count)
-
-                property int fullPathWidth: pathItemCount * cellPaddedWidth
-                path: Path {
-                    startX: (gameAxis.model.count >= gameAxis.maxItemCount)
-                        ? leftGuideline - cellPaddedWidth * 1.5
-                        : leftGuideline + (cellPaddedWidth * 0.5  - cellSpacing * 0.5);
-                    startY: cellHeight * 0.5
-                    PathLine {
-                        x: gameAxis.path.startX + gameAxis.fullPathWidth
-                        y: gameAxis.path.startY
+                    color: "white"
+                    font {
+                        pixelSize: labelFontSize
+                        family: globalFonts.sans
+                        bold: true
+                        capitalization: modelData.name ? Font.MixedCase : Font.AllUppercase
                     }
                 }
 
-                snapMode: PathView.SnapOneItem
-                highlightRangeMode: PathView.StrictlyEnforceRange
-                clip: true
+                PathView {
+                    id: gameAxis
 
-                preferredHighlightBegin: (gameAxis.model.count >= gameAxis.maxItemCount)
-                    ? (2 * cellPaddedWidth - cellSpacing / 2) / fullPathWidth
-                    : 0;
-                preferredHighlightEnd: preferredHighlightBegin
+                    width: parent.width
+                    height: cellHeight
+                    anchors.bottom: parent.bottom
+
+                    model: games
+                    delegate: GameAxisCell {
+                        game: modelData
+                        gameAxisIndex: index // Almacena el índice del juego en el componente GameAxisCell
+
+                        //gameIndex: gameAxis.currentIndex // Propiedad para almacenar el índice del juego
+
+                        width: cellWidth
+                        height: cellHeight
+                    }
+
+                    readonly property var currentGame: games.get(currentIndex)
+
+                    readonly property int maxItemCount: 2 + Math.ceil(width / cellPaddedWidth)
+                    pathItemCount: Math.min(maxItemCount, model.count)
+
+                    property int fullPathWidth: pathItemCount * cellPaddedWidth
+                    path: Path {
+                        startX: (gameAxis.model.count >= gameAxis.maxItemCount)
+                            ? leftGuideline - cellPaddedWidth * 1.5
+                            : leftGuideline + (cellPaddedWidth * 0.5  - cellSpacing * 0.5);
+                        startY: cellHeight * 0.5
+                        PathLine {
+                            x: gameAxis.path.startX + gameAxis.fullPathWidth
+                            y: gameAxis.path.startY
+                        }
+                    }
+
+                    snapMode: PathView.SnapOneItem
+                    highlightRangeMode: PathView.StrictlyEnforceRange
+                    clip: true
+
+                    preferredHighlightBegin: (gameAxis.model.count >= gameAxis.maxItemCount)
+                        ? (2 * cellPaddedWidth - cellSpacing / 2) / fullPathWidth
+                        : 0;
+                    preferredHighlightEnd: preferredHighlightBegin
+                }
             }
         }
-    }
 
     function loadLastLaunchedGame() {
-        var lastCollectionIndex = api.memory.get('lastLaunchedCollectionIndex') || 0;
-        var lastGameIndex = api.memory.get('lastLaunchedGameIndex') || 0;
+        var lastCollectionIndex = api.memory.get('coleccion') || 0;
 
         collectionAxis.currentIndex = lastCollectionIndex;
-        collectionAxis.currentItem.axis.gameAxis.currentIndex = lastGameIndex;
-    }
+    }    
 
     Component.onCompleted: {
         loadLastLaunchedGame();
     }
+
 }
