@@ -162,8 +162,6 @@ FocusScope {
                         game: modelData
                         gameAxisIndex: index // Almacena el índice del juego en el componente GameAxisCell
 
-                        //gameIndex: gameAxis.currentIndex // Propiedad para almacenar el índice del juego
-
                         width: cellWidth
                         height: cellHeight
                     }
