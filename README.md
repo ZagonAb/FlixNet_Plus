@@ -21,9 +21,8 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Se ha estirado la captura al final del video para mejor presentación.
 - Se ha agregado barra de progreso utilizando "playTime" como informacion adicional en DetailsInfoBar.
 - Se ha agregado "Juegos disponibles: " utilizando "game.count" para ver la cantidad de juegos en cada coleccion.
-- Se ha agregado el uso de "api.memory" para recuperar el ultimo juego lanzado al cerrar el juego y no volver al principio del tema. 
+- "Se ha utilizado 'api.memory' para recuperar automáticamente el último juego lanzado al cerrar el juego, evitando así regresar al inicio del tema. (Pero si cierra Pegasus Frontend el tema volvera a la normalidad.) Esto ultimo puede evitarla fácilmente comentando las líneas 187 y 188 en el archivo 'theme.qml'."
 - Y algunos detalles más insignificantes... (Esto es siempre)
-
 # Pequeños detalles
 - Todos los cambios se han probado en resolución de 1366x768 Windows - GNU/Linux <del>"Android"</del> 
 
