@@ -2,7 +2,7 @@
  - Un tema inspirado en los televisores inteligentes y las aplicaciones de transmisión de video.
 
 Author: Mátyás Mustoha - modified by Gonzalo Abbate
-- (Gracias a matyas_mustoha) por la ayuda con el uso de api.memory en el codigo, no lo huebiera logrado sin su ayuda.! Genioo..!
+- (Gracias a [matyas_mustoha](https://github.com/mmatyas) Por la ayuda con el uso de api.memory en el código, no lo hubiera logrado sin su ayuda.! Genio..!
 
 - Bifurcado de [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet)
 
