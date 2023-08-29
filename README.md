@@ -2,6 +2,7 @@
  - Un tema inspirado en los televisores inteligentes y las aplicaciones de transmisión de video.
 
 Author: Mátyás Mustoha - modified by Gonzalo Abbate
+- (Gracias a matyas_mustoha) por la ayuda con el uso de api.memory en el codigo, no lo huebiera logrado sin su ayuda.! Genioo..!
 
 - Bifurcado de [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet)
 
@@ -20,7 +21,7 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Se ha estirado la captura al final del video para mejor presentación.
 - Se ha agregado barra de progreso utilizando "playTime" como informacion adicional en DetailsInfoBar.
 - Se ha agregado "Juegos disponibles: " utilizando "game.count" para la ver la cantidad de juegos en cada coleccion.
-- Se ha agregado el uso de "api.memory" para recuperar el ultimo juego lanzado al cerrar el juego y no volver al principio del tema (Gracias a Gonzalo)
+- Se ha agregado el uso de "api.memory" para recuperar el ultimo juego lanzado al cerrar el juego y no volver al principio del tema. 
 - Y algunos detalles más insignificantes... (Esto es siempre)
 
 # Pequeños detalles
