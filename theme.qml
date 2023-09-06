@@ -156,7 +156,7 @@ FocusScope {
             // Etiqueta de la colección
             // Muestra el nombre de la colección y la cantidad de juegos disponibles
             Text {
-                text: modelData.name + "<font color='grey'>  |  Juegos disponibles: <font color='grey'>" + games.count + "</font></font>"
+                text: modelData.name + "<font color='grey'> | Juego " + (gameAxis.currentIndex + 1) + " de " + games.count + "</font>"
 
                 height: labelHeight
                 verticalAlignment: Text.AlignVCenter
@@ -172,6 +172,7 @@ FocusScope {
                     capitalization: modelData.name ? Font.MixedCase : Font.AllUppercase
                 }
             }
+
 
             // Lógica para la inicialización del componente del delegado de la cuadrícula de colecciones
             Component.onCompleted: {
