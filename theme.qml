@@ -1,4 +1,4 @@
-// Pegasus Frontend - Flixnet theme
+// Pegasus Frontend - Flixnet theme.
 // Copyright (C) 2017  Mátyás Mustoha
 // Author: Mátyás Mustoha - modified by Gonzalo Abbate for GNU/LINUX - WINDOWS
 //
