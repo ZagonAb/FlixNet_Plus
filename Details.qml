@@ -41,20 +41,27 @@ Item {
             top: infobar.bottom
             left: parent.left
             right: parent.right
-            topMargin: vpx(10)
-            bottom: parent.bottom
+            topMargin: vpx(25)
+            bottom: parent.bottom 
         }
+
+    FontLoader {
+        id: customFont
+        source: "font/NetflixSansMedium.ttf"
+    }
+
 
         Text {
             text: game ? game.description : ""
             
             width: parent.width
             wrapMode: Text.Wrap
-            
-            color: "#eee"
+
+            font.family: customFont.name 
+            color: "#aeaeae"
             font {
-                pixelSize: vpx(16)
-                family: globalFonts.sans
+                pixelSize: vpx(13.5)
+                //family: globalFonts.sans
             }
         }
     }
