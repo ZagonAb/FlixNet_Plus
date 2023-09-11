@@ -17,37 +17,23 @@
 
 import QtQuick 2.7
 
-
 Item {
     property real percent
     property int size
 
+    FontLoader {
+        id: customFont
+        source: "font/NetflixSansBold.ttf"
+    }
+
     height: size
     width: height * 5
 
-    Image {
-        anchors.fill: parent
-
-        source: "assets/star_empty.png"
-        sourceSize { width: parent.height; height: parent.height }
-
-        fillMode: Image.TileHorizontally
-        horizontalAlignment: Image.AlignLeft
-        verticalAlignment: Image.AlignTop
-    }
-
-    Image {
-        height: parent.height
-        width: parent.width * percent
-        z: 100
-
-        anchors.left: parent.left
-
-        source: "assets/star_filled.png"
-        sourceSize { width: parent.height; height: parent.height }
-
-        fillMode: Image.TileHorizontally
-        horizontalAlignment: Image.AlignLeft
-        verticalAlignment: Image.AlignTop
+    Text {
+        anchors.centerIn: parent
+        text: Math.round(percent * 100) + " % rating"
+        font.pixelSize: height * 1.5
+        font.family: customFont.name // Asigna la fuente cargada al Text
+        color: "#4ae170" // Color verde en formato hexadecimal
     }
 }
