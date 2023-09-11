@@ -1,1 +1,3 @@
-
+NetflixSansBold.ttf
+NetflixSansMedium.ttf
+Probando fuentes.!
