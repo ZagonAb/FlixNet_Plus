@@ -21,7 +21,7 @@ import SortFilterProxyModel 0.2
 // Definición del enfoque principal del ámbito
 FocusScope {
     focus: true
-
+    
     // Propiedades para el diseño de los íconos en cuadrícula
     // Propiedades relacionadas con el tamaño y el espaciado de los íconos en la cuadrícula
     readonly property real cellRatio: 10 / 16
@@ -124,11 +124,30 @@ FocusScope {
         Keys.onLeftPressed: currentItem.axis.decrementCurrentIndex()
         Keys.onRightPressed: currentItem.axis.incrementCurrentIndex()
         Keys.onPressed: {
-            if (!event.isAutoRepeat && api.keys.isAccept(event)) {
-                var game = currentItem.currentGame;
-                api.memory.set('collection', currentItem.name);
-                api.memory.set('game', currentItem.currentGame.title);
-                game.launch();
+            if (!event.isAutoRepeat) {
+                if (api.keys.isDetails(event)) {
+                    // Obtén el juego actual
+                    var game = currentItem.currentGame;
+
+                    // Alterna el estado de favoritos del juego
+                    game.favorite = !game.favorite;
+
+                    // Puedes guardar el estado de favoritos en algún lugar, como "favorites.txt"
+                    if (game.favorite) {
+                        // Agregar la ubicación del juego a la lista de favoritos
+                        // Aquí debes definir cómo deseas gestionar la lista de favoritos
+                    } else {
+                        // Quitar la ubicación del juego de la lista de favoritos
+                        // Aquí debes definir cómo deseas gestionar la lista de favoritos
+                    }
+                }
+                else if (api.keys.isAccept(event)) {
+                    // Lanza el juego si se presiona el botón "aceptar"
+                    var game = currentItem.currentGame;
+                    api.memory.set('collection', currentItem.name);
+                    api.memory.set('game', currentItem.currentGame.title);
+                    game.launch();
+                }
             }
         }
     }
@@ -156,7 +175,7 @@ FocusScope {
             // Etiqueta de la colección
             // Muestra el nombre de la colección y la cantidad de juegos disponibles
             Text {
-                text: modelData.name + "<font color='grey'> | Juego " + (gameAxis.currentIndex + 1) + " de " + games.count + "</font>"
+                text: modelData.name + "<font color='grey'> | Juego " + (gameAxis.currentIndex + 1) + " de " + games.count + "<font color='grey'> |" + "<font color='white'> (X) Toggle favorite on/off " + "</font>"
 
                 height: labelHeight
                 verticalAlignment: Text.AlignVCenter
@@ -254,4 +273,3 @@ FocusScope {
         }
     }
 }
-
