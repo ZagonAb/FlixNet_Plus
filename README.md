@@ -16,12 +16,13 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Se ha agregado captura al final del video para evitar bucle de reproducción.
 - Se ha agrandado Details y corrido más a la izquierda.
 - Se utiliza un aspecto ratio de 10 / 16
-- Se ha utilizado boxFront por captura.
-- Se ha utilizado wheel por texto.
+- Se utiliza boxFront por captura.
+- Se utiliza wheel por texto.
 - Se ha estirado la captura al final del video para mejor presentación.
-- Se ha agregado barra de progreso utilizando "playTime" como informacion adicional en DetailsInfoBar.
-- Se ha agregado "Juegos disponibles: " utilizando "game.count" para ver la cantidad de juegos en cada coleccion.
-- "Se ha utilizado 'api.memory' para recuperar automáticamente el último juego lanzado al cerrar el juego, evitando así regresar al inicio del tema. (Pero si cierra Pegasus Frontend el tema volvera a la normalidad.) Esto ultimo puede evitarlo fácilmente comentando las líneas 187 y 188 en el archivo 'theme.qml'."
+- Se agregado la barra de progreso utilizando "playTime" como informacion adicional en DetailsInfoBar.
+- Se agrego "Juegos disponibles: " utilizando "game.count" para ver la cantidad de juegos en cada coleccion.
+- Se utiliza 'api.memory' para recuperar automáticamente el último juego lanzado al cerrar el juego, evitando así regresar al inicio del tema. (Pero si cierra Pegasus Frontend el tema volvera a la normalidad.) Esto ultimo puede evitarlo fácilmente comentando las líneas 207 y 208 en el archivo 'theme.qml'
+- Se ha agregado la opcion de poner/quitar juegos como favorito con el boton (X) del mando. 
 - Y algunos detalles más insignificantes... (Esto es siempre)
 # Pequeños detalles
 - Todos los cambios se han probado en resolución de 1366x768 Windows - GNU/Linux <del>"Android"</del> 
