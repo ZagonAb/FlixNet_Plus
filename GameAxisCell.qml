@@ -18,7 +18,8 @@ import QtQuick 2.7
 
 Item {
     property var game
-    property int gameAxisIndex: -1 // Nueva propiedad para almacenar el índice del juego
+    property int gameAxisIndex: -1 // Propiedad para almacenar el índice del juego
+    property bool isFavorite: game.favorite // Propiedad para rastrear si el juego es favorito
 
     Rectangle {
         anchors.fill: parent
@@ -63,16 +64,30 @@ Item {
         visible: source
 
         asynchronous: true
-        //fillMode: Image.PreserveAspectCrop
         fillMode: Image.Stretch
 
-        source: game.assets.banner
-            || game.assets.steam
-            || game.assets.marquee
-            || game.assets.tile
-            || game.assets.boxFront
-            || game.assets.poster
-            || game.assets.cartridge
+        // Modifica la fuente de la imagen en función del estado de favorito
+        source: game.assets.banner || game.assets.steam || game.assets.marquee || 
+                game.assets.tile || game.assets.boxFront || game.assets.poster || 
+                game.assets.cartridge
+
         sourceSize { width: 497; height: 680 }
+    }
+    
+    // Capa adicional para el icono de favoritos
+    Item {
+        anchors.right: parent.right
+        anchors.top: parent.top
+        width: 40
+        height: 40
+
+        Image {
+            id: favoriteImage
+
+            anchors.fill: parent
+            visible: isFavorite
+            source: "assets/favorite.png" // Coloca la ruta correcta a tu archivo favorite.png
+            fillMode: Image.PreserveAspectFit
+        }
     }
 }
