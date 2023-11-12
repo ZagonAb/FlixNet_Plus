@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import QtQuick 2.7
 
 Item {
@@ -29,11 +28,13 @@ Item {
     height: size
     width: height * 5
 
+    property real calculatedFontSize: height * 0.80
+
     Text {
         anchors.centerIn: parent
         text: Math.round(percent * 100) + " % rating"
-        font.pixelSize: height * 1.5
-        font.family: customFont.name // Asigna la fuente cargada al Text
-        color: "#4ae170" // Color verde en formato hexadecimal
+        font.pixelSize: parent.calculatedFontSize
+        font.family: customFont.name
+        color: "#4ae170"
     }
 }
