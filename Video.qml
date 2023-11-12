@@ -8,56 +8,46 @@ Item {
     property alias screenshot: screenshotImg.source
 
     width: vid.width
-   // height: 600
+    height: vid.height
 
     visible: game
 
     Video {
         id: vid
 
-        anchors.top: parent.top
-        anchors.right: parent.right
+        anchors.fill: parent
 
         source: game.assets.video || ""
         fillMode: VideoOutput.Stretch
         autoPlay: true
-        height: parent.height / 1.12
-        anchors.bottomMargin: parent.height / 1
-        width: parent.width / 0.80
-        anchors.leftMargin: parent.width / 2
 
-        onStatusChanged: if (status == MediaPlayer.Loaded) {
-            width = height * videoWidth / videoHeight;
+        onStatusChanged: {
+            if (status == MediaPlayer.Loaded) {
+                // Ajustar el tamaño del video cuando se carga
+                vid.width = vid.height * videoWidth / videoHeight;
+            }
         }
 
         onStopped: {
-            // Show screenshot when video ends
             if (vid.position === vid.duration) {
+                // Mostrar captura de pantalla cuando el video termina
                 screenshotImg.source = (game && game.assets.screenshots[0]) || "";
                 videoEnded = true;
-                screenshotGrad.visible = true;
             }
         }
 
         onPositionChanged: {
-            // Hide screenshot when video starts playing again
             if (videoEnded && vid.position < vid.duration) {
+                // Ocultar la captura de pantalla cuando el video vuelve a reproducirse
                 screenshotImg.source = "";
                 videoEnded = false;
-                screenshotGrad.visible = false;
             }
         }
     }
 
     Image {
         id: screenshotImg
-        anchors.top: parent.top
-        anchors.right: parent.right
-        fillMode: Image.Stretch
-        height: parent.height / 1.12
-        anchors.bottomMargin: parent.height / 1
-        width: parent.width / 0.80
-        anchors.leftMargin: parent.width / 2
+        anchors.fill: vid
 
         visible: videoEnded
 
@@ -66,10 +56,10 @@ Item {
             width: parent.width
             height: labelHeight * 0.5
             visible: false
-        
+
             anchors.bottom: screenshotImg.bottom
             anchors.right: screenshotImg.right
-            
+
             start: Qt.point(0, height)
             end: Qt.point(0, 0)
             gradient: Gradient {
@@ -77,13 +67,13 @@ Item {
                 GradientStop { position: 1.0; color: "#00000000" }
             }
         }
-    
+
         LinearGradient {
             width: screenshotImg.width * 0.5
             height: screenshotImg.height
-        
+
             anchors.left: screenshotImg.left
-            
+
             start: Qt.point(0, 0)
             end: Qt.point(width, 0)
             gradient: Gradient {
@@ -122,7 +112,7 @@ Item {
         }
     }
 
-    // Change the video source and reset the screenshot when game changes
+    // Cambiar la fuente del video y restablecer la captura de pantalla cuando cambia el juego
     onGameChanged: {
         vid.source = game.assets.video || "";
         screenshotImg.source = "";
