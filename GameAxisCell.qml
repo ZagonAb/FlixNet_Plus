@@ -18,9 +18,9 @@ import QtQuick 2.7
 
 Item {
     property var game
-    property int gameAxisIndex: -1 // Propiedad para almacenar el índice del juego
+    //property int gameAxisIndex: -1 // Propiedad para almacenar el índice del juego
     property bool isFavorite: game.favorite // Propiedad para rastrear si el juego es favorito
-
+    
     Rectangle {
         anchors.fill: parent
         color: "#333"
@@ -40,14 +40,14 @@ Item {
         }
 
         Text {
-            text: game.title // Cambiado de model.title a game.title
+            text: game.title
 
             width: parent.width * 0.8
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
 
             anchors.centerIn: parent
-            visible: !game.assets.gridicon // Cambiado de model.assets.gridicon a game.assets.gridicon
+            visible: !game.assets.gridicon
 
             color: "#eee"
             font {
@@ -66,28 +66,28 @@ Item {
         asynchronous: true
         fillMode: Image.Stretch
 
-        // Modifica la fuente de la imagen en función del estado de favorito
-        source: game.assets.banner || game.assets.steam || game.assets.marquee || 
-                game.assets.tile || game.assets.boxFront || game.assets.poster || 
+        source: game.assets.banner || game.assets.steam || game.assets.marquee ||
+                game.assets.tile || game.assets.boxFront || game.assets.poster ||
                 game.assets.cartridge
 
         sourceSize { width: 497; height: 680 }
     }
-    
     // Capa adicional para el icono de favoritos
     Item {
-        anchors.right: parent.right
-        anchors.top: parent.top
-        width: 40
-        height: 40
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottomMargin: -40  // Ajusta este valor para cambiar la distancia desde la parte inferior
+        width: 220
+        height: 140
 
         Image {
             id: favoriteImage
 
             anchors.fill: parent
             visible: isFavorite
-            source: "assets/favorite.png" // Coloca la ruta correcta a tu archivo favorite.png
+            source: "assets/favorite.png"
             fillMode: Image.PreserveAspectFit
         }
     }
 }
+
