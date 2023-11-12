@@ -46,7 +46,9 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/db4b96cf-f8b4-4ca0-98b8-e1991be12f17
 
 
+![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/c8d4c98a-2133-466b-addc-3515f206ed1f)
 
+![2](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/28dcf333-d654-487b-a3d2-155ec7b4f277)
 
 
 ## Instalación
