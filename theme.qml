@@ -21,7 +21,6 @@ import SortFilterProxyModel 0.2
 // Definición del enfoque principal del ámbito
 FocusScope {
     focus: true
-    
     // Propiedades para el diseño de los íconos en cuadrícula
     // Propiedades relacionadas con el tamaño y el espaciado de los íconos en la cuadrícula
     readonly property real cellRatio: 10 / 16
@@ -29,14 +28,11 @@ FocusScope {
     readonly property int cellWidth: cellHeight * cellRatio
     readonly property int cellSpacing: vpx(10)
     readonly property int cellPaddedWidth: cellWidth + cellSpacing
-
     // Propiedades para las etiquetas de categoría de las filas
     readonly property int labelFontSize: vpx(18)
     readonly property int labelHeight: labelFontSize * 2.5
-
     // Propiedad para la guía izquierda del diseño
     readonly property int leftGuideline: vpx(100)
-
     // Video: Pantalla principal del juego actual
     // Muestra el video del juego seleccionado en la parte principal de la pantalla
     Video {
@@ -49,7 +45,6 @@ FocusScope {
             bottomMargin: -labelHeight
         }
     }
-
     // Detalles del juego actual
     // Muestra detalles adicionales del juego seleccionado en la parte inferior izquierda de la pantalla
     Details {
@@ -61,7 +56,6 @@ FocusScope {
             right: parent.horizontalCenter
         }
     }
-
     // Marcador de selección en la cuadrícula
     // Un rectángulo transparente que resalta la selección actual en la cuadrícula de juegos
     Rectangle {
@@ -77,11 +71,9 @@ FocusScope {
             bottom: parent.bottom
             bottomMargin: labelHeight - cellHeight + vpx(306)
         }
-
         color: "transparent"
         border { width: 3; color: "white" }
     }
-
     // Cuadrícula de colecciones
     PathView {
     // Propiedades generales de la cuadrícula de colecciones
@@ -127,8 +119,7 @@ FocusScope {
             if (!event.isAutoRepeat) {
                 if (api.keys.isDetails(event)) {
                     // Obtén el juego actual
-                    var game = currentItem.currentGame;
-
+                    var game = currentItem.currentGame; //original
                     // Alterna el estado de favoritos del juego
                     game.favorite = !game.favorite;
 
@@ -145,19 +136,19 @@ FocusScope {
                     // Lanza el juego si se presiona el botón "aceptar"
                     var game = currentItem.currentGame;
                     api.memory.set('collection', currentItem.name);
-                    api.memory.set('game', currentItem.currentGame.title);
+                    api.memory.set('game', currentItem.currentGame.title); // corregir, no restablece la el ultimo lanzado
+                    //api.memory.set('game', gameAxis.currentItem.currentGame.title);
                     game.launch();
                 }
             }
         }
     }
-
     // Componente para el delegado de la cuadrícula de colecciones
     // Define cómo se muestra cada fila de la cuadrícula de colecciones
     Component {
         // Propiedades específicas del delegado de la cuadrícula de colecciones
         id: collectionAxisDelegate
-
+        
         Item {
             // Propiedades para el delegado de la cuadrícula de colecciones
             property alias axis: gameAxis
@@ -171,7 +162,6 @@ FocusScope {
             visible: PathView.onPath
             opacity: PathView.isCurrentItem ? 1.0 : 0.6
             Behavior on opacity { NumberAnimation { duration: 150 } }
-
             // Etiqueta de la colección
             // Muestra el nombre de la colección y la cantidad de juegos disponibles
             Text {
@@ -191,25 +181,50 @@ FocusScope {
                     capitalization: modelData.name ? Font.MixedCase : Font.AllUppercase
                 }
             }
-
-
             // Lógica para la inicialización del componente del delegado de la cuadrícula de colecciones
             Component.onCompleted: {
                 const lastCollectionName = api.memory.get('collection');
                 const lastGameTitle = api.memory.get('game');
 
                 if (lastCollectionName && lastGameTitle && name === lastCollectionName) {
+                    // Obtén el índice en el modelo proxy
+                    const proxyIndex = gameAxis.currentIndex;
+
+                    // Convierte el índice del modelo proxy al índice en el modelo de origen
+                    const sourceIndex = gameAxis.model.mapToSource(proxyIndex);
+
+                    // Encuentra el juego en el modelo de origen por su título
                     const gameIndex = games.toVarArray().findIndex(g => g.title === lastGameTitle);
+
                     if (gameIndex >= 0) {
-                        gameAxis.currentIndex = gameIndex;
-                        //Borra la coleccion y el juego lanzado de la memoria al cerrar pegasus frontend
+                        console.log("Juego encontrado en el índice:", gameIndex);
+
+                        // Verifica si el índice en el modelo de origen coincide con el índice del juego encontrado
+                        if (sourceIndex === gameIndex) {
+                            // Si coinciden, establece el índice en el modelo proxy
+                            gameAxis.currentIndex = proxyIndex;
+                        } else {
+                            // Si no coinciden, busca el nuevo índice en el modelo proxy
+                            let newProxyIndex = -1;
+                            for (let index = 0; index < gameAxis.model.count; ++index) {
+                                if (gameAxis.model.mapToSource(index) === gameIndex) {
+                                    newProxyIndex = index;
+                                    break;
+                                }
+                            }
+
+                            if (newProxyIndex >= 0) {
+                                console.log("Nuevo índice del juego encontrado en el modelo proxy:", newProxyIndex);
+                                gameAxis.currentIndex = newProxyIndex;
+                            }
+                        }
+                        //Borra la colección y el juego lanzado de la memoria al cerrar pegasus frontend
                         //Solo comente con "//" las 2 lineas de codigo de abajo para evitar limpiar la memoria del tema.
                         api.memory.set('collection', '');
                         api.memory.set('game', '');
                     }
                 }
             }
-
             // Cuadrícula de juegos en la colección actual
             PathView {
                 // Propiedades generales de la cuadrícula de juegos
@@ -218,20 +233,23 @@ FocusScope {
                 width: parent.width
                 height: cellHeight
                 anchors.bottom: parent.bottom
-
                 // Modelo de juegos en la colección actual
-                model: games
+                 //model: games
+                    model: SortFilterProxyModel {
+                        sourceModel: games // Esto se refiere al modelo original de juegos de la colección
+                        sorters: RoleSorter { roleName: "favorite"; sortOrder: Qt.DescendingOrder }
+                    }
                 // Delegado para cada juego en la cuadrícula de juegos
                 delegate: GameAxisCell {
                     // Propiedades del juego en el delegado de la cuadrícula de juegos
                     game: modelData
-                    gameAxisIndex: index
+                    //gameAxisIndex: index
                     width: cellWidth
                     height: cellHeight
                 }
-
                 //Lógica para la navegación y control de la cuadrícula de juegos
-                readonly property var currentGame: games.get(currentIndex)
+                readonly property var currentGame: gameAxis.currentItem.game
+                //readonly property var currentGame: games.get(currentIndex)
                 readonly property int maxItemCount: 2 + Math.ceil(width / cellPaddedWidth)
                 pathItemCount: Math.min(maxItemCount, model.count)
 
@@ -247,7 +265,6 @@ FocusScope {
                         y: gameAxis.path.startY
                     }
                 }
-
                 snapMode: PathView.SnapOneItem
                 highlightRangeMode: PathView.StrictlyEnforceRange
                 clip: true
@@ -259,7 +276,6 @@ FocusScope {
             }
         }
     }
-
     // Lógica para la inicialización del enfoque principal al completar
     Component.onCompleted: {
         // Lógica para restaurar el estado de la última colección seleccionada
