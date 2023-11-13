@@ -24,7 +24,7 @@ Item {
 
         text: {
             var textColor = "#aeaeae";
-            return "<font color='white'>Players:</font> <font color='" + textColor + "'>" + playerCount + "</font>";
+            return "<font color='white'>Jugador:</font> <font color='" + textColor + "'>" + playerCount + "</font>";
         }
         font.pixelSize: size * 0.90 // Ajusta el tamaño de la fuente aquí
         font.family: customFont.name 
@@ -34,4 +34,3 @@ Item {
         textFormat: Text.RichText // Permite el uso de etiquetas HTML en el texto
     }
 }
-
