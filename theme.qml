@@ -28,11 +28,14 @@ FocusScope {
     readonly property int cellWidth: cellHeight * cellRatio
     readonly property int cellSpacing: vpx(10)
     readonly property int cellPaddedWidth: cellWidth + cellSpacing
+
     // Propiedades para las etiquetas de categoría de las filas
     readonly property int labelFontSize: vpx(18)
     readonly property int labelHeight: labelFontSize * 2.5
+
     // Propiedad para la guía izquierda del diseño
     readonly property int leftGuideline: vpx(100)
+
     // Video: Pantalla principal del juego actual
     // Muestra el video del juego seleccionado en la parte principal de la pantalla
     Video {
@@ -42,7 +45,7 @@ FocusScope {
             left: parent.horizontalCenter
             right: parent.right
             bottom: selectionMarker.top
-            bottomMargin: -labelHeight
+            bottomMargin: -5 // Puedes ajustar este valor según tus necesidades
         }
     }
     // Detalles del juego actual
@@ -71,6 +74,7 @@ FocusScope {
             bottom: parent.bottom
             bottomMargin: labelHeight - cellHeight + vpx(306)
         }
+
         color: "transparent"
         border { width: 3; color: "white" }
     }
@@ -162,11 +166,9 @@ FocusScope {
             visible: PathView.onPath
             opacity: PathView.isCurrentItem ? 1.0 : 0.6
             Behavior on opacity { NumberAnimation { duration: 150 } }
-            // Etiqueta de la colección
-            // Muestra el nombre de la colección y la cantidad de juegos disponibles
-            Text {
-                text: modelData.name + "<font color='grey'> | Juego " + (gameAxis.currentIndex + 1) + " de " + games.count + "<font color='grey'> |" + "<font color='white'> (X) Toggle favorite on/off " + "</font>"
 
+            Text {
+                textFormat: Text.RichText
                 height: labelHeight
                 verticalAlignment: Text.AlignVCenter
 
@@ -180,7 +182,11 @@ FocusScope {
                     bold: true
                     capitalization: modelData.name ? Font.MixedCase : Font.AllUppercase
                 }
+
+                // Concatenar el texto con la etiqueta de imagen y ajustar el tamaño
+                text: modelData.name + "<font color='grey'> | " + (gameAxis.currentIndex + 1) + "/" + games.count + "<font color='grey'> |" + "<font color='white'> <img src='assets/favoriteyes.png' width='25' height='25'> Favorito on/off" + "</font>"
             }
+
             // Lógica para la inicialización del componente del delegado de la cuadrícula de colecciones
             Component.onCompleted: {
                 const lastCollectionName = api.memory.get('collection');
@@ -225,14 +231,15 @@ FocusScope {
                     }
                 }
             }
+               
             // Cuadrícula de juegos en la colección actual
             PathView {
                 // Propiedades generales de la cuadrícula de juegos
                 id: gameAxis
-
                 width: parent.width
                 height: cellHeight
                 anchors.bottom: parent.bottom
+
                 // Modelo de juegos en la colección actual
                  //model: games
                     model: SortFilterProxyModel {
