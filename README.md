@@ -26,29 +26,26 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Se ha agregado el uso de "SortFilterProxyModel" para que al marcar/desmarcar un juego como favorito este automáticamente al principio de la colección.
 - Y algunos detalles más insignificantes... (Esto es siempre)
 # Pequeños detalles
-- Todos los cambios se han probado en resolución de 1366x768 Windows - GNU/Linux <del>"Android"</del> 
 
-<del> Intento portarlo a distintas resoluciones de monitor (resuelto).</del>
+- Todos los cambios se han probado en resolución de 1366x768 Windows - GNU/Linux
 - No soy programador por lo que utilizo chatgpt para aprender del código original [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet) y obviamente [qt](https://doc.qt.io/qt-6/gettingstarted.html).
 
+- Usarlo siempre en pantalla completa para una mejor experiencia.
 - Requiere elementos del juego para lucir el tema:  "Screenshots,boxFront,Videos y Wheel"  que los puedes obtener de 
 [Skraper](https://www.skraper.net/) y crear los metadatos con [Bellerophon](https://github.com/valsou/bellerophon)
-
-<del> Disculpe si no funciona correctamente en la resolución de su monitor(resuelto).</del>
 
 
 # Demostración
 
 
-
-
-
 https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/db4b96cf-f8b4-4ca0-98b8-e1991be12f17
+![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/7d9d5155-41b6-463a-a56d-b403e8bc6240)
 
 
-![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/c8d4c98a-2133-466b-addc-3515f206ed1f)
 
-![2](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/28dcf333-d654-487b-a3d2-155ec7b4f277)
+
+![2](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/ecfe2836-3f07-4568-9d86-d82523d6791b)
+
 
 
 ## Instalación
