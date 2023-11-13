@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import QtQuick 2.7
 
 Column {
@@ -40,7 +41,7 @@ Column {
 
         Text {
             textFormat: Text.RichText // Permite el uso de etiquetas HTML en el texto
-            text: "<font color='white'>Release: </font><font color='#aeaeae'>" + (game && game.releaseYear > 0 ? game.releaseYear : "") + "</font>"
+            text: "<font color='white'>Lanzamiento: </font><font color='#aeaeae'>" + (game && game.releaseYear > 0 ? game.releaseYear : "") + "</font>"
             //font.pixelSize: fontSize
             font.pixelSize: vpx(14) // Ajusta el tamaño de la fuente aquí
             font.family: customFont.name 
@@ -51,7 +52,7 @@ Column {
 
         Text {
             textFormat: Text.RichText // Permite el uso de etiquetas HTML en el texto
-            text: "<font color='white'>Developer: </font><font color='#aeaeae'>" + (game ? game.developer : "") + "</font>"
+            text: "<font color='white'>Desarrollador: </font><font color='#aeaeae'>" + (game ? game.developer : "") +  "</font>"
             //font.pixelSize: fontSize
             font.pixelSize: vpx(14) // Ajusta el tamaño de la fuente aquí
             font.family: customFont.name
