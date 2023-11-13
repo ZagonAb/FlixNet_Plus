@@ -28,7 +28,7 @@ Item {
     height: size
     width: height * 5
 
-    property real calculatedFontSize: height * 0.80
+    property real calculatedFontSize: height * 0.90
 
     Text {
         anchors.centerIn: parent
