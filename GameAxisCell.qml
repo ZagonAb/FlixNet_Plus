@@ -72,22 +72,25 @@ Item {
 
         sourceSize { width: 497; height: 680 }
     }
-    // Capa adicional para el icono de favoritos
+
     Item {
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottomMargin: -40  // Ajusta este valor para cambiar la distancia desde la parte inferior
-        width: 220
-        height: 140
+
+        width: parent.width * 0.2
+        height: parent.height * 0.2
 
         Image {
             id: favoriteImage
 
-            anchors.fill: parent
+            anchors.centerIn: parent
             visible: isFavorite
             source: "assets/favorite.png"
             fillMode: Image.PreserveAspectFit
+
+            // Ajustar el tamaño relativo al Item padre
+            width: parent.width * 4.6
+            height: parent.height * 4.6
         }
     }
 }
-
