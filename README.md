@@ -24,6 +24,7 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Se utiliza 'api.memory' para recuperar automáticamente el último juego lanzado al cerrar el juego, evitando así regresar al inicio del tema. (Pero si cierra Pegasus Frontend el tema volverá a la normalidad.) Esto último puede evitarlo fácilmente comentando las líneas 223 y 224 en el archivo 'theme.qml'
 - Se ha agregado la opcion de poner/quitar juegos como favorito con el botón (X) del mando.
 - Se ha agregado el uso de "SortFilterProxyModel" para que al marcar un juego como favorito este automáticamente al principio de la colección.
+- Se ha agregado el efecto scanlines en el video y screenshot.
 - Y algunos detalles más insignificantes... (Esto es siempre)
 # Pequeños detalles
 
