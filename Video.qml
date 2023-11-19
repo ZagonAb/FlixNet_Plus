@@ -9,28 +9,26 @@ Item {
 
     width: vid.width
     height: vid.height
-
     visible: game
 
     Video {
         id: vid
-
         anchors.fill: parent
-
         source: game.assets.video || ""
         fillMode: VideoOutput.Stretch
         autoPlay: true
+        visible: true
+        opacity: 0.6
 
         onStatusChanged: {
-            if (status == MediaPlayer.Loaded) {
-                // Ajustar el tamaño del video cuando se carga
+            if (status === MediaPlayer.Loaded) {
                 vid.width = vid.height * videoWidth / videoHeight;
+                player.play();
             }
         }
 
         onStopped: {
             if (vid.position === vid.duration) {
-                // Mostrar captura de pantalla cuando el video termina
                 screenshotImg.source = (game && game.assets.screenshots[0]) || "";
                 videoEnded = true;
             }
@@ -38,17 +36,23 @@ Item {
 
         onPositionChanged: {
             if (videoEnded && vid.position < vid.duration) {
-                // Ocultar la captura de pantalla cuando el video vuelve a reproducirse
                 screenshotImg.source = "";
                 videoEnded = false;
             }
         }
     }
 
+        Image {
+            anchors.fill: parent
+            source: "assets/crt.png" // Ruta de la imagen de las líneas de exploración
+            fillMode: Image.Tile
+            visible: true
+            opacity: 0.4 // Cambiar la opacidad de las líneas de exploración para hacer el video más visible
+        }
+
     Image {
         id: screenshotImg
-        anchors.fill: vid
-
+        anchors.fill: parent
         visible: videoEnded
 
         LinearGradient {
@@ -56,10 +60,8 @@ Item {
             width: parent.width
             height: labelHeight * 0.5
             visible: false
-
             anchors.bottom: screenshotImg.bottom
             anchors.right: screenshotImg.right
-
             start: Qt.point(0, height)
             end: Qt.point(0, 0)
             gradient: Gradient {
@@ -71,9 +73,7 @@ Item {
         LinearGradient {
             width: screenshotImg.width * 0.5
             height: screenshotImg.height
-
             anchors.left: screenshotImg.left
-
             start: Qt.point(0, 0)
             end: Qt.point(width, 0)
             gradient: Gradient {
@@ -81,6 +81,14 @@ Item {
                 GradientStop { position: 1.0; color: "#00000000" }
             }
         }
+    }
+
+    Image {
+        anchors.fill: vid
+        source: "assets/crt.png"
+        fillMode: Image.Tile
+        visible: videoEnded
+        opacity: 0.4
     }
 
     LinearGradient {
@@ -98,6 +106,7 @@ Item {
         }
     }
 
+
     LinearGradient {
         width: vid.width * 0.75
         height: vid.height
@@ -112,7 +121,6 @@ Item {
         }
     }
 
-    // Cambiar la fuente del video y restablecer la captura de pantalla cuando cambia el juego
     onGameChanged: {
         vid.source = game.assets.video || "";
         screenshotImg.source = "";
