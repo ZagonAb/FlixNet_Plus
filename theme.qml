@@ -72,11 +72,11 @@ FocusScope {
             left: parent.left
             leftMargin: leftGuideline
             bottom: parent.bottom
-            bottomMargin: labelHeight - cellHeight + vpx(306)
+            bottomMargin: labelHeight - cellHeight + vpx(304.5)
         }
 
         color: "transparent"
-        border { width: 3; color: "white" }
+        border { width: 4; color: "white" }
     }
     // Cuadrícula de colecciones
     PathView {
@@ -172,6 +172,7 @@ FocusScope {
                 height: labelHeight
                 verticalAlignment: Text.AlignVCenter
 
+                // Ajustar la posición izquierda con márgenes relativos
                 anchors.left: parent.left
                 anchors.leftMargin: leftGuideline - 70
 
@@ -184,8 +185,22 @@ FocusScope {
                 }
 
                 // Concatenar el texto con la etiqueta de imagen y ajustar el tamaño
-                text: modelData.name + "<font color='grey'> | " + (gameAxis.currentIndex + 1) + "/" + games.count + "<font color='grey'> |" + "<font color='white'> <img src='assets/favoriteyes.png' width='25' height='25'> Favorito on/off" + "</font>"
+                text: modelData.name + "<font color='grey'> | " + (gameAxis.currentIndex + 1) + "/" + games.count +
+                      "<font color='grey'> | <font color='white'> <img src='assets/favoriteyes.png' width='" + parent.height * 0.05 + "' height='" + parent.height * 0.05 + "'> Favorito on/off" + "</font>"
+
+                // Añadir un elemento anclado a la derecha del texto para ajustar la posición de la imagen
+                Text {
+                    id: imageContainer
+                    anchors.verticalCenter: parent.verticalCenter // Centrar verticalmente el contenedor de la imagen
+
+                    // Utilizar un ancla a la derecha del texto para alinear la imagen
+                    anchors.right: parent.right
+                    width: parent.height * 0.1 // Ancho de la imagen igual al tamaño deseado
+                    height: parent.height * 0.1 // Altura de la imagen igual al tamaño deseado
+                }
             }
+
+
 
             // Lógica para la inicialización del componente del delegado de la cuadrícula de colecciones
             Component.onCompleted: {
