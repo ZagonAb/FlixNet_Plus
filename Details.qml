@@ -15,6 +15,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import QtQuick 2.7
+
 import "qrc:/qmlutils" as PegasusUtils
 
 Item {
@@ -27,12 +28,14 @@ Item {
         
         asynchronous: true
         source: game && game.assets && game.assets.logo ? game.assets.logo : ""
-        sourceSize.width: 100
-        sourceSize.height: 100
         fillMode: Image.PreserveAspectFit
         smooth: true
         visible: game && game.assets && game.assets.logo
-        
+
+        // Asigna el tamaño relativo al contenedor padre (Item)
+        width: parent.width * 0.4 // Por ejemplo, ajusta este valor según sea necesario
+        height: parent.height * 0.4 // Por ejemplo, ajusta este valor según sea necesario
+
         anchors {
             top: parent.top
             left: parent.left
