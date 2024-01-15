@@ -245,8 +245,8 @@ FocusScope {
                         }
                         //Borra la colección y el juego lanzado de la memoria al cerrar pegasus frontend
                         //Solo comente con "//" las 2 lineas de codigo de abajo para evitar limpiar la memoria del tema.
-                        //api.memory.set('collection', '');
-                        //api.memory.set('game', '');
+                        api.memory.set('collection', '');
+                        api.memory.set('game', '');
                     }
                 }
             }
