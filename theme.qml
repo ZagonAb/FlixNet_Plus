@@ -38,16 +38,20 @@ FocusScope {
 
     // Video: Pantalla principal del juego actual
     // Muestra el video del juego seleccionado en la parte principal de la pantalla
-    Video {
-        game: collectionAxis.currentItem.currentGame
-        anchors {
-            top: parent.top
-            left: parent.horizontalCenter
-            right: parent.right
-            bottom: selectionMarker.top
-            bottomMargin: -5 // Puedes ajustar este valor según tus necesidades
+
+        Video {
+            game: collectionAxis.currentItem.currentGame
+            anchors {
+                top: parent.top
+                left: parent.horizontalCenter // Anclando al centro horizontal del padre
+                right: parent.right
+                bottom: selectionMarker.top
+                bottomMargin: -5 // Puedes ajustar este valor según tus necesidades
+                leftMargin: -150 // Ajusta este valor para mover más a la izquierda o derecha
+            }
         }
-    }
+
+
     // Detalles del juego actual
     // Muestra detalles adicionales del juego seleccionado en la parte inferior izquierda de la pantalla
     Details {
@@ -86,7 +90,7 @@ FocusScope {
         width: parent.width
         height: 1.3 * (labelHeight + cellHeight) + vpx(5)
         anchors.bottom: parent.bottom
-
+        
         // Modelo de las colecciones de juegos
         model: api.collections
 
@@ -241,8 +245,8 @@ FocusScope {
                         }
                         //Borra la colección y el juego lanzado de la memoria al cerrar pegasus frontend
                         //Solo comente con "//" las 2 lineas de codigo de abajo para evitar limpiar la memoria del tema.
-                        api.memory.set('collection', '');
-                        api.memory.set('game', '');
+                        //api.memory.set('collection', '');
+                        //api.memory.set('game', '');
                     }
                 }
             }
