@@ -25,6 +25,7 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Se ha agregado la opcion de poner/quitar juegos como favorito con el botón (X) del mando.
 - Se ha agregado el uso de "SortFilterProxyModel" para que al marcar un juego como favorito este automáticamente al principio de la colección.
 - Se ha agregado el efecto scanlines en el video y screenshot.
+- Se ha agregado una etiqueta automatica. "En resumen, la etiqueta "seguir jugando" solo aparecerá para juegos lanzados en los últimos 7 días, y para el resto de los juegos, la etiqueta no será visible"
 - Y algunos detalles más insignificantes... (Esto es siempre)
 # Pequeños detalles
 
