@@ -18,9 +18,18 @@ import QtQuick 2.7
 
 Item {
     property var game
-    //property int gameAxisIndex: -1 // Propiedad para almacenar el índice del juego
-    property bool isFavorite: game.favorite // Propiedad para rastrear si el juego es favorito
-    
+    property bool isFavorite: game.favorite
+        // Verifica si el juego fue lanzado recientemente (en las últimas siete dias)
+    function isRecentlyPlayed(lastPlayedDate) {
+        var currentDate = new Date();
+        var twoWeeksAgo = new Date(currentDate.getTime() - (7 * 24 * 60 * 60 * 1000));
+
+        return lastPlayedDate > twoWeeksAgo && lastPlayedDate <= currentDate;
+    }
+
+    // Propiedad que indica si el juego fue lanzado recientemente
+    property bool islastPlayed: isRecentlyPlayed(game.lastPlayed)
+
     Rectangle {
         anchors.fill: parent
         color: "#333"
@@ -87,10 +96,28 @@ Item {
             visible: isFavorite
             source: "assets/favorite.png"
             fillMode: Image.PreserveAspectFit
-
             // Ajustar el tamaño relativo al Item padre
             width: parent.width * 4.6
             height: parent.height * 4.6
+        }
+    }
+
+    Item {
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        width: parent.width * 0.2
+        height: parent.height * 0.2
+
+        Image {
+            id: lastPlayedImage
+            anchors.top: parent.top + parent.height * 0.01  // Ajusta este valor para controlar la posición vertical
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            visible: islastPlayed
+            source: "assets/lastplayed.png"
+            width: parent.width * 4.8  // Mantén el ancho
+            height: parent.height * 0.5  // Ajusta este valor para reducir la altura y hacerla más delgada
         }
     }
 }
