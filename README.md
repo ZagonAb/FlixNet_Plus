@@ -11,22 +11,36 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - Sigo actualizando partes del codigo por lo que puede variar este repositorio. No olvide hacer una copia de su tema instalado.
 - Tambien puede ver las versiones remplazadas [Aqui](https://www.mediafire.com/folder/wycdtzwa6hdoh/FlixNet_Plus_Versiones)
 
-# Algunos cambios
-- Se ha agregado video por captura del juego.
-- Se ha agregado captura al final del video para evitar bucle de reproducción.
-- Se ha agrandado Details y corrido más a la izquierda.
-- Se utiliza un aspecto ratio de 10 / 16
-- Se utiliza boxFront por captura.
-- Se utiliza wheel por texto.
-- Se ha estirado la captura al final del video para mejor presentación.
-- Se ha agregado la barra de progreso utilizando "playTime" como información adicional en DetailsInfoBar.
-- Se agregó "Juegos disponibles: " utilizando "game.count" para ver la cantidad de juegos en cada colección.
-- Se utiliza 'api.memory' para recuperar automáticamente el último juego lanzado al cerrar el juego, evitando así regresar al inicio del tema. (Pero si cierra Pegasus Frontend el tema volverá a la normalidad.) Esto último puede evitarlo fácilmente comentando las líneas 223 y 224 en el archivo 'theme.qml'
-- Se ha agregado la opcion de poner/quitar juegos como favorito con el botón (X) del mando.
-- Se ha agregado el uso de "SortFilterProxyModel" para que al marcar un juego como favorito este automáticamente al principio de la colección.
-- Se ha agregado el efecto scanlines en el video y screenshot.
-- Se ha agregado una etiqueta automatica. "En resumen, la etiqueta "seguir jugando" solo aparecerá para juegos lanzados en los últimos 7 días, y para el resto de los juegos, la etiqueta no será visible"
-- Y algunos detalles más insignificantes... (Esto es siempre)
+# Cambios Recientes en el Tema
+
+## Interfaz de Usuario
+
+- **Video de Captura del Juego:** Ahora se incluye un video de captura del juego para mejorar la experiencia visual.
+- **Captura al Final del Video:** Se agregó una captura al final del video para evitar bucles de reproducción.
+- **Ampliación y Alineación de Detalles:** Se ha agrandado y alineado a la izquierda la sección de Detalles para una presentación más equilibrada.
+- **Relación de Aspecto 10:16:** El tema utiliza ahora una relación de aspecto de 10:16 para mejorar la visualización.
+- **Captura Utilizando boxFront:** Se ha cambiado la fuente de captura a boxFront para una presentación más uniforme.
+- **Uso de wheel para Texto:** Se ha cambiado texto por wheel del juego, proporcionando una mejor experiencia visual.
+
+## Funcionalidades y Mejoras
+
+- **Estiramiento de Captura al Final del Video:** Se ha extendido la captura al final del video para una presentación más estética.
+- **Barra de Progreso con playTime:** Se agregó una barra de progreso utilizando "playTime" para proporcionar información adicional en DetailsInfoBar.
+- **Conteo de Juegos Disponibles:** Se muestra la cantidad de juegos disponibles en cada colección con "Juegos disponibles: game.count".
+- **Recuperación Automática del Último Juego Lanzado:** Se utiliza 'api.memory' para recuperar automáticamente el último juego lanzado al cerrar el juego, evitando regresar al inicio del tema. (para evitar eso, solo comente con "//" las lineas 248 - 249 del archivo theme.qml)
+- **Agregar/Quitar Juegos Favoritos con Botón (X):** Se ha añadido la opción de marcar/quitar juegos como favoritos utilizando el botón (X) del mando.
+- **Orden Automático de Favoritos:** Se utiliza 'SortFilterProxyModel' para que los juegos marcados como favoritos aparezcan automáticamente al principio de la colección.
+
+## Mejoras Visuales
+
+- **Efecto Scanlines en Video y Captura:** Se ha implementado el efecto scanlines para mejorar la estética visual.
+- **Etiqueta Automática "Seguir Jugando":** Se ha introducido una nueva característica automática: "Segui jugando". Esta etiqueta se mostrará dinámicamente para juegos lanzados en los últimos 7 días, indicando que han sido jugados recientemente. Para los demás juegos, la etiqueta se ocultará automáticamente. Esta funcionalidad mejora la visualización y destaca los juegos más recientemente jugados.
+
+## Detalles Adicionales
+
+- **Mejoras Insignificantes:** Se han realizado ajustes y mejoras adicionales para una experiencia más refinada.
+
+Ten en cuenta que estos cambios mejorarán tanto la apariencia visual como la funcionalidad del tema, ofreciendo a los usuarios una experiencia más completa y atractiva.
 # Pequeños detalles
 
 - Todos los cambios se han probado en resolución de 1366x768 Windows - GNU/Linux
@@ -44,8 +58,9 @@ https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/db4b96cf-f8b4-4ca0-98b8
 
 
 
-![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/7d9d5155-41b6-463a-a56d-b403e8bc6240)
 
+
+![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/4740f1e1-e837-4f84-8c30-2d1beb933ee3)
 
 
 
