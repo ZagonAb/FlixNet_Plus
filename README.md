@@ -15,12 +15,12 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 
 ## Interfaz de Usuario
 
-- **Video de Captura del Juego:** Ahora se incluye un video de captura del juego para mejorar la experiencia visual.
+- **Video por Captura del Juego:** Ahora se incluye un video por captura del juego para mejorar la experiencia visual.
 - **Captura al Final del Video:** Se agregó una captura al final del video para evitar bucles de reproducción.
 - **Ampliación y Alineación de Detalles:** Se ha agrandado y alineado a la izquierda la sección de Detalles para una presentación más equilibrada.
 - **Relación de Aspecto 10:16:** El tema utiliza ahora una relación de aspecto de 10:16 para mejorar la visualización.
-- **Captura Utilizando boxFront:** Se ha cambiado la fuente de captura a boxFront para una presentación más uniforme.
-- **Uso de wheel para Texto:** Se ha cambiado texto por wheel del juego, proporcionando una mejor experiencia visual.
+- **Utilizando boxFront:** Se ha cambiado la fuente de captura a boxFront para una presentación más uniforme.
+- **Uso de wheel por Texto:** Se ha cambiado texto por wheel del juego, proporcionando una mejor experiencia visual.
 
 ## Funcionalidades y Mejoras
 
