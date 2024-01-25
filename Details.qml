@@ -15,7 +15,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import QtQuick 2.7
-
 import "qrc:/qmlutils" as PegasusUtils
 
 Item {
@@ -30,8 +29,8 @@ Item {
         source: game && game.assets && game.assets.logo ? game.assets.logo : ""
         fillMode: Image.PreserveAspectFit
         smooth: true
-        visible: game && game.assets && game.assets.logo
-
+        // La visibilidad del logo se controla aquí
+        visible: game && game.assets && game.assets.logo && game.assets.logo !== ""
         // Asigna el tamaño relativo al contenedor padre (Item)
         width: parent.width * 0.4 // Por ejemplo, ajusta este valor según sea necesario
         height: parent.height * 0.4 // Por ejemplo, ajusta este valor según sea necesario
@@ -41,6 +40,19 @@ Item {
             left: parent.left
             margins: vpx(10)
         }
+
+        // Aplicamos la animación de opacidad solo cuando el logo es visible
+        opacity: 0
+
+        Behavior on opacity {
+            OpacityAnimator { duration: 2500 } // Agrega una animación de opacidad con una duración de 1000 milisegundos
+        }
+    }
+
+    onGameChanged: {
+        // Reiniciar la animación de opacidad cuando cambia el juego
+        logoImage.opacity = 0;
+        logoImage.opacity = 1;
     }
 
     DetailsInfoBar {
