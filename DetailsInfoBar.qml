@@ -40,25 +40,20 @@ Column {
         }
 
         Text {
-            textFormat: Text.RichText // Permite el uso de etiquetas HTML en el texto
+            textFormat: Text.RichText
             text: "<font color='white'>Lanzamiento: </font><font color='#aeaeae'>" + (game && game.releaseYear > 0 ? game.releaseYear : "") + "</font>"
-            //font.pixelSize: fontSize
-            font.pixelSize: vpx(14) // Ajusta el tamaño de la fuente aquí
-            font.family: customFont.name 
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-
-
-        Text {
-            textFormat: Text.RichText // Permite el uso de etiquetas HTML en el texto
-            text: "<font color='white'>Desarrollador: </font><font color='#aeaeae'>" + (game ? game.developer : "") +  "</font>"
-            //font.pixelSize: fontSize
-            font.pixelSize: vpx(14) // Ajusta el tamaño de la fuente aquí
+            font.pixelSize: vpx(14)
             font.family: customFont.name
             anchors.verticalCenter: parent.verticalCenter
         }
 
+        Text {
+            textFormat: Text.RichText
+            text: "<font color='white'>Desarrollador: </font><font color='#aeaeae'>" + (game ? game.developer : "") +  "</font>"
+            font.pixelSize: vpx(14)
+            font.family: customFont.name
+            anchors.verticalCenter: parent.verticalCenter
+        }
 
         PlayerBar {
             size: fontSize
@@ -76,7 +71,7 @@ Column {
             anchors.verticalCenter: parent.verticalCenter
             height: vpx(6)
             color: "#5b5a5b"
-            visible: game.playTime > 0
+            visible: game.playTime >= 60 // Mostrar solo si el tiempo de juego es mayor o igual a 1 minuto
             border.color: "#5b5a5b"
             radius: vpx(4)
 
@@ -94,7 +89,7 @@ Column {
 
         Row {
             spacing: vpx(5)
-            anchors.verticalCenter: parent.verticalCenter // Centrar verticalmente
+            anchors.verticalCenter: parent.verticalCenter
 
             Text {
                 text: {
@@ -106,18 +101,16 @@ Column {
                     return "" + formatTiempoReproduccion(game ? game.playTime : 0);
                 }
                 color: "#eee"
-                font {
-                pixelSize: vpx(13)
-                family: customFontLoader.name // Asigna la fuente personalizada al Text
-                }
-                visible: game && game.playTime > 0
-                verticalAlignment: Text.AlignVCenter // Centrar verticalmente
+                font.pixelSize: vpx(13)
+                font.family: customFontLoader.name
+                visible: game && game.playTime >= 60 // Mostrar solo si el tiempo de juego es mayor o igual a 1 minuto
+                verticalAlignment: Text.AlignVCenter
             }
         }
     }
 
     Timer {
-        interval: 1000 // Actualizar cada segundo
+        interval: 1000
         running: game.playTime > 0
         repeat: true
         onTriggered: {
