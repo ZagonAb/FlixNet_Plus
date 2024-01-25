@@ -19,16 +19,18 @@ import QtQuick 2.7
 Item {
     property var game
     property bool isFavorite: game.favorite
-        // Verifica si el juego fue lanzado recientemente (en las últimas siete dias)
-    function isRecentlyPlayed(lastPlayedDate) {
+
+    // Verifica si el juego fue lanzado recientemente y tiene al menos 1 minuto de juego
+    function isRecentlyPlayed(lastPlayedDate, playTimeInSeconds) {
         var currentDate = new Date();
         var twoWeeksAgo = new Date(currentDate.getTime() - (7 * 24 * 60 * 60 * 1000));
+        var oneMinuteInSeconds = 60; // 1 minuto en segundos
 
-        return lastPlayedDate > twoWeeksAgo && lastPlayedDate <= currentDate;
+        return lastPlayedDate > twoWeeksAgo && lastPlayedDate <= currentDate && playTimeInSeconds >= oneMinuteInSeconds;
     }
 
     // Propiedad que indica si el juego fue lanzado recientemente
-    property bool islastPlayed: isRecentlyPlayed(game.lastPlayed)
+    property bool islastPlayed: isRecentlyPlayed(game.lastPlayed, game.playTime)
 
     Rectangle {
         anchors.fill: parent
@@ -101,7 +103,7 @@ Item {
             height: parent.height * 4.6
         }
     }
-
+    
     Item {
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
@@ -111,7 +113,7 @@ Item {
 
         Image {
             id: lastPlayedImage
-            anchors.top: parent.top + parent.height * 0.01  // Ajusta este valor para controlar la posición vertical
+            anchors.top: parent.top  // Corrección aquí
             anchors.horizontalCenter: parent.horizontalCenter
 
             visible: islastPlayed
