@@ -26,13 +26,13 @@ Item {
     }
 
     height: size
-    width: height * 5
+    width: height * 8.5
 
     property real calculatedFontSize: height * 0.90
 
     Text {
         anchors.centerIn: parent
-        text: Math.round(percent * 100) + " % rating"
+        text: Math.round(percent * 100) + " % de valoración"
         font.pixelSize: parent.calculatedFontSize
         font.family: customFont.name
         color: "#4ae170"
