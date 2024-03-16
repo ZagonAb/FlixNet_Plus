@@ -175,7 +175,7 @@ FocusScope {
                     searchVisible = true;
                     sidebarFocused = false;
                     // Establecer el enfoque en el TextInput cuando se muestra la barra de búsqueda
-                    searchInput.forceActiveFocus();
+                    //searchInput.forceActiveFocus();
                     // Desenfocar el rectángulo selectionMarker
                     selectionMarker.opacity = 0.0;
                     // Mostrar el teclado virtual cuando se abre la barra de búsqueda
@@ -496,6 +496,7 @@ FocusScope {
                                 console.log("Se lanzará el juego seleccionado:", gameFound.title);
                                 // Lanzar el juego encontrado
                                 sidebarFocused = false;
+                                searchVisible = false;
                                 searchFocused = false; // Desiluminar el texto "Buscar"
                                 selectionMarker.opacity = 1.0;
                                 collectionAxis.focus = true;
