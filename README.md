@@ -29,7 +29,7 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 - **Se ha implementado una barra lateral izquierda que facilita el acceso al índice de cada colección nueva:
 La opción "Home" nos permite volver al índice 0 de la interfaz, proporcionando una navegación intuitiva y rápida.
 La opción "Buscar" nos permite buscar entre nuestra amplia lista de colecciones, ahorrándonos tiempo en la interfaz al encontrar rápidamente lo que necesitamos.
-La opción "Mi Lista" nos desplaza a la colección "Mi Lista", donde "Favoritos" contendrá todos los juegos que hemos marcado como favoritos, agrupándolos en una sola colección para una fácil accesibilidad.
+La opción "Plus" nos desplaza a la colección "Mi lista" contendrá todos los juegos que hemos marcado como favoritos, agrupándolos en una sola colección para una fácil accesibilidad.
 La opción "Trending" nos lleva a la colección "Juegos Recomendados", que presenta una selección de 15 juegos aleatorios que podrían ajustarse a nuestros gustos, proporcionando sugerencias emocionantes y variadas.
 
 - **Agregar/Quitar Juegos Favoritos con Botón (X):** Se ha añadido la opción de marcar/quitar juegos como favoritos utilizando el botón (X) del mando.
