@@ -30,7 +30,7 @@ Column {
     }
 
     Row {
-        spacing: vpx(10)
+        spacing: vpx(9)
 
         RatingBar {
             percent: game ? game.rating : 0
@@ -46,6 +46,7 @@ Column {
             font.family: customFont.name
             anchors.verticalCenter: parent.verticalCenter
         }
+
 
         Text {
             textFormat: Text.RichText
@@ -71,12 +72,13 @@ Column {
             anchors.verticalCenter: parent.verticalCenter
             height: vpx(6)
             color: "#5b5a5b"
-            visible: game.playTime >= 60 // Mostrar solo si el tiempo de juego es mayor o igual a 1 minuto
+            visible: game && game.playTime >= 60
+            //visible: game.playTime >= 60 // Mostrar solo si el tiempo de juego es mayor o igual a 1 minuto
             border.color: "#5b5a5b"
             radius: vpx(4)
 
             Rectangle {
-                width: Math.min(parent.width, maxBarWidth * (Math.min(game.playTime / (60 * 60), maxHours) / maxHours))
+                width: Math.min(parent.width, maxBarWidth * (Math.min(game && game.playTime / (60 * 60), maxHours) / maxHours))
                 height: parent.height
                 color: "#ea0000"
                 radius: vpx(6)
@@ -111,7 +113,7 @@ Column {
 
     Timer {
         interval: 1000
-        running: game.playTime > 0
+        running: game && game.playTime > 0
         repeat: true
         onTriggered: {
             if (game.playTime >= maxHours * 60 * 60) {
