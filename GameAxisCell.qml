@@ -15,12 +15,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import QtQuick 2.7
+import QtGraphicalEffects 1.0
 
 Item {
     property var game
-    property bool isFavorite: game.favorite
 
-    // Verifica si el juego fue lanzado recientemente y tiene al menos 1 minuto de juego
     function isRecentlyPlayed(lastPlayedDate, playTimeInSeconds) {
         var currentDate = new Date();
         var twoWeeksAgo = new Date(currentDate.getTime() - (7 * 24 * 60 * 60 * 1000));
@@ -29,8 +28,10 @@ Item {
         return lastPlayedDate > twoWeeksAgo && lastPlayedDate <= currentDate && playTimeInSeconds >= oneMinuteInSeconds;
     }
 
-    // Propiedad que indica si el juego fue lanzado recientemente
     property bool islastPlayed: isRecentlyPlayed(game.lastPlayed, game.playTime)
+
+    property int maxHours: 1
+    property int maxBarWidth: 150 //parent.width * 0.1
 
     Rectangle {
         anchors.fill: parent
@@ -81,45 +82,66 @@ Item {
                 game.assets.tile || game.assets.boxFront || game.assets.poster ||
                 game.assets.cartridge
 
-        sourceSize { width: 497; height: 680 }
+        sourceSize { width: 456; height: 456 }
     }
 
     Item {
-        anchors.bottom: parent.bottom
+        anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
 
-        width: parent.width * 0.2
-        height: parent.height * 0.2
+        width: parent.width * 0.9
+        height: parent.height * 0.9
 
-        Image {
-            id: favoriteImage
-
-            anchors.centerIn: parent
-            visible: isFavorite
-            source: "assets/favorite.png"
-            fillMode: Image.PreserveAspectFit
-            // Ajustar el tamaño relativo al Item padre
-            width: parent.width * 4.6
-            height: parent.height * 4.6
+        Rectangle {
+            anchors.centerIn: parent // Centrar el rectángulo dentro del Item
+            width: parent.width * 1.2 // Hacer el rectángulo un poco más grande que el Item
+            height: parent.height * 1.2 // Hacer el rectángulo un poco más grande que el Item
+            color: "black" // Color del fondo del contenedor
+            opacity: 0.7 // Ajusta el nivel de opacidad según tus preferencias
+            visible: islastPlayed
         }
-    }
-    
-    Item {
-        anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        width: parent.width * 0.2
-        height: parent.height * 0.2
 
         Image {
-            id: lastPlayedImage
-            anchors.top: parent.top  // Corrección aquí
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.fill: parent
 
             visible: islastPlayed
-            source: "assets/lastplayed.png"
-            width: parent.width * 4.8  // Mantén el ancho
-            height: parent.height * 0.5  // Ajusta este valor para reducir la altura y hacerla más delgada
+            source: "assets/continuegame.png"
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Rectangle {
+            anchors {
+                bottom: parent.bottom // Alinea la parte inferior del rectángulo exterior con la parte inferior del contenedor padre
+                horizontalCenter: parent.horizontalCenter
+            }
+            width: parent.width * 1 // Establecer un ancho predefinido para el rectángulo exterior
+            height: vpx(6)
+            color: "#5b5a5b"
+            visible: islastPlayed
+            border.color: "#5b5a5b"
+            radius: vpx(4)
+
+            Rectangle {
+                width: parent.width * 1 * (game && game.playTime / (maxHours * 60 * 60)) // Ancho de la barra de progreso como porcentaje del rectángulo exterior
+                height: parent.height
+                color: "#ea0000"
+                radius: vpx(6)
+
+                Behavior on width {
+                    NumberAnimation { duration: 500 }
+                }
+            }
+        }
+
+        Timer {
+            interval: 1000
+            running: game && game.playTime > 0
+            repeat: true
+            onTriggered: {
+                if (game.playTime >= maxHours * 60 * 60) {
+                    maxHours++;
+                }
+            }
         }
     }
 }
