@@ -58,12 +58,17 @@ https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/db4b96cf-f8b4-4ca0-98b8
 
 
 
-
-![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/4740f1e1-e837-4f84-8c30-2d1beb933ee3)
-
+![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/38202155-9d74-4a7e-8f8a-dd2a206119cf)
 
 
-![2](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/ecfe2836-3f07-4568-9d86-d82523d6791b)
+![2](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/b04b4bab-0224-4414-80e6-1ead2d9e4966)
+
+
+![3](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/29e3f49c-077e-4572-9a11-1c2e0b7f644a)
+
+
+![4](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/5e6195f6-f2f2-42b2-9277-a2601ae4bac7)
+
 
 
 
