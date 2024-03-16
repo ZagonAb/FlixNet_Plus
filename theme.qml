@@ -174,9 +174,7 @@ FocusScope {
                     // Mostrar la barra de búsqueda al presionar Enter en la opción "Buscar"
                     searchVisible = true;
                     sidebarFocused = false;
-                    // Establecer el enfoque en el TextInput cuando se muestra la barra de búsqueda
-                    //searchInput.forceActiveFocus();
-                    // Desenfocar el rectángulo selectionMarker
+                    // ocultar el rectángulo selectionMarker
                     selectionMarker.opacity = 0.0;
                     // Mostrar el teclado virtual cuando se abre la barra de búsqueda
                     virtualKeyboardContainer.visible = true;
