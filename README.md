@@ -15,7 +15,6 @@ Author: Mátyás Mustoha - modified by Gonzalo Abbate
 
 - **Video por Captura del Juego:** Ahora se incluye un video por captura del juego para mejorar la experiencia visual.
 - **Captura al Final del Video:** Se agregó una captura al final del video para evitar bucles de reproducción.
-- **Ampliación y Alineación de Detalles:** Se ha agrandado y alineado a la izquierda la sección de Detalles para una presentación más equilibrada.
 - **Relación de Aspecto 10:16:** El tema utiliza ahora una relación de aspecto de 10:16 en los boxfront para mejorar la visualización.
 - **Utilizando boxFront:** Se ha cambiado la fuente de captura a boxFront para una presentación más uniforme.
 - **Uso de wheel por Texto:** Se ha cambiado texto por wheel del juego, proporcionando una mejor experiencia visual.
