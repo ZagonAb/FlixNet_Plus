@@ -32,7 +32,6 @@ La opción "Plus" nos desplaza a la colección "Mi lista" contendrá todos los j
 La opción "Trending" nos lleva a la colección "Juegos Recomendados", que presenta una selección de 15 juegos aleatorios que podrían ajustarse a nuestros gustos, proporcionando sugerencias emocionantes y variadas.
 
 - **Agregar/Quitar Juegos Favoritos con Botón (X):** Se ha añadido la opción de marcar/quitar juegos como favoritos utilizando el botón (X) del mando.
-- **Orden Automático de Favoritos:** Se utiliza 'SortFilterProxyModel' para que los juegos marcados como favoritos aparezcan automáticamente al principio de la colección.
 
 ## Mejoras Visuales
 
