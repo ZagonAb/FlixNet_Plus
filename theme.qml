@@ -174,7 +174,7 @@ FocusScope {
                     // Mostrar la barra de búsqueda al presionar Enter en la opción "Buscar"
                     searchVisible = true;
                     sidebarFocused = false;
-                    // ocultar el rectángulo selectionMarker
+                    // Desenfocar el rectángulo selectionMarker
                     selectionMarker.opacity = 0.0;
                     // Mostrar el teclado virtual cuando se abre la barra de búsqueda
                     virtualKeyboardContainer.visible = true;
@@ -231,139 +231,150 @@ FocusScope {
                 id: searchBar
                 width: parent.width // Mismo ancho que el padre
                 height: 50 // Alto deseado
-                color: "#171717"
-                radius: 7
+                color: "#1f1f1f"
+                radius: 20
                 border.width: 2
-                border.color: "#d9d9d9"
+                //border.color: "#d9d9d9"
                 z: 100
 
                 // Contenido de la barra de búsqueda
-                TextInput {
-                    id: searchInput
-                    visible: searchVisible // Mostrar solo cuando la barra de búsqueda está visible
+                Row {
                     anchors {
-                        fill: parent; margins: 10
-                    }
-                    verticalAlignment: Text.AlignVCenter
-                    color: "white"
-                    FontLoader {
-                        id: netflixSansBold
-                        source: "font/NetflixSansBold.ttf"
-                    }
-                    font.family: netflixSansBold.name
-                    font.pixelSize: 24 // Tamaño de fuente deseado
-
-                    onTextChanged: {
-                        // Lógica de búsqueda
-                        gamesFiltered.searchTerm = searchInput.text.trim();
-                        searchResults.visible = searchInput.text.trim() !== ""; // Mostrar resultados solo si hay texto en la búsqueda
-                    }
-                }
-                
-                Image {
-                    id: searchIcon
-                    source: "assets/search_inactive.png"
-                    anchors {
-                        left: parent.left
+                        fill: parent
                         verticalCenter: parent.verticalCenter
-                        leftMargin: vpx(25)
+                        horizontalCenter: parent.horizontalCenter
                     }
-                    width: vpx(16)
-                    height: vpx(16)
-                    visible: searchInput.length === 0 // Mostrar el icono solo cuando el campo de búsqueda está vacío
-                    opacity: searchInput.length > 0 ? 0 : 1 // Ocultar el icono cuando se está escribiendo en el campo de búsqueda
-                    Behavior on opacity { NumberAnimation { duration: 50 } }
-                }
 
-                Text {
-                    id: searchPlaceholder
-                    text: "Buscar el juego..."
-                    color: "grey"
-                    font.family: netflixSansBold.name
-                    font.pixelSize: 24
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: searchIcon.right // Ajuste del anclaje izquierdo
-                        leftMargin: vpx(10) // Ajuste del margen izquierdo
-                        right: parent.right // Ajuste del anclaje derecho
-                        rightMargin: vpx(10) // Ajuste del margen derecho
+                    Image {
+                        id: searchIcon
+                        source: "assets/search_inactive.png"
+                        width: vpx(16)
+                        height: vpx(16)
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            left: parent.left
+                            leftMargin: vpx(25)
+                        }
+                        opacity: searchInput.text.trim().length > 0 ? 0.2 : 1 // Opacidad inicial basada en si hay texto en el campo de búsqueda
+                        Behavior on opacity {
+                            NumberAnimation { duration: 200 }
+                        }
                     }
-                    visible: searchInput.length === 0 // Mostrar el texto solo cuando el campo de búsqueda está vacío
-                    opacity: searchInput.length > 0 ? 0 : 0.3 // Ocultar el texto cuando se está escribiendo en el campo de búsqueda
-                    Behavior on opacity { NumberAnimation { duration: 50 } }
-                    wrapMode: Text.Wrap // Permitir el ajuste de texto automático
+
+                    TextInput {
+                        id: searchInput
+                        visible: searchVisible // Mostrar solo cuando la barra de búsqueda está visible
+                        verticalAlignment: Text.AlignVCenter
+                        color: "white"
+                        FontLoader {
+                            id: netflixSansBold
+                            source: "font/NetflixSansBold.ttf"
+                        }
+                        font.family: netflixSansBold.name
+                        font.pixelSize: 24 // Tamaño de fuente deseado
+                        anchors {
+                            fill: parent
+                            leftMargin: searchIcon.width + vpx(35) // Espacio adicional para el icono y el margen
+                            rightMargin: vpx(10) // Margen derecho para separar el borde derecho del rectángulo
+                            verticalCenter: parent.verticalCenter
+                        }
+                        
+                        onTextChanged: {
+                            // Lógica de búsqueda
+                            gamesFiltered.searchTerm = searchInput.text.trim();
+                            searchResults.visible = searchInput.text.trim() !== ""; // Mostrar resultados solo si hay texto en la búsqueda
+                        }
+                    }
+
+                    Text {
+                        id: searchPlaceholder
+                        text: "Buscar el juego..."
+                        color: "#8c8c8c"//"grey"
+                        font.family: netflixSansBold.name
+                        font.pixelSize: 24
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            left: searchIcon.right // Ajuste del anclaje izquierdo para que el texto esté a la derecha del icono
+                            leftMargin: vpx(10) // Ajuste del margen izquierdo para agregar espacio entre el icono y el texto
+                            right: parent.right // Anclar a la derecha del padre
+                            rightMargin: vpx(10) // Margen derecho fijo para mantener el espacio en pantalla completa
+                        }
+                        visible: searchInput.length === 0 // Mostrar el texto solo cuando el campo de búsqueda está vacío
+                        opacity: searchInput.length > 0 ? 0 : 0.7 // Ocultar el texto cuando se está escribiendo en el campo de búsqueda
+                        Behavior on opacity { NumberAnimation { duration: 50 } }
+                        wrapMode: Text.Wrap // Permitir el ajuste de texto automático
+                    }
                 }
             }
 
+            //Teclado virtual
             Rectangle {
                 id: virtualKeyboardContainer
                 width: parent.width // Mismo ancho que el padre
-                height: 420 // Alto deseado
-                color: "#171717"
+                height: 300 // Alto deseado
+                color: "#1f1f1f"
                 radius: 7
                 border.width: 2
-                border.color: "#d9d9d9"
+                //border.color: "#d9d9d9"
                 anchors {
-                    top: searchBar.bottom
-                    left: parent.left
+                  top: searchBar.bottom
+                  left: parent.left
                 }
                 // Establecer el enfoque en el propio teclado virtual
                 focus: searchVisible
                 z: 100  
 
-                GridLayout {
-                    columns: 6
-                    rows: 7 
-                    anchors.fill: parent
-                    columnSpacing: 5 // Espacio entre columnas
-                    rowSpacing: 5 // Espacio entre filas
+                Column {
+                  anchors.fill: parent
+                  spacing: 5 // Espacio entre columnas
 
+                  // Ajuste de la posición a la derecha
+                  Rectangle {
+                    width: (parent.width - (6 * 40 + 5 * 5)) / 2 // Espacio en blanco a la izquierda y a la derecha del GridLayout
+                    height: 1 // Solo para ajustar el espacio
+                    color: "transparent"
+                  }
+
+                  GridLayout {
+                    id: keyboardGrid
+                    columns: 6
+                    rows: 6 // 6 filas en lugar de 7
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    columnSpacing: (parent.width - (6 * 40)) / 7 // Espacio proporcional entre columnas
+                    rowSpacing: (parent.height - (6 * 40)) / 7 // Espacio proporcional entre filas
+                     
                     // Crear componentes de texto para letras 'a' a 'z' y números '0' a '9'
                     Repeater {
-                        model: 26 + 12 + 1 // Letras + Números + Borrar + Espacio + Sidebar
-                        Rectangle {
-                            width: 40 // Ancho fijo para todos los botones
-                            height: 40 // Alto fijo para todos los botones
-                            clip: true // Aplicar clip para recortar el contenido si se desborda
-                            color: "transparent" // Color de fondo transparente
-                            border.color: index === virtualKeyboardIndex ? "#d9d9d9" : "transparent"
-                            border.width: 2 // Ancho del borde
-                            Item {
-                                anchors.fill: parent
-                                visible: index !== 26 + 10 && index !== 26 + 11 // Ocultar imagen si es el botón de borrar o espacio
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: index < 26 ? String.fromCharCode(97 + index) : (index < 26 + 10 ? index - 26 : "") // Letras, Números
-                                    font.pixelSize: 20 // Tamaño de la fuente
-                                    color: "grey" // Color del texto
-                                    horizontalAlignment: Text.AlignHCenter
-                                    verticalAlignment: Text.AlignVCenter
-                                }
+                      model: 26 + 10 // Letras + Números
+                      Rectangle {
+                        width: 40 // Ancho fijo para todos los botones
+                        height: 40 // Alto fijo para todos los botones
+                        clip: true // Aplicar clip para recortar el contenido si se desborda
+                        color: "transparent" // Color de fondo transparente
+                        border.color: virtualKeyboardIndex === index && virtualKeyboardContainer.focus ? "#d9d9d9" : (virtualKeyboardContainer.focus ? "transparent" : "#1f1f1f")
+                        border.width: 2 // Ancho del borde
+                        radius: 7
 
-                            }
-                            Image {
-                                anchors.fill: parent
-                                source: index === 26 + 10 ? "assets/del.png" : (index === 26 + 11 ? "assets/espacio.png" : (index === 26 + 12 ? "assets/sidebar.png" : "")) // Ruta de la imagen
-                                fillMode: Image.PreserveAspectFit // Ajustar la imagen al tamaño del botón
-                            }
+                        Item {
+                          anchors.fill: parent
+                          Text {
+                            anchors.centerIn: parent
+                            text: index < 26 ? String.fromCharCode(97 + index) : (index < 26 + 10 ? index - 26 : "") // Letras, Números
+                            font.pixelSize: 20 // Tamaño de la fuente
+                            color: "grey" // Color del texto
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                          }
                         }
+                      }
                     }
+                  }
                 }
-
                 // Manejar eventos de teclado para navegación y selección
                 Keys.onPressed: {
                     if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                         if (virtualKeyboardIndex < 26) {
                             searchInput.text += String.fromCharCode(97 + virtualKeyboardIndex); // Agregar letra al campo de búsqueda
-                        } else if (virtualKeyboardIndex === 26 + 10) {
-                            // Eliminar el último carácter del texto en la barra de búsqueda si se selecciona "DEL"
-                            searchInput.text = searchInput.text.slice(0, -1);
-                        } else if (virtualKeyboardIndex === 26 + 11) {
-                            searchInput.text += " "; // Agregar espacio
-                        } else if (virtualKeyboardIndex === 26 + 12) {
-                            // Agregar lógica para el ícono de la barra lateral
-                            searchVisible = false; // Ocultar la barra de búsqueda
-                            sidebarFocused = true; // Establecer el foco en la barra lateral
                         } else {
                             searchInput.text += virtualKeyboardIndex - 26; // Agregar número al campo de búsqueda
                         }
@@ -378,8 +389,8 @@ FocusScope {
                                 sidebarFocused = true; // Establecer el foco en la barra lateral
                             }
                         }
-                    }else if (event.key === Qt.Key_Right) {
-                        if (virtualKeyboardIndex < (26 + 12)) {
+                    } else if (event.key === Qt.Key_Right) {
+                        if (virtualKeyboardIndex < (26 + 12) - 1) {
                             virtualKeyboardIndex++;
                         }
                     } else if (event.key === Qt.Key_Up) {
@@ -387,30 +398,110 @@ FocusScope {
                             virtualKeyboardIndex -= 6;
                         }
                     } else if (event.key === Qt.Key_Down) {
-                        if (virtualKeyboardIndex < (26 + 13) -6) {
+                        if (virtualKeyboardIndex < (26 + 10) - 6) {
                             virtualKeyboardIndex += 6;
-                        } else if (virtualKeyboardIndex === 36 || virtualKeyboardIndex === 37 || virtualKeyboardIndex === 38) {
-                            // Si el índice actual es el botón de borrar y hay resultados de búsqueda, mover el foco a los resultados
-                            if (searchResults.visible) {
-                                resultsList.focus = true;
-                                navigatedDown = true;
+                        } else if (virtualKeyboardIndex >= 30 && virtualKeyboardIndex <= 35) { // Añadido: Manejar movimiento hacia abajo en la última fila
+                            if (buttonKeyContainer.focus = true) {
+                                navigatedDown = false;
+
                             }
                         }
                     } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                         // Agregar la lógica para que al presionar Enter se escriba la letra o número seleccionado
                         if (virtualKeyboardIndex < 26) {
                             searchInput.text += String.fromCharCode(65 + virtualKeyboardIndex); // Agregar letra al campo de búsqueda
-                        } else if (virtualKeyboardIndex === 26 + 10) {
-                            // Eliminar el último carácter del texto en la barra de búsqueda si se selecciona "DEL"
-                            searchInput.text = searchInput.text.slice(0, -1);
-                        } else if (virtualKeyboardIndex === 26 + 11) {
-                            searchInput.text += " "; // Agregar espacio
-                        } else if (virtualKeyboardIndex === 26 + 12) {
-                            // Agregar lógica para el ícono de la barra lateral
-                            sidebarFocused = true;
-                            searchFocused = true;
                         } else {
                             searchInput.text += virtualKeyboardIndex - 26; // Agregar número al campo de búsqueda
+                        }
+                    }
+                }
+            }
+
+            //botones con iconos
+            Rectangle {
+                id: buttonKeyContainer
+                width: parent.width // Mismo ancho que el padre
+                height: 35 // Alto deseado
+                color: "#1f1f1f" // Color de fondo
+                radius: 7
+                border.width: 2
+                visible: searchVisible
+                anchors {
+                    top: virtualKeyboardContainer.bottom
+                    left: parent.left
+                }
+                // Índice de la selección actual
+                property int selectedIndex: 0
+
+                Row {
+                    width: parent.width // Ancho igual al del buttonKeyContainer
+                    height: parent.height // Alto igual al del buttonKeyContainer
+                    spacing: 0 // Sin espaciado entre los iconos
+
+                    // Iconos que estarán siempre visibles
+                    Repeater {
+                        model: 3 // Número de iconos
+                        Image {
+                            width: buttonKeyContainer.width / 3 // Ancho igualmente distribuido para cada icono
+                            height: parent.height // Alto igual al del buttonKeyContainer
+                            source: index === 0 ? "assets/del.png" : (index === 1 ? "assets/espacio.png" : (index === 2 ? "assets/sidebar.png" : ""))
+                            fillMode: Image.PreserveAspectFit // Ajustar la imagen al tamaño del botón
+                        }
+                    }
+                }
+
+                // Rectángulo selector para resaltar los iconos al obtener el foco
+                Rectangle {
+                    id: selectorRectangle
+                    width: buttonKeyContainer.width / 3 // Ancho proporcional al del buttonKeyContainer
+                    height: 35 // Alto igual al de los botones
+                    color: "transparent" // Color del relleno transparente
+                    border.color: "white" // Color del borde
+                    border.width: 2 // Ancho del borde
+                    visible: buttonKeyContainer.focus // Hacer visible el rectángulo selector solo cuando obtenga el foco
+                    clip: true
+                    radius: 7
+                }
+
+                // Manejar eventos de teclado para navegación y selección
+                Keys.onPressed: {
+                    if (!event.isAutoRepeat) {
+                        if (event.key === Qt.Key_Left) {
+                            if (buttonKeyContainer.selectedIndex > 0) {
+                                buttonKeyContainer.selectedIndex--; // Mover a la izquierda
+                                selectorRectangle.x -= buttonKeyContainer.width / 3;
+                            }
+                        } else if (event.key === Qt.Key_Right) {
+                            if (buttonKeyContainer.selectedIndex < 2) {
+                                buttonKeyContainer.selectedIndex++; // Mover a la derecha
+                                selectorRectangle.x += buttonKeyContainer.width / 3;
+                            }
+                        } else if (event.key === Qt.Key_Up) {
+                            // Mover el foco al teclado virtual
+                            virtualKeyboardContainer.focus = true;
+                            //buttonKeyContainer.visible = true;
+                            buttonKeyContainer.focus = false;
+                            navigatedDown = false;
+                        } else if (event.key === Qt.Key_Down) {
+                            // Si se presiona la tecla de flecha hacia abajo y estamos sobre uno de los botones, hacer lo siguiente:
+                            if (buttonKeyContainer.selectedIndex >= 0 && buttonKeyContainer.selectedIndex <= 2) {
+                                if (searchResults.visible) {
+                                    resultsList.focus = true;
+                                    navigatedDown = true;
+                                }
+                            }
+                        } else if (!event.isAutoRepeat && api.keys.isAccept(event)) {
+                            if (buttonKeyContainer.selectedIndex === 0) {
+                                // Eliminar la última letra del texto en searchInput
+                                searchInput.text = searchInput.text.slice(0, -1);
+                            } else if (buttonKeyContainer.selectedIndex === 1) {
+                                // Agregar un espacio al texto en searchInput
+                                searchInput.text += " ";
+                            } else if (buttonKeyContainer.selectedIndex === 2) {
+                                // Ocultar la búsqueda y enfocar la barra lateral
+                                searchVisible = false;
+                                sidebarFocused = true;
+                            }
                         }
                     }
                 }
@@ -420,13 +511,13 @@ FocusScope {
             Rectangle {
                 id: searchResults
                 width: parent.width // Mismo ancho que el padre
-                height: parent.height - virtualKeyboardContainer.height -50// Alto deseado
-                color: "#171717"
+                height: parent.height - virtualKeyboardContainer.height -100// Alto deseado
+                color: "#1f1f1f" //#171717"
                 radius: 7
                 border.width: 2
-                border.color: "#d9d9d9"
+                //border.color: "#d9d9d9"
                 anchors {
-                    top: virtualKeyboardContainer.bottom
+                    top: buttonKeyContainer.bottom
                     left: parent.left
                 }
                 visible: false // Comienza oculto
@@ -467,7 +558,8 @@ FocusScope {
                     Keys.onUpPressed: {
                         if (resultsList.currentIndex === 0) {
                             // Cambiar el enfoque a la barra de búsqueda
-                            virtualKeyboardContainer.focus = true;
+                            //virtualKeyboardContainer.focus = true;
+                            buttonKeyContainer.focus = true
                             // Establecer la propiedad navigatedDown a false
                             navigatedDown = false;
                         } else {
