@@ -19,33 +19,24 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtGraphicalEffects 1.12
 import SortFilterProxyModel 0.2
-
 FocusScope {
 
     focus: true
-
-    // Propiedades para el diseño de los íconos en cuadrícula
-    // Propiedades relacionadas con el tamaño y el espaciado de los íconos en la cuadrícula
-    readonly property real cellRatio: 10 / 16 // Calcula la relación de aspecto de la celda
-    readonly property int cellHeight: vpx(255) // Establece la altura de la celda en 255 píxeles
-    readonly property int cellWidth: cellHeight * cellRatio // Calcula el ancho de la celda basado en la relación de aspecto
-    readonly property int cellSpacing: vpx(10) // Establece el espaciado entre las celdas en 10 píxeles
-    readonly property int cellPaddedWidth: cellWidth + cellSpacing // Calcula el ancho de la celda con el espacio añadido
-    // Propiedades para las etiquetas de categoría de las filas
-    readonly property int labelFontSize: vpx(18) // Establece el tamaño de fuente de la etiqueta en 18 píxeles
-    readonly property int labelHeight: labelFontSize * 2.5 // Calcula la altura de la etiqueta basada en el tamaño de fuente
-    // Propiedad para la guía izquierda del diseño
-    readonly property int leftGuideline: vpx(100) // Establece una guía izquierda en 100 píxeles desde el borde izquierdo
-    ///////////////////////////////////////////////////////////////////////////
-    // Propiedad booleana para controlar la visibilidad de la barra de búsqueda
+    readonly property real cellRatio: 10 / 16
+    readonly property int cellHeight: vpx(255)
+    readonly property int cellWidth: cellHeight * cellRatio
+    readonly property int cellSpacing: vpx(10)
+    readonly property int cellPaddedWidth: cellWidth + cellSpacing
+    readonly property int labelFontSize: vpx(18)
+    readonly property int labelHeight: labelFontSize * 2.5
+    readonly property int leftGuideline: vpx(100)
+    ///////////////////////////////////////////////////
     property bool searchVisible: false
     readonly property int sidebarWidth: 60
-    // Lógica de enfoque
     property bool navigatedDown: false
     property bool sidebarFocused: false
-    property bool searchFocused: false // Nueva propiedad para controlar el enfoque del texto "Buscar
-    //property int selectedIndex: 1 // Índice de la opción seleccionada (1 para "Buscar")
-    property int selectedIndex: sidebarFocused ? 1 : -1 // Índice de la opción seleccionada (-1 cuando no está enfocada)
+    property bool searchFocused: false
+    property int selectedIndex: sidebarFocused ? 1 : -1
     property int virtualKeyboardIndex: 0
     // Restablecer selectedIndex a -1 cuando el foco de la barra lateral cambia a false
     onSidebarFocusedChanged: {
@@ -176,6 +167,7 @@ FocusScope {
                     sidebarFocused = false;
                     // Desenfocar el rectángulo selectionMarker
                     selectionMarker.opacity = 0.0;
+                    //detailsID.opacity =  0.07
                     // Mostrar el teclado virtual cuando se abre la barra de búsqueda
                     virtualKeyboardContainer.visible = true;
                     // Establecer el foco en el teclado virtual
@@ -213,31 +205,29 @@ FocusScope {
     
     //Barra de busqueda, teclado virtual y rectangulo de resultados        
     Item {
-        width: parent.width / 2 -300// Mitad del ancho de la pantalla
-        height: parent.height // Mismo alto que el padre
+        id: searchBarAndKeyboard
+        width: parent.width / 2 -350
+        height: parent.height 
         z: 100
-        // Ajuste de la posición hacia la derecha
         anchors.left: parent.left
-        anchors.leftMargin: parent.width * 0.05 // Ajuste de la separación desde el lado izquierdo
+        anchors.leftMargin: parent.width * 0.04 
 
         Rectangle {
-            width: parent.width // Mismo ancho que el padre
-            height: parent.height // Mismo alto que el padre
-            color: "transparent" // Color de fondo opcional, puedes cambiarlo según tus preferencias
+            width: parent.width 
+            height: parent.height 
+            color: "transparent" 
             visible: searchVisible
             
             // Barra de búsqueda
             Rectangle {
                 id: searchBar
-                width: parent.width // Mismo ancho que el padre
-                height: 50 // Alto deseado
+                width: parent.width
+                height: 50
                 color: "#1f1f1f"
-                radius: 20
-                border.width: 2
-                //border.color: "#d9d9d9"
+                radius: 10
+                border.width: 3
                 z: 100
 
-                // Contenido de la barra de búsqueda
                 Row {
                     anchors {
                         fill: parent
@@ -255,7 +245,7 @@ FocusScope {
                             left: parent.left
                             leftMargin: vpx(25)
                         }
-                        opacity: searchInput.text.trim().length > 0 ? 0.2 : 1 // Opacidad inicial basada en si hay texto en el campo de búsqueda
+                        opacity: searchInput.text.trim().length > 0 ? 0.2 : 1
                         Behavior on opacity {
                             NumberAnimation { duration: 200 }
                         }
@@ -263,7 +253,7 @@ FocusScope {
 
                     TextInput {
                         id: searchInput
-                        visible: searchVisible // Mostrar solo cuando la barra de búsqueda está visible
+                        visible: searchVisible
                         verticalAlignment: Text.AlignVCenter
                         color: "white"
                         FontLoader {
@@ -271,38 +261,36 @@ FocusScope {
                             source: "font/NetflixSansBold.ttf"
                         }
                         font.family: netflixSansBold.name
-                        font.pixelSize: 24 // Tamaño de fuente deseado
+                        font.pixelSize: 24
                         anchors {
                             fill: parent
-                            leftMargin: searchIcon.width + vpx(35) // Espacio adicional para el icono y el margen
-                            rightMargin: vpx(10) // Margen derecho para separar el borde derecho del rectángulo
+                            leftMargin: searchIcon.width + vpx(35)
+                            rightMargin: vpx(10)
                             verticalCenter: parent.verticalCenter
                         }
                         
                         onTextChanged: {
-                            // Lógica de búsqueda
                             gamesFiltered.searchTerm = searchInput.text.trim();
-                            searchResults.visible = searchInput.text.trim() !== ""; // Mostrar resultados solo si hay texto en la búsqueda
                         }
                     }
 
                     Text {
                         id: searchPlaceholder
                         text: "Buscar el juego..."
-                        color: "#8c8c8c"//"grey"
+                        color: "#8c8c8c"
                         font.family: netflixSansBold.name
                         font.pixelSize: 24
                         anchors {
                             verticalCenter: parent.verticalCenter
-                            left: searchIcon.right // Ajuste del anclaje izquierdo para que el texto esté a la derecha del icono
-                            leftMargin: vpx(10) // Ajuste del margen izquierdo para agregar espacio entre el icono y el texto
-                            right: parent.right // Anclar a la derecha del padre
-                            rightMargin: vpx(10) // Margen derecho fijo para mantener el espacio en pantalla completa
+                            left: searchIcon.right
+                            leftMargin: vpx(10)
+                            right: parent.right
+                            rightMargin: vpx(10)
                         }
-                        visible: searchInput.length === 0 // Mostrar el texto solo cuando el campo de búsqueda está vacío
-                        opacity: searchInput.length > 0 ? 0 : 0.7 // Ocultar el texto cuando se está escribiendo en el campo de búsqueda
+                        visible: searchInput.length === 0
+                        opacity: searchInput.length > 0 ? 0 : 0.7
                         Behavior on opacity { NumberAnimation { duration: 50 } }
-                        wrapMode: Text.Wrap // Permitir el ajuste de texto automático
+                        wrapMode: Text.Wrap
                     }
                 }
             }
@@ -310,88 +298,91 @@ FocusScope {
             //Teclado virtual
             Rectangle {
                 id: virtualKeyboardContainer
-                width: parent.width // Mismo ancho que el padre
-                height: 300 // Alto deseado
+                width: parent.width
+                height: 300
                 color: "#1f1f1f"
-                radius: 7
-                border.width: 2
-                //border.color: "#d9d9d9"
+                border.color: "#1f1f1f"
+                radius: 0
+                border.width: 3
                 anchors {
-                  top: searchBar.bottom
-                  left: parent.left
+                    top: searchBar.bottom
+                    left: parent.left
                 }
-                // Establecer el enfoque en el propio teclado virtual
                 focus: searchVisible
                 z: 100  
 
                 Column {
-                  anchors.fill: parent
-                  spacing: 5 // Espacio entre columnas
+                    anchors.fill: parent
+                    spacing: 5
 
-                  // Ajuste de la posición a la derecha
-                  Rectangle {
-                    width: (parent.width - (6 * 40 + 5 * 5)) / 2 // Espacio en blanco a la izquierda y a la derecha del GridLayout
-                    height: 1 // Solo para ajustar el espacio
-                    color: "transparent"
-                  }
-
-                  GridLayout {
-                    id: keyboardGrid
-                    columns: 6
-                    rows: 6 // 6 filas en lugar de 7
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    columnSpacing: (parent.width - (6 * 40)) / 7 // Espacio proporcional entre columnas
-                    rowSpacing: (parent.height - (6 * 40)) / 7 // Espacio proporcional entre filas
-                     
-                    // Crear componentes de texto para letras 'a' a 'z' y números '0' a '9'
-                    Repeater {
-                      model: 26 + 10 // Letras + Números
-                      Rectangle {
-                        width: 40 // Ancho fijo para todos los botones
-                        height: 40 // Alto fijo para todos los botones
-                        clip: true // Aplicar clip para recortar el contenido si se desborda
-                        color: "transparent" // Color de fondo transparente
-                        border.color: virtualKeyboardIndex === index && virtualKeyboardContainer.focus ? "#d9d9d9" : (virtualKeyboardContainer.focus ? "transparent" : "#1f1f1f")
-                        border.width: 2 // Ancho del borde
-                        radius: 7
-
-                        Item {
-                          anchors.fill: parent
-                          Text {
-                            anchors.centerIn: parent
-                            text: index < 26 ? String.fromCharCode(97 + index) : (index < 26 + 10 ? index - 26 : "") // Letras, Números
-                            font.pixelSize: 20 // Tamaño de la fuente
-                            color: "grey" // Color del texto
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                          }
-                        }
-                      }
+                    Rectangle {
+                        width: (parent.width - (6 * 40 + 5 * 5)) / 2
+                        height: 1
+                        color: "transparent"
                     }
-                  }
+
+                    GridLayout {
+                        id: keyboardGrid
+                        columns: 6
+                        rows: 6
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        columnSpacing: (parent.width - (6 * 40)) / 7
+                        rowSpacing: (parent.height - (6 * 40)) / 7
+                         
+                        Repeater {
+                            model: 26 + 10
+                            Rectangle {
+                                width: 40
+                                height: 40
+                                clip: true
+                                color: "transparent"
+                                border.color: virtualKeyboardIndex === index && virtualKeyboardContainer.focus ? "#d9d9d9" : (virtualKeyboardContainer.focus ? "transparent" : "#1f1f1f")
+                                border.width: 2
+                                radius: 7
+
+                                Item {
+                                    anchors.fill: parent
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: index < 26 ? String.fromCharCode(97 + index) : (index < 26 + 10 ? index - 26 : "")
+                                        font.pixelSize: 20
+                                        color: "grey"
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                // Manejar eventos de teclado para navegación y selección
+
                 Keys.onPressed: {
                     if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                         if (virtualKeyboardIndex < 26) {
-                            searchInput.text += String.fromCharCode(97 + virtualKeyboardIndex); // Agregar letra al campo de búsqueda
+                            searchInput.text += String.fromCharCode(97 + virtualKeyboardIndex);
                         } else {
-                            searchInput.text += virtualKeyboardIndex - 26; // Agregar número al campo de búsqueda
+                            searchInput.text += virtualKeyboardIndex - 26;
                         }
                     } else if (event.key === Qt.Key_Left && virtualKeyboardIndex === 0) {
-                        searchVisible = false; // Ocultar la barra de búsqueda
-                        sidebarFocused = true; // Establecer el foco en la barra lateral
+                        searchVisible = false;
+                        sidebarFocused = true;
                     } else if (event.key === Qt.Key_Left) {
                         if (virtualKeyboardIndex > 0 ){
                             virtualKeyboardIndex--;
                             if (virtualKeyboardIndex === 5 || virtualKeyboardIndex === 11 || virtualKeyboardIndex === 17 || virtualKeyboardIndex === 23 || virtualKeyboardIndex === 29 || virtualKeyboardIndex === 35 || virtualKeyboardIndex === 41) {
-                                searchVisible = false; // Ocultar la barra de búsqueda
-                                sidebarFocused = true; // Establecer el foco en la barra lateral
+                                searchVisible = false;
+                                sidebarFocused = true;
+                                
                             }
                         }
                     } else if (event.key === Qt.Key_Right) {
                         if (virtualKeyboardIndex < (26 + 12) - 1) {
                             virtualKeyboardIndex++;
+                            if (virtualKeyboardIndex === 6 || virtualKeyboardIndex === 12 || virtualKeyboardIndex === 18 || virtualKeyboardIndex === 24 || virtualKeyboardIndex === 30 || virtualKeyboardIndex === 36) {
+                                searchResults.visible 
+                                resultsGrid.focus = true;
+                                navigatedDown = true;
+                            }
                         }
                     } else if (event.key === Qt.Key_Up) {
                         if (virtualKeyboardIndex >= 6) {
@@ -400,18 +391,16 @@ FocusScope {
                     } else if (event.key === Qt.Key_Down) {
                         if (virtualKeyboardIndex < (26 + 10) - 6) {
                             virtualKeyboardIndex += 6;
-                        } else if (virtualKeyboardIndex >= 30 && virtualKeyboardIndex <= 35) { // Añadido: Manejar movimiento hacia abajo en la última fila
+                        } else if (virtualKeyboardIndex >= 30 && virtualKeyboardIndex <= 35) {
                             if (buttonKeyContainer.focus = true) {
                                 navigatedDown = false;
-
                             }
                         }
                     } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                        // Agregar la lógica para que al presionar Enter se escriba la letra o número seleccionado
                         if (virtualKeyboardIndex < 26) {
-                            searchInput.text += String.fromCharCode(65 + virtualKeyboardIndex); // Agregar letra al campo de búsqueda
+                            searchInput.text += String.fromCharCode(65 + virtualKeyboardIndex);
                         } else {
-                            searchInput.text += virtualKeyboardIndex - 26; // Agregar número al campo de búsqueda
+                            searchInput.text += virtualKeyboardIndex - 26;
                         }
                     }
                 }
@@ -420,85 +409,76 @@ FocusScope {
             //botones con iconos
             Rectangle {
                 id: buttonKeyContainer
-                width: parent.width // Mismo ancho que el padre
-                height: 35 // Alto deseado
-                color: "#1f1f1f" // Color de fondo
-                radius: 7
-                border.width: 2
+                width: parent.width
+                height: 35
+                color: "#1f1f1f"
+                border.color: "#1f1f1f"
+                radius: 0
+                border.width: 3
                 visible: searchVisible
                 anchors {
                     top: virtualKeyboardContainer.bottom
                     left: parent.left
                 }
-                // Índice de la selección actual
                 property int selectedIndex: 0
 
                 Row {
-                    width: parent.width // Ancho igual al del buttonKeyContainer
-                    height: parent.height // Alto igual al del buttonKeyContainer
-                    spacing: 0 // Sin espaciado entre los iconos
+                    width: parent.width
+                    height: parent.height
+                    spacing: 0
 
-                    // Iconos que estarán siempre visibles
                     Repeater {
-                        model: 3 // Número de iconos
+                        model: 3
                         Image {
-                            width: buttonKeyContainer.width / 3 // Ancho igualmente distribuido para cada icono
-                            height: parent.height // Alto igual al del buttonKeyContainer
+                            width: buttonKeyContainer.width / 3
+                            height: parent.height
                             source: index === 0 ? "assets/del.png" : (index === 1 ? "assets/espacio.png" : (index === 2 ? "assets/sidebar.png" : ""))
-                            fillMode: Image.PreserveAspectFit // Ajustar la imagen al tamaño del botón
+                            fillMode: Image.PreserveAspectFit
                         }
                     }
                 }
 
-                // Rectángulo selector para resaltar los iconos al obtener el foco
                 Rectangle {
                     id: selectorRectangle
-                    width: buttonKeyContainer.width / 3 // Ancho proporcional al del buttonKeyContainer
-                    height: 35 // Alto igual al de los botones
-                    color: "transparent" // Color del relleno transparente
-                    border.color: "white" // Color del borde
-                    border.width: 2 // Ancho del borde
-                    visible: buttonKeyContainer.focus // Hacer visible el rectángulo selector solo cuando obtenga el foco
+                    width: buttonKeyContainer.width / 3
+                    height: 35
+                    color: "transparent"
+                    border.color: "white"
+                    border.width: 2
+                    visible: buttonKeyContainer.focus
                     clip: true
                     radius: 7
                 }
 
-                // Manejar eventos de teclado para navegación y selección
                 Keys.onPressed: {
                     if (!event.isAutoRepeat) {
                         if (event.key === Qt.Key_Left) {
                             if (buttonKeyContainer.selectedIndex > 0) {
-                                buttonKeyContainer.selectedIndex--; // Mover a la izquierda
+                                buttonKeyContainer.selectedIndex--;
                                 selectorRectangle.x -= buttonKeyContainer.width / 3;
                             }
                         } else if (event.key === Qt.Key_Right) {
                             if (buttonKeyContainer.selectedIndex < 2) {
-                                buttonKeyContainer.selectedIndex++; // Mover a la derecha
+                                buttonKeyContainer.selectedIndex++;
                                 selectorRectangle.x += buttonKeyContainer.width / 3;
                             }
                         } else if (event.key === Qt.Key_Up) {
-                            // Mover el foco al teclado virtual
                             virtualKeyboardContainer.focus = true;
-                            //buttonKeyContainer.visible = true;
                             buttonKeyContainer.focus = false;
                             navigatedDown = false;
                         } else if (event.key === Qt.Key_Down) {
-                            // Si se presiona la tecla de flecha hacia abajo y estamos sobre uno de los botones, hacer lo siguiente:
                             if (buttonKeyContainer.selectedIndex >= 0 && buttonKeyContainer.selectedIndex <= 2) {
                                 if (searchResults.visible) {
-                                    resultsList.focus = true;
-                                    navigatedDown = true;
+                                    //resultsGrid.focus = true;
+                                    //navigatedDown = true;
                                 }
                             }
                         } else if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                             if (buttonKeyContainer.selectedIndex === 0) {
-                                // Eliminar la última letra del texto en searchInput
                                 searchInput.text = searchInput.text.slice(0, -1);
                             } else if (buttonKeyContainer.selectedIndex === 1) {
-                                // Agregar un espacio al texto en searchInput
                                 searchInput.text += " ";
                             } else if (buttonKeyContainer.selectedIndex === 2) {
-                                // Ocultar la búsqueda y enfocar la barra lateral
                                 searchVisible = false;
                                 sidebarFocused = true;
                             }
@@ -506,105 +486,143 @@ FocusScope {
                     }
                 }
             }
+        }
+    }
 
-            // Resultados de búsqueda
-            Rectangle {
-                id: searchResults
-                width: parent.width // Mismo ancho que el padre
-                height: parent.height - virtualKeyboardContainer.height -100// Alto deseado
-                color: "#1f1f1f" //#171717"
-                radius: 7
-                border.width: 2
-                //border.color: "#d9d9d9"
+    //Resultado de busqueda
+    Rectangle {
+        id: searchResults
+        width: parent.width - searchBarAndKeyboard.width - 10
+        height: parent.height 
+        color: "black"
+        radius: 7
+        border.width: 2
+        anchors {
+            top: buttonKeyContainer.bottom
+            left: searchBarAndKeyboard.right
+            right: parent.right
+        }
+        visible: searchVisible
+        z: 100
+
+        GridView {
+            id: resultsGrid
+            width: parent.width - 10
+            height: parent.height - 10
+            anchors.centerIn: parent
+            anchors.horizontalCenter: parent.horizontalCenter 
+            anchors.verticalCenter: parent.verticalCenter
+            cellWidth: (parent.width - 10) / 4
+            cellHeight: resultsGrid.width / 2.8
+            model: gamesFiltered
+            clip: true
+
+            delegate: Item {
+                width: resultsGrid.cellWidth - 5
+                height: resultsGrid.cellHeight - 5
                 anchors {
-                    top: buttonKeyContainer.bottom
-                    left: parent.left
+                    margins: 5
                 }
-                visible: false // Comienza oculto
 
-                ListView {
-                    id: resultsList
-                    width: parent.width // Mismo ancho que el padre
-                    height: parent.height // Mismo alto que el padre
-                    // Contenido de la lista de resultados...
-                    model: gamesFiltered
-                    clip: true
+                Rectangle {
+                    width: parent.width  -3
+                    height: parent.height -3
+                    color: "transparent"
+                    border.color: resultsGrid.currentIndex === index && resultsGrid.focus ? "#d9d9d9" : (resultsGrid.focus ? "transparent" : "#1f1f1f")
+                    border.width: resultsGrid.currentIndex === index ? 5 : 0
+                    radius: 7
+                    z: 1 
+                }
 
-                    delegate: Rectangle {
-                        width: parent ? parent.width : 0 // Verifica si hay un padre antes de acceder a su anchura
-                        height: 30 // Altura deseada de cada elemento de la lista
-                        color: ListView.isCurrentItem && navigatedDown ? "red" : "transparent" // Controlar la visibilidad basada en la propiedad navigatedDown
-                        border.color: ListView.isCurrentItem && navigatedDown ? "red" : "transparent" // Controlar la visibilidad basada en la propiedad navigatedDown
-                        border.width: ListView.isCurrentItem && navigatedDown ? 3 : 0 // Controlar la visibilidad basada en la propiedad navigatedDown
-                        radius: 7
-                        FontLoader {
-                            id: netflixSansBold
-                            source: "font/NetflixSansBold.ttf"
-                        }
-                        Text {
-                            anchors.fill: parent
-                            text: model.title !== undefined ? model.title : "Title not available"
-                            font.family: netflixSansBold.name // Utilizar la fuente personalizada
-                            font.pixelSize: 18 // Tamaño de fuente deseado
-                            verticalAlignment: Text.AlignVCenter
-                            padding: 5 // Espaciado interior deseado
-                            color: "white" // Cambiar el color del texto a blanco
-                            wrapMode: Text.WordWrap // Ajustar el texto dentro del rectángulo
-                            elide: Text.ElideRight // Truncar el texto si es demasiado largo
-                        }
+                Image {
+                    id: gameImage
+                    source: model.assets.boxFront 
+                    anchors.centerIn: parent
+                    width: parent.width - 10
+                    height: parent.height - 10
+                    sourceSize { width: 456; height: 456 }
+                    fillMode: Image.Stretch
+                    z: 0
+                }
+
+                FontLoader {
+                    id: netflixSansBold
+                    source: "font/NetflixSansBold.ttf"
+                }
+
+                Text {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        bottom: parent.bottom
                     }
+                    text: model.title !== undefined ? model.title : "Title not available"
+                    font.family: netflixSansBold.name
+                    font.pixelSize: 18
+                    verticalAlignment: Text.AlignBottom
+                    padding: 5
+                    color: "white"
+                    wrapMode: Text.WordWrap
+                    elide: Text.ElideRight
+                }
+            }
 
-                    // Manejar evento de tecla para mover el foco hacia arriba
-                    Keys.onUpPressed: {
-                        if (resultsList.currentIndex === 0) {
-                            // Cambiar el enfoque a la barra de búsqueda
-                            //virtualKeyboardContainer.focus = true;
-                            buttonKeyContainer.focus = true
-                            // Establecer la propiedad navigatedDown a false
-                            navigatedDown = false;
-                        } else {
-                            // Desplazar hacia arriba si no estamos en el primer elemento
-                            resultsList.currentIndex--;
-                        }
-                    }
+            Keys.onUpPressed: {
+                if (resultsGrid.currentIndex < 4) {
+                    // Action for first row
+                } else {
+                    resultsGrid.currentIndex -= 4;
+                }
+            }
 
-                    // Manejar evento de tecla para lanzar el juego seleccionado
-                    Keys.onPressed: {
-                        if (!event.isAutoRepeat && api.keys.isAccept(event)) {
-                            // Obtener el título del juego seleccionado
-                            var selectedGame = gamesFiltered.get(resultsList.currentIndex);
-                            var selectedTitle = selectedGame.title;
+            Keys.onDownPressed: {
+                if (resultsGrid.currentIndex >= (resultsGrid.count - 4)) {
+                    // Action for last row
+                } else {
+                    resultsGrid.currentIndex += 4;
+                }
+            }
 
-                            // Buscar el juego con el título seleccionado
-                            var gamesArray = api.allGames.toVarArray();
-                            var gameFound = gamesArray.find(function(game) {
-                                return game.title === selectedTitle;
-                            });
+            Keys.onLeftPressed: {
+                if (resultsGrid.currentIndex % 4 === 0) {
+                    virtualKeyboardContainer.focus = true;
+                    virtualKeyboardIndex = 0
+                    resultsGrid.focus = false
+                    navigatedDown = false;
+                } else {
+                    resultsGrid.currentIndex--;
+                }
+            }
 
-                            // Verificar si se encontró el juego
-                            if (gameFound) {
-                                console.log("Se lanzará el juego seleccionado:", gameFound.title);
-                                // Lanzar el juego encontrado
-                                sidebarFocused = false;
-                                searchVisible = false;
-                                searchFocused = false; // Desiluminar el texto "Buscar"
-                                selectionMarker.opacity = 1.0;
-                                collectionAxis.focus = true;
-                                gameFound.launch();
-                            } else {
-                                console.log("No se encontró el juego con el título:", selectedTitle);
-                            }
-                        }
+            Keys.onPressed: {
+                if (!event.isAutoRepeat && api.keys.isAccept(event)) {
+                    var selectedGame = gamesFiltered.get(resultsGrid.currentIndex);
+                    var selectedTitle = selectedGame.title;
+
+                    var gamesArray = api.allGames.toVarArray();
+                    var gameFound = gamesArray.find(function(game) {
+                        return game.title === selectedTitle;
+                    });
+
+                    if (gameFound) {
+                        console.log("lanzando el juego seleccionado:", gameFound.title);
+                        sidebarFocused = false;
+                        searchVisible = false;
+                        searchFocused = false;
+                        selectionMarker.opacity = 1.0;
+                        collectionAxis.focus = true;
+                        gameFound.launch();
+                    } else {
+                        console.log("El juego mo se encontro:", selectedTitle);
                     }
                 }
             }
         }
     }
-    
+
     //Modelo de colecciones funciona perfectamente
     Item {
         id: root
-
         property alias favoritesModel: favoritesProxyModel
         property bool favoritesVisible: favoritesProxyModel.count > 0 
         property alias continuePlayingModel: continuePlayingProxyModel
@@ -615,33 +633,28 @@ FocusScope {
             property int allIndex: 0
             property int favoritesIndex: -1
             property int continuePlayingIndex: -1
-            property bool favoritesAvailable: false // Agregamos la propiedad para indicar si la colección de favoritos está disponible
+            property bool favoritesAvailable: false
 
             Component.onCompleted: {
-                // Insertar colección "Todos los juegos"
                 var allCollection = { name: "Todos los juegos", shortName: "todoslosjuegos", games: api.allGames };
                 collectionsListModel.append(allCollection);
 
-                // Insertar colección "Juegos recomendados"
                 var recommendedCollection = { name: "Juegos recomendados", shortName: "recomendados", games: gameListModel };
                 collectionsListModel.append(recommendedCollection);
 
-                // Insertar colección "Mi lista" si tiene juegos
                 if (favoritesProxyModel.count > 0) {
                     var favoritesCollection = { name: "Mi lista", shortName: "milista", games: favoritesProxyModel };
                     collectionsListModel.append(favoritesCollection);
                     collectionsListModel.favoritesIndex = collectionsListModel.count - 1;
-                    collectionsListModel.favoritesAvailable = true; // Establecemos la propiedad en true si hay juegos en la colección de favoritos
+                    collectionsListModel.favoritesAvailable = true;
                 }
 
-                // Insertar colección "Seguir jugando" si tiene juegos
                 if (continuePlayingProxyModel.count > 0) {
                     var continuePlayingCollection = { name: "Seguir jugando", shortName: "seguirjugando", games: continuePlayingProxyModel };
                     collectionsListModel.append(continuePlayingCollection);
                     collectionsListModel.continuePlayingIndex = collectionsListModel.count - 1;
                 }
 
-                // Insertar colecciones restantes
                 for (var i = 0; i < api.collections.count; ++i) {
                     var collection = api.collections.get(i);
                     if (collection.name !== "Mi lista" && collection.name !== "Seguir jugando") {
@@ -651,47 +664,46 @@ FocusScope {
             }
         }
 
-            SortFilterProxyModel {
-                id: gamesFiltered2
-                sourceModel: api.allGames
-                sorters: RoleSorter { roleName: "name"; sortOrder: Qt.AscendingOrder; }
+        SortFilterProxyModel {
+            id: gamesFiltered2
+            sourceModel: api.allGames
+            sorters: RoleSorter { roleName: "name"; sortOrder: Qt.AscendingOrder; }
+        }
+
+        ListModel {
+            id: gameListModel
+
+            function getRandomIndices(count) {
+                var indices = [];
+                for (var i = 0; i < count; ++i) {
+                    indices.push(i);
+                }
+                indices.sort(function() { return 0.5 - Math.random() });
+                return indices;
             }
 
-            ListModel {
-                id: gameListModel
-
-                function getRandomIndices(count) {
-                    var indices = [];
-                    for (var i = 0; i < count; ++i) {
-                        indices.push(i);
-                    }
-                    indices.sort(function() { return 0.5 - Math.random() });
-                    return indices;
-                }
-
-                Component.onCompleted: {
-                    var maxGames = 15;
-                    var randomIndices = getRandomIndices(gamesFiltered2.count);
-                    for (var j = 0; j < maxGames && j < randomIndices.length; ++j) {
-                        var gameIndex = randomIndices[j];
-                        var game = gamesFiltered2.get(gameIndex);
-                        gameListModel.append(game);
-                    }
+            Component.onCompleted: {
+                var maxGames = 15;
+                var randomIndices = getRandomIndices(gamesFiltered2.count);
+                for (var j = 0; j < maxGames && j < randomIndices.length; ++j) {
+                    var gameIndex = randomIndices[j];
+                    var game = gamesFiltered2.get(gameIndex);
+                    gameListModel.append(game);
                 }
             }
+        }
 
         SortFilterProxyModel {
             id: filteredGames1
             sourceModel: api.allGames
             sorters: RoleSorter { roleName: "lastPlayed"; sortOrder: Qt.DescendingOrder }
         }
-        
+
         ListModel {
             id: continuePlayingProxyModel
-
             Component.onCompleted: {
                 var currentDate = new Date()
-                var sevenDaysAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000) // Restar 7 días en milisegundos
+                var sevenDaysAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000)
                 for (var i = 0; i < filteredGames1.count; ++i) {
                     var game = filteredGames1.get(i)
                     var lastPlayedDate = new Date(game.lastPlayed)
@@ -701,31 +713,24 @@ FocusScope {
                     }
                 }
 
-                // Si la colección "Seguir jugando" está vacía, se elimina de la lista
                 if (count === 0 && collectionsListModel.continuePlayingIndex !== -1) {
                     collectionsListModel.remove(collectionsListModel.continuePlayingIndex, 1);
                     collectionsListModel.continuePlayingIndex = -1;
-                }
-                // Si hay juegos en "Seguir jugando" y la colección "Seguir jugando" no está en la lista, se agrega
-                else if (count > 0 && collectionsListModel.continuePlayingIndex === -1) {
+                } else if (count > 0 && collectionsListModel.continuePlayingIndex === -1) {
                     var allIndex = collectionsListModel.allIndex;
                     var continuePlayingIndex = -1;
-                    // Encontrar el índice donde insertar la colección "Seguir jugando"
                     for (var i = 0; i < collectionsListModel.count; ++i) {
                         if (collectionsListModel.get(i).shortName === "recomendados") {
-                            continuePlayingIndex = i + 1; // Insertar después de "Juegos recomendados"
+                            continuePlayingIndex = i + 1;
                             break;
                         }
                     }
-                    // Insertar la colección "Seguir jugando" en el índice correcto
                     if (continuePlayingIndex !== -1) {
                         var continuePlayingCollection = { name: "Continuar jugando", shortName: "continuarjugando", games: continuePlayingProxyModel };
                         collectionsListModel.insert(continuePlayingIndex, continuePlayingCollection);
                         collectionsListModel.continuePlayingIndex = continuePlayingIndex;
                     }
                 }
-                // Actualizar la visibilidad de las colecciones
-                //updateCollectionsVisibility();
             }
         }
 
@@ -734,115 +739,104 @@ FocusScope {
             sourceModel: api.allGames
             filters: ValueFilter { roleName: "favorite"; value: true }
             onCountChanged: {
-                // Si la colección "Favoritos" está vacía, se elimina de la lista
                 if (count === 0 && collectionsListModel.favoritesIndex !== -1) {
                     collectionsListModel.remove(collectionsListModel.favoritesIndex, 1);
                     collectionsListModel.favoritesIndex = -1;
-                }
-                // Si hay juegos favoritos y la colección "Favoritos" no está en la lista, se agrega
-                else if (count > 0 && collectionsListModel.favoritesIndex === -1) {
+                } else if (count > 0 && collectionsListModel.favoritesIndex === -1) {
                     var allIndex = collectionsListModel.allIndex;
                     var favoritesIndex = -1;
-                    // Encontrar el índice donde insertar la colección "Mi lista"
                     for (var i = 0; i < collectionsListModel.count; ++i) {
                         if (collectionsListModel.get(i).shortName === "recomendados") {
-                            favoritesIndex = i + 1; // Insertar después de "Juegos recomendados"
+                            favoritesIndex = i + 1;
                             break;
                         }
                     }
-                    // Insertar la colección "Mi lista" en el índice correcto
                     if (favoritesIndex !== -1) {
                         var favoritesCollection = { name: "Mi lista", shortName: "milista", games: favoritesProxyModel };
                         collectionsListModel.insert(favoritesIndex, favoritesCollection);
                         collectionsListModel.favoritesIndex = favoritesIndex;
                     }
                 }
-                // Actualizar la visibilidad de las colecciones
-                //updateCollectionsVisibility();
             }
         }
     }
 
     Video {
-        game: collectionAxis.currentItem ? collectionAxis.currentItem.currentGame : null // Asigna el juego actual al componente de video si existe
+        game: collectionAxis.currentItem ? collectionAxis.currentItem.currentGame : null
         anchors {
-            top: parent.top // Ancla el componente de video al borde superior del padre
-            left: parent.horizontalCenter // Anclando al centro horizontal del padre
-            right: parent.right // Ancla el componente de video al borde derecho del padre
-            bottom: selectionMarker.top // Ancla el borde inferior del componente de video al borde superior del marcador de selección
-            bottomMargin: -5 // Margen negativo de 5 píxeles hacia abajo para superponer el marcador de selección
-            leftMargin: -150 // Margen negativo de 150 píxeles hacia la izquierda para mover el componente de video hacia la izquierda
+            top: parent.top
+            left: parent.horizontalCenter
+            right: parent.right
+            bottom: selectionMarker.top
+            bottomMargin: -5
+            leftMargin: -150
         }
     }
 
     Details {
-        game: collectionAxis.currentItem ? collectionAxis.currentItem.currentGame : null // Asigna el juego actual al componente de detalles si existe
+        id: detailsID
+        game: collectionAxis.currentItem ? collectionAxis.currentItem.currentGame : null
         anchors {
-            top: parent.top // Ancla el componente de detalles al borde superior del padre
-            left: parent.left; leftMargin: leftGuideline // - 70 // Ancla el borde izquierdo del componente de detalles a la guía izquierda
-            bottom: collectionAxis.top; bottomMargin: labelHeight * 0.63 // Ancla el borde inferior del componente de detalles al borde superior del eje de colección con un margen
-            right: parent.horizontalCenter // Ancla el borde derecho del componente de detalles al centro horizontal del padre
+            top: parent.top
+            left: parent.left; leftMargin: leftGuideline
+            bottom: collectionAxis.top; bottomMargin: labelHeight * 0.63
+            right: parent.horizontalCenter
         }
-        opacity: sidebarFocused ? 0.5 : 1.0
+        opacity: virtualKeyboardContainer.focus ? 0.5 :  buttonKeyContainer.focus? 0.5 : sidebarFocused ? 0.5 : 1.0 
     }
 
     Rectangle {
-        id: selectionMarker // Identificador del rectángulo de marcador de selección
-        width: cellWidth // Establece el ancho del rectángulo igual al ancho de la celda
-        height: cellHeight // Establece la altura del rectángulo igual a la altura de la celda
-        z: 100 // Establece la prioridad de apilamiento del rectángulo
+        id: selectionMarker
+        width: cellWidth
+        height: cellHeight
+        z: 100
         anchors {
-            left: parent.left // Ancla el borde izquierdo del rectángulo al borde izquierdo del padre
-            leftMargin: leftGuideline // Establece el margen izquierdo del rectángulo según la guía izquierda
-            bottom: parent.bottom // Ancla el borde inferior del rectángulo al borde inferior del padre
-            bottomMargin: labelHeight - cellHeight + vpx(304.5) // Establece el margen inferior del rectángulo con respecto a la altura de la etiqueta y el espacio adicional
+            left: parent.left
+            leftMargin: leftGuideline
+            bottom: parent.bottom
+            bottomMargin: labelHeight - cellHeight + vpx(304.5)
         }
-        color: "transparent" // Establece el color del rectángulo como transparente
-        border { width: 4; color: "white" } // Establece un borde blanco de 4 píxeles de ancho para el rectángulo
+        color: "transparent"
+        border { width: 4; color: "white" }
     }
 
     // Cuadrícula de colecciones
     PathView {
-        // Propiedades generales de la cuadrícula de colecciones
-        id: collectionAxis // Identificador del PathView
-        property real collectionAxisOpacity: searchVisible ? 0.3 : 1.0
-        width: parent.width // Establece el ancho del PathView igual al ancho del elemento padre
-        height: 1.3 * (labelHeight + cellHeight) + vpx(5) // Establece la altura del PathView como 1.3 veces la suma de la altura de la etiqueta y la altura de la celda, más un valor en píxeles
-        anchors.bottom: parent.bottom // Ancla el PathView al borde inferior del elemento padre
-        model: collectionsListModel // Establece el modelo de datos para el PathView, probablemente una lista de colecciones de juegos
-        delegate: collectionAxisDelegate // Establece el delegado para cada elemento en el PathView
+        id: collectionAxis
+        property real collectionAxisOpacity: searchVisible ? 0.07 : 1.0
+        width: parent.width
+        height: 1.3 * (labelHeight + cellHeight) + vpx(5)
+        anchors.bottom: parent.bottom
+        model: collectionsListModel
+        delegate: collectionAxisDelegate
 
-        // Propiedades del recorrido de la cuadrícula
-        // Lógica para la navegación y control de la cuadrícula de colecciones
-        pathItemCount: 4 // Establece el número de elementos en la ruta
-        readonly property int pathLength: (labelHeight + cellHeight) * 4 // Calcula la longitud total de la ruta
+        pathItemCount: 4
+        readonly property int pathLength: (labelHeight + cellHeight) * 4
         path: Path {
-            startX: collectionAxis.width * 0.5 // Establece la posición inicial en X de la ruta en la mitad del ancho del PathView
-            startY: (labelHeight + cellHeight) * -0.5 // Establece la posición inicial en Y de la ruta en la mitad negativa de la suma de la altura de la etiqueta y la altura de la celda
+            startX: collectionAxis.width * 0.5
+            startY: (labelHeight + cellHeight) * -0.5
             PathLine {
-                x: collectionAxis.path.startX // Establece la posición final en X de la ruta
-                y: collectionAxis.path.startY + collectionAxis.pathLength // Establece la posición final en Y de la ruta sumando la longitud de la ruta a la posición inicial en Y
+                x: collectionAxis.path.startX
+                y: collectionAxis.path.startY + collectionAxis.pathLength
             }
         }
-        // Lógica para la inicialización de la cuadrícula de colecciones al completar
-        snapMode: PathView.SnapOneItem // Establece el modo de ajuste para mostrar un elemento completo a la vez
-        highlightRangeMode: PathView.StrictlyEnforceRange // Establece el modo de resaltado para asegurar que solo se resalte un rango de elementos
-        movementDirection: PathView.Positive // Establece la dirección de movimiento de la cuadrícula
-        clip: true // Habilita el recorte para asegurarse de que los elementos fuera del área visible no se dibujen
-        preferredHighlightBegin: 1 / 4 // Establece la posición de inicio preferida para el resaltado
-        preferredHighlightEnd: preferredHighlightBegin // Establece la posición final preferida para el resaltado igual a la posición de inicio preferida
-        focus: true // Habilita el enfoque en el PathView
-        Keys.onUpPressed: decrementCurrentIndex() // Maneja el evento de tecla presionada: decrementa el índice actual al presionar la tecla hacia arriba
-        Keys.onDownPressed: incrementCurrentIndex() // Maneja el evento de tecla presionada: incrementa el índice actual al presionar la tecla hacia abajo
-        
+        snapMode: PathView.SnapOneItem
+        highlightRangeMode: PathView.StrictlyEnforceRange
+        movementDirection: PathView.Positive
+        clip: true
+        preferredHighlightBegin: 1 / 4
+        preferredHighlightEnd: preferredHighlightBegin
+        focus: true
+        Keys.onUpPressed: decrementCurrentIndex()
+        Keys.onDownPressed: incrementCurrentIndex()
+
         Keys.onLeftPressed: {
             if (currentItem.axis.currentIndex === 0) {
                 selectionMarker.opacity = 0.0;
                 sidebarFocused = true;
-                searchFocused = true; // Iluminar el texto "Buscar"
+                searchFocused = true;
                 collectionAxis.focus = false;
             } else {
-                 // Si no estás dentro de la barra, permite desplazarte hacia la derecha sobre los juegos de la colección
                 if (currentItem.axis.currentIndex > 0) {
                     currentItem.axis.decrementCurrentIndex()
                 }
@@ -853,33 +847,32 @@ FocusScope {
             if (sidebarFocused) {
                 selectionMarker.opacity = 1.0;
                 sidebarFocused = false
-                searchFocused = false // Desiluminar el texto "Buscar"
+                searchFocused = false
                 collectionAxis.focus = true
                 collectionAxis.currentIndex = Math.min(collectionAxis.currentIndex, collectionAxis.model.count - 1)
             } else {
-                // Si no estás dentro de la barra, permite desplazarte hacia la derecha sobre los juegos de la colección
                 if (currentItem.axis.currentIndex < currentItem.axis.model.count - 1) {
                     currentItem.axis.incrementCurrentIndex()
                 }
             }
         }
 
-        Keys.onPressed: { // Maneja el evento de tecla presionada
-            if (!event.isAutoRepeat) { // Verifica si la tecla no está en modo de repetición automática
-                if (api.keys.isDetails(event)) { // Verifica si la tecla presionada es para detalles
-                    var game = currentItem.currentGame; // Obtiene el juego actual
-                    console.log("Juego actual:", game.title); // Imprime el título del juego actual en la consola
-                    game.favorite = !game.favorite; // Cambia el estado de favorito del juego
+        Keys.onPressed: {
+            if (!event.isAutoRepeat) {
+                if (api.keys.isDetails(event)) {
+                    var game = currentItem.currentGame;
+                    console.log("Juego actual:", game.title);
+                    game.favorite = !game.favorite;
                     if (game.favorite) {
-                        console.log("Juego marcado como favorito:", game.title); // Imprime un mensaje si el juego se marca como favorito
+                        console.log("Juego marcado como favorito:", game.title);
                     } else {
-                        console.log("Juego desmarcado como favorito:", game.title); // Imprime un mensaje si el juego se desmarca como favorito
+                        console.log("Juego desmarcado como favorito:", game.title);
                     }
-                } else if (api.keys.isAccept(event)) { // Verifica si la tecla presionada es para aceptar
-                    var game = currentItem.currentGame; // Obtiene el juego actual
-                    api.memory.set('collection', currentItem.name); // Establece el nombre de la colección en la memoria
-                    api.memory.set('game', currentItem.currentGame.title); // Establece el título del juego en la memoria
-                    game.launch(); // Lanza el juego
+                } else if (api.keys.isAccept(event)) {
+                    var game = currentItem.currentGame;
+                    api.memory.set('collection', currentItem.name);
+                    api.memory.set('game', currentItem.currentGame.title);
+                    game.launch();
                 }
             }
         }
@@ -889,131 +882,120 @@ FocusScope {
     // Componente para el delegado de la cuadrícula de colecciones
     // Define cómo se muestra cada fila de la cuadrícula de colecciones
     Component {
-        // Propiedades específicas del delegado de la cuadrícula de colecciones
-        id: collectionAxisDelegate // Identificador del componente
+        id: collectionAxisDelegate
         Item {
-            // Propiedades para el delegado de la cuadrícula de colecciones
-            property alias axis: gameAxis // Alias para la propiedad 'axis', que probablemente se refiera al PathView 'gameAxis'
-            readonly property var currentGame: axis.currentItem ? axis.currentItem.game : null // Propiedad solo de lectura que devuelve el juego actualmente seleccionado en el PathView
-            property string name: model.name // Propiedad que almacena el nombre del modelo de datos del elemento actual
-            // Tamaño del elemento del delegado
-            width: PathView.view.width // Establece el ancho del delegado igual al ancho de la vista PathView
-            height: labelHeight + cellHeight // Establece la altura del delegado como la suma de la altura de la etiqueta y la altura de la celda
-            visible: PathView.onPath // Establece la visibilidad del delegado basada en si está en la ruta de navegación o no
+            property alias axis: gameAxis
+            readonly property var currentGame: axis.currentItem ? axis.currentItem.game : null
+            property string name: model.name
+            width: PathView.view.width
+            height: labelHeight + cellHeight
+            visible: PathView.onPath
             opacity: sidebarFocused ? 0.2 : (PathView.isCurrentItem ? 1.0 : 0.5)
-            //opacity: PathView.isCurrentItem ? 1.0 : 0.6 // Establece la opacidad del delegado según si es el elemento actual en la vista PathView o no
-            Behavior on opacity { NumberAnimation { duration: 150 } } // Agrega una animación de cambio de opacidad al delegado
+            Behavior on opacity { NumberAnimation { duration: 150 } }
 
             Text {
-                textFormat: Text.RichText // Establece el formato de texto como texto enriquecido
-                height: labelHeight // Establece la altura del texto igual a la altura de la etiqueta
-                verticalAlignment: Text.AlignVCenter // Alinea verticalmente el texto al centro
-                // Ajustar la posición izquierda con márgenes relativos
-                anchors.left: parent.left // Ancla el lado izquierdo del texto al lado izquierdo del elemento padre
-                anchors.leftMargin: leftGuideline // - 70 // Establece el margen izquierdo del texto
-                color: "white" // Establece el color del texto como blanco
+                textFormat: Text.RichText
+                height: labelHeight
+                verticalAlignment: Text.AlignVCenter
+                anchors.left: parent.left
+                anchors.leftMargin: leftGuideline
+                color: "white"
                 font {
-                    pixelSize: labelFontSize // Establece el tamaño del texto según la variable 'labelFontSize'
-                    family: globalFonts.sans // Establece la fuente del texto como una fuente sans-serif global
-                    bold: true // Establece el texto en negrita
-                    capitalization: name ? Font.MixedCase : Font.AllUppercase // Capitaliza el texto según el nombre del modelo: mixto si hay nombre, todo en mayúsculas si no
+                    pixelSize: labelFontSize
+                    family: globalFonts.sans
+                    bold: true
+                    capitalization: name ? Font.MixedCase : Font.AllUppercase
                 }
 
                 FontLoader {
-                    id: netflixsansbold // Identificador de FontLoader
-                    source: "font/NetflixSansBold.ttf" // Carga la fuente NetflixSansBold.ttf
+                    id: netflixsansbold
+                    source: "font/NetflixSansBold.ttf"
                 }
 
                 Row {
-                    id: imageContainer // Identificador de la fila contenedora
-                    anchors.verticalCenter: parent.verticalCenter // Ancla el centro vertical de la fila al centro vertical del padre
+                    id: imageContainer
+                    anchors.verticalCenter: parent.verticalCenter
 
                     Text {
-                        id: collectionName // Identificador del texto de nombre de colección
-                        text: name === "todoslosjuegos" ? "Todos los juegos" : // Asigna texto según el nombre de la colección
+                        id: collectionName
+                        text: name === "todoslosjuegos" ? "Todos los juegos" :
                               name === "milista" ? "Mi lista" :
                               name === "continuarjugando" ? "Continuar jugando" :
-                              name // Usa el nombre de la colección si no coincide con ninguna condición
-                        color: "white" // Establece el color del texto como blanco
-                        font.family: netflixsansbold.name // Asigna la fuente NetflixSansBold a la familia de fuentes del texto
-                        font.pixelSize: vpx(15) // Establece el tamaño de píxel de la fuente
+                              name
+                        color: "white"
+                        font.family: netflixsansbold.name
+                        font.pixelSize: vpx(15)
                     }
 
                     Text {
-                        id: gameCount // Identificador del texto de recuento de juegos
-                        text: " | " + (gameAxis.currentIndex + 1) + "/" + (games ? games.count : 0) + "  " // Calcula y muestra el recuento de juegos actual
-                        color: "grey" // Establece el color del texto como gris
-                        font.family: netflixsansbold.name // Asigna la fuente NetflixSansBold a la familia de fuentes del texto
-                        font.pixelSize: vpx(15) // Establece el tamaño de píxel de la fuente
+                        id: gameCount
+                        text: " | " + (gameAxis.currentIndex + 1) + "/" + (games ? games.count : 0) + "  "
+                        color: "grey"
+                        font.family: netflixsansbold.name
+                        font.pixelSize: vpx(15)
                     }
 
                     Image {
-                        id: favoriteYesImage // Identificador de la imagen de favorito
-                        source: "assets/favoriteyes.png" // Asigna la ruta de la imagen
-                        width: parent.height * 0.9 // Establece el ancho de la imagen como el 90% de la altura del padre
-                        height: parent.height * 0.9 // Establece la altura de la imagen como el 90% de la altura del padre
+                        id: favoriteYesImage
+                        source: "assets/favoriteyes.png"
+                        width: parent.height * 0.9
+                        height: parent.height * 0.9
                     }
 
                     Text {
-                        text: "  Mi lista   " // Texto "Mi lista"
-                        color: "white" // Establece el color del texto como blanco
-                        font.family: netflixsansbold.name // Asigna la fuente NetflixSansBold a la familia de fuentes del texto
-                        font.pixelSize: vpx(15) // Establece el tamaño de píxel de la fuente
+                        text: "  Mi lista   "
+                        color: "white"
+                        font.family: netflixsansbold.name
+                        font.pixelSize: vpx(15)
                     }
 
                     Image {
-                        id: favoriteImage // Identificador de la imagen de favorito
-                        source: gameAxis.currentItem.game.favorite ? "assets/check.png" : "assets/plus.png" // Asigna la ruta de la imagen según el estado de favorito del juego actual
-                        width: parent.height * 0.9 // Establece el ancho de la imagen como el 90% de la altura del padre
-                        height: parent.height * 0.9 // Establece la altura de la imagen como el 90% de la altura del padre
-                        rotation: gameAxis.currentItem.game.favorite ? 360 : 0 // Rota la imagen si el juego actual es favorito
-                        Behavior on rotation { RotationAnimation { duration: 400 } } // Agrega una animación de rotación a la imagen
+                        id: favoriteImage
+                        source: gameAxis.currentItem.game.favorite ? "assets/check.png" : "assets/plus.png"
+                        width: parent.height * 0.9
+                        height: parent.height * 0.9
+                        rotation: gameAxis.currentItem.game.favorite ? 360 : 0
+                        Behavior on rotation { RotationAnimation { duration: 400 } }
                     }
                 }
             }
-            
-            // Cuadrícula de juegos en la colección actual
-            PathView {
-                // Propiedades generales de la cuadrícula de juegos
-                id: gameAxis
-                width: parent.width // Establece el ancho del PathView igual al ancho del elemento padre
-                height: cellHeight // Establece la altura del PathView igual a la altura de la celda
-                anchors.bottom: parent.bottom // Ancla el PathView al borde inferior del elemento padre
-                model: games // Establece el modelo de datos para el PathView, donde 'games' probablemente sea un arreglo de juegos
 
-                // Delegado para cada juego en la cuadrícula de juegos
+            PathView {
+                id: gameAxis
+                width: parent.width
+                height: cellHeight
+                anchors.bottom: parent.bottom
+                model: games
+
                 delegate: GameAxisCell {
-                    // Propiedades del juego en el delegado de la cuadrícula de juegos
-                    game: modelData // Establece la propiedad 'game' del GameAxisCell igual a los datos del juego actual
-                    width: cellWidth // Establece el ancho del delegado igual al ancho de la celda
-                    height: cellHeight // Establece la altura del delegado igual a la altura de la celda
+                    game: modelData
+                    width: cellWidth
+                    height: cellHeight
                 }
 
-                // Lógica para la navegación y control de la cuadrícula de juegos
-                readonly property var currentGame: gameAxis.currentItem ? gameAxis.currentItem.game : null // Propiedad solo de lectura que devuelve el juego actualmente seleccionado en el PathView
-                readonly property int maxItemCount: 2 + Math.ceil(width / cellPaddedWidth) // Calcula el número máximo de elementos que pueden caber en el PathView
-                pathItemCount: Math.min(maxItemCount, model ? model.count : 0) // Establece el número de elementos en la ruta como el mínimo entre 'maxItemCount' y el número de elementos en el modelo de datos
+                readonly property var currentGame: gameAxis.currentItem ? gameAxis.currentItem.game : null
+                readonly property int maxItemCount: 2 + Math.ceil(width / cellPaddedWidth)
+                pathItemCount: Math.min(maxItemCount, model ? model.count : 0)
 
-                // Lógica para la ruta de navegación
-                property int fullPathWidth: pathItemCount * cellPaddedWidth // Calcula el ancho total de la ruta multiplicando el número de elementos en la ruta por el ancho de la celda
+                property int fullPathWidth: pathItemCount * cellPaddedWidth
                 path: Path {
-                    startX: (gameAxis.model ? gameAxis.model.count >= gameAxis.maxItemCount : false) // Calcula la posición inicial en X de la ruta dependiendo de si hay más elementos que los que pueden caber en la vista
-                        ? leftGuideline - cellPaddedWidth * 1.5 // Si hay más elementos que los que caben, ajusta la posición inicial hacia la izquierda
-                        : leftGuideline + (cellPaddedWidth * 0.5 - cellSpacing * 0.5); // Si no, centra la posición inicial
-                    startY: cellHeight * 0.5 // Establece la posición inicial en Y de la ruta en el centro vertical de la celda
+                    startX: (gameAxis.model ? gameAxis.model.count >= gameAxis.maxItemCount : false)
+                        ? leftGuideline - cellPaddedWidth * 1.5
+                        : leftGuideline + (cellPaddedWidth * 0.5 - cellSpacing * 0.5);
+                    startY: cellHeight * 0.5
                     PathLine {
-                        x: gameAxis.path.startX + gameAxis.fullPathWidth // Establece la posición final en X de la ruta
-                        y: gameAxis.path.startY // Mantiene la posición final en Y de la ruta igual a la posición inicial
+                        x: gameAxis.path.startX + gameAxis.fullPathWidth
+                        y: gameAxis.path.startY
                     }
                 }
 
-                snapMode: PathView.SnapOneItem // Establece el modo de ajuste para mostrar un elemento completo a la vez
-                highlightRangeMode: PathView.StrictlyEnforceRange // Establece el modo de resaltado para asegurar que solo se resalte un rango de elementos
-                clip: true // Habilita el recorte para asegurarse de que los elementos fuera del área visible no se dibujen
-                preferredHighlightBegin: (gameAxis.model ? gameAxis.model.count >= gameAxis.maxItemCount : false) // Establece la posición de inicio preferida para el resaltado dependiendo de si hay más elementos que los que caben en la vista
-                    ? (2 * cellPaddedWidth - cellSpacing / 2) / fullPathWidth // Calcula la posición de inicio preferida para el resaltado si hay más elementos que los que caben
-                    : 0; // Si no, establece la posición de inicio preferida como cero
-                preferredHighlightEnd: preferredHighlightBegin // Establece la posición final preferida para el resaltado igual a la posición de inicio preferida
+                snapMode: PathView.SnapOneItem
+                highlightRangeMode: PathView.StrictlyEnforceRange
+                clip: true
+                preferredHighlightBegin: (gameAxis.model ? gameAxis.model.count >= gameAxis.maxItemCount : false)
+                    ? (2 * cellPaddedWidth - cellSpacing / 2) / fullPathWidth
+                    : 0;
+                preferredHighlightEnd: preferredHighlightBegin
             }
         }
     }
