@@ -224,7 +224,7 @@ FocusScope {
                 width: parent.width
                 height: 50
                 color: "#1f1f1f"
-                radius: 10
+                radius: 15
                 border.width: 3
                 z: 100
 
@@ -232,7 +232,7 @@ FocusScope {
                     anchors.fill: parent
 
                     Rectangle {
-                        width: vpx(10)
+                        width: vpx(16)
                         height: parent.height
                         color: "transparent"
                     }
@@ -263,6 +263,9 @@ FocusScope {
                         leftPadding: vpx(10)
                         rightPadding: vpx(10)
                         anchors.verticalCenter: parent.verticalCenter
+                        onTextChanged: {
+                            gamesFiltered.searchTerm = searchInput.text.trim();
+                        }
                     }
 
                     Text {
