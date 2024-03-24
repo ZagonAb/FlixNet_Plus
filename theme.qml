@@ -281,7 +281,7 @@ FocusScope {
             Rectangle {
                 id: virtualKeyboardContainer
                 width: parent.width
-                height: parent.height * 0.33 //300
+                height: parent.height * 0.38 //300
                 color: "#1f1f1f"
                 border.color: "#1f1f1f"
                 radius: 0
