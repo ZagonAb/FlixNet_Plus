@@ -206,7 +206,7 @@ FocusScope {
     //Barra de busqueda, teclado virtual y rectangulo de resultados        
     Item {
         id: searchBarAndKeyboard
-        width: parent.width / 2 -350
+        width: parent.width * 0.25
         height: parent.height 
         z: 100
         anchors.left: parent.left
@@ -229,22 +229,20 @@ FocusScope {
                 z: 100
 
                 Row {
-                    anchors {
-                        fill: parent
-                        verticalCenter: parent.verticalCenter
-                        horizontalCenter: parent.horizontalCenter
+                    anchors.fill: parent
+
+                    Rectangle {
+                        width: vpx(10)
+                        height: parent.height
+                        color: "transparent"
                     }
 
                     Image {
                         id: searchIcon
                         source: "assets/search_inactive.png"
-                        width: vpx(16)
-                        height: vpx(16)
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            left: parent.left
-                            leftMargin: vpx(25)
-                        }
+                        width: vpx(18)
+                        height: vpx(18)
+                        anchors.verticalCenter: parent.verticalCenter
                         opacity: searchInput.text.trim().length > 0 ? 0.2 : 1
                         Behavior on opacity {
                             NumberAnimation { duration: 200 }
@@ -262,16 +260,9 @@ FocusScope {
                         }
                         font.family: netflixSansBold.name
                         font.pixelSize: 24
-                        anchors {
-                            fill: parent
-                            leftMargin: searchIcon.width + vpx(35)
-                            rightMargin: vpx(10)
-                            verticalCenter: parent.verticalCenter
-                        }
-                        
-                        onTextChanged: {
-                            gamesFiltered.searchTerm = searchInput.text.trim();
-                        }
+                        leftPadding: vpx(10)
+                        rightPadding: vpx(10)
+                        anchors.verticalCenter: parent.verticalCenter
                     }
 
                     Text {
@@ -280,16 +271,15 @@ FocusScope {
                         color: "#8c8c8c"
                         font.family: netflixSansBold.name
                         font.pixelSize: 24
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            left: searchIcon.right
-                            leftMargin: vpx(10)
-                            right: parent.right
-                            rightMargin: vpx(10)
-                        }
+                        anchors.centerIn: parent.horizontal
+                        anchors.verticalCenter: searchIcon.verticalCenter
+                        anchors.leftMargin: vpx(10)
+                        anchors.rightMargin: vpx(10)
                         visible: searchInput.length === 0
                         opacity: searchInput.length > 0 ? 0 : 0.7
-                        Behavior on opacity { NumberAnimation { duration: 50 } }
+                        Behavior on opacity {
+                            NumberAnimation { duration: 50 }
+                        }
                         wrapMode: Text.Wrap
                     }
                 }
@@ -487,133 +477,141 @@ FocusScope {
                 }
             }
         }
-    }
-
-    //Resultado de busqueda
-    Rectangle {
-        id: searchResults
-        width: parent.width - searchBarAndKeyboard.width - 10
-        height: parent.height 
-        color: "black"
-        radius: 7
-        border.width: 2
-        anchors {
-            top: buttonKeyContainer.bottom
-            left: searchBarAndKeyboard.right
-            right: parent.right
-        }
-        visible: searchVisible
-        z: 100
-
-        GridView {
-            id: resultsGrid
-            width: parent.width - 10
-            height: parent.height - 10
-            anchors.centerIn: parent
-            anchors.horizontalCenter: parent.horizontalCenter 
-            anchors.verticalCenter: parent.verticalCenter
-            cellWidth: (parent.width - 10) / 4
-            cellHeight: resultsGrid.width / 2.8
-            model: gamesFiltered
-            clip: true
-
-            delegate: Item {
-                width: resultsGrid.cellWidth - 5
-                height: resultsGrid.cellHeight - 5
-                anchors {
-                    margins: 5
-                }
-
-                Rectangle {
-                    width: parent.width  -3
-                    height: parent.height -3
-                    color: "transparent"
-                    border.color: resultsGrid.currentIndex === index && resultsGrid.focus ? "#d9d9d9" : (resultsGrid.focus ? "transparent" : "#1f1f1f")
-                    border.width: resultsGrid.currentIndex === index ? 5 : 0
-                    radius: 7
-                    z: 1 
-                }
-
-                Image {
-                    id: gameImage
-                    source: model.assets.boxFront 
-                    anchors.centerIn: parent
+        //Resultado de busqueda
+        Item {
+            id: searchResultsContainer
+            width: parent.width * 2.84
+            height: parent.height
+            z: 100
+            anchors.left: parent.right
+            anchors.rightMargin: parent.width
+            Rectangle {
+                id: searchResults
+                width: parent.width
+                height: parent.height 
+                color: "black"
+                radius: 7
+                border.width: 2
+                visible: searchVisible
+                z: 100 
+                    
+                GridView {
+                    id: resultsGrid
                     width: parent.width - 10
                     height: parent.height - 10
-                    sourceSize { width: 456; height: 456 }
-                    fillMode: Image.Stretch
-                    z: 0
-                }
+                    anchors.centerIn: parent
+                    anchors.horizontalCenter: parent.horizontalCenter 
+                    anchors.verticalCenter: parent.verticalCenter
+                    cellWidth: (parent.width - 10) / 4
+                    cellHeight: resultsGrid.width / 2.8
+                    model: gamesFiltered
+                    clip: true
+                    delegate: Item {
+                        width: resultsGrid.cellWidth - 5
+                        height: resultsGrid.cellHeight - 5
+                        anchors {
+                            margins: 5
+                        }
 
-                FontLoader {
-                    id: netflixSansBold
-                    source: "font/NetflixSansBold.ttf"
-                }
+                        Rectangle {
+                            width: parent.width - 3
+                            height: parent.height - 3
+                            color: "transparent"
+                            border.color: resultsGrid.currentIndex === index && resultsGrid.focus ? "#d9d9d9" : (resultsGrid.focus ? "transparent" : "black")
+                            border.width: resultsGrid.currentIndex === index ? 5 : 0
+                            radius: 7
+                            z: 1 
+                        }
 
-                Text {
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        bottom: parent.bottom
+                        Image {
+                            id: gameImage
+                            source: model.assets.boxFront 
+                            anchors.centerIn: parent
+                            width: parent.width - 10
+                            height: parent.height - 10
+                            sourceSize { width: 456; height: 456 }
+                            fillMode: Image.Stretch
+                            z: 0
+                        }
+
+                        FontLoader {
+                            id: netflixSansBold
+                            source: "font/NetflixSansBold.ttf"
+                        }
+
+                        Item {
+                            width: parent.width
+                            height: parent.height
+
+                            Text {
+                                anchors.fill: parent
+                                text: model.title !== undefined ? model.title : "Title not available"
+                                font.family: netflixSansBold.name
+                                font.pixelSize: 18
+                                verticalAlignment: Text.AlignBottom
+                                padding: 5
+                                color: "white"
+                                wrapMode: Text.WordWrap
+                                elide: Text.ElideRight
+                                clip: true
+                                layer.enabled: true
+                                layer.effect: DropShadow {
+                                    color: "black"
+                                    radius: 3
+                                    samples: 16
+                                    spread: 0.5
+                                }
+                            }
+                        }
                     }
-                    text: model.title !== undefined ? model.title : "Title not available"
-                    font.family: netflixSansBold.name
-                    font.pixelSize: 18
-                    verticalAlignment: Text.AlignBottom
-                    padding: 5
-                    color: "white"
-                    wrapMode: Text.WordWrap
-                    elide: Text.ElideRight
-                }
-            }
 
-            Keys.onUpPressed: {
-                if (resultsGrid.currentIndex < 4) {
-                    // Action for first row
-                } else {
-                    resultsGrid.currentIndex -= 4;
-                }
-            }
+                    Keys.onUpPressed: {
+                        if (resultsGrid.currentIndex < 4) {
+                        } else {
+                            resultsGrid.currentIndex -= 4;
+                        }
+                    }
 
-            Keys.onDownPressed: {
-                if (resultsGrid.currentIndex >= (resultsGrid.count - 4)) {
-                    // Action for last row
-                } else {
-                    resultsGrid.currentIndex += 4;
-                }
-            }
+                    Keys.onDownPressed: {
+                        if (resultsGrid.currentIndex >= (resultsGrid.count - 4)) {
+                        } else {
+                            resultsGrid.currentIndex += 4;
+                        }
+                    }
 
-            Keys.onLeftPressed: {
-                if (resultsGrid.currentIndex % 4 === 0) {
-                    virtualKeyboardContainer.focus = true;
-                    virtualKeyboardIndex = 0
-                    resultsGrid.focus = false
-                    navigatedDown = false;
-                } else {
-                    resultsGrid.currentIndex--;
-                }
-            }
+                    Keys.onLeftPressed: {
+                        if (resultsGrid.currentIndex % 4 === 0) {
+                            virtualKeyboardContainer.focus = true;
+                            virtualKeyboardIndex = 0
+                            resultsGrid.focus = false
+                            navigatedDown = false;
+                        } else {
+                            resultsGrid.currentIndex--;
+                        }
+                    }
 
-            Keys.onPressed: {
-                if (!event.isAutoRepeat && api.keys.isAccept(event)) {
-                    var selectedGame = gamesFiltered.get(resultsGrid.currentIndex);
-                    var selectedTitle = selectedGame.title;
+                    Keys.onPressed: {
+                        if (!event.isAutoRepeat && api.keys.isAccept(event)) {
+                            var selectedGame = gamesFiltered.get(resultsGrid.currentIndex);
+                            var selectedTitle = selectedGame.title;
 
-                    var gamesArray = api.allGames.toVarArray();
-                    var gameFound = gamesArray.find(function(game) {
-                        return game.title === selectedTitle;
-                    });
+                            var gamesArray = api.allGames.toVarArray();
+                            var gameFound = gamesArray.find(function(game) {
+                                return game.title === selectedTitle;
+                            });
 
-                    if (gameFound) {
-                        console.log("lanzando el juego seleccionado:", gameFound.title);
-                        sidebarFocused = false;
-                        searchVisible = false;
-                        searchFocused = false;
-                        selectionMarker.opacity = 1.0;
-                        collectionAxis.focus = true;
-                        gameFound.launch();
-                    } else {
-                        console.log("El juego mo se encontro:", selectedTitle);
+                            if (gameFound) {
+                                console.log("Se lanzará el juego seleccionado:", gameFound.title);
+                                sidebarFocused = false;
+                                searchVisible = false;
+                                searchFocused = false;
+                                selectionMarker.opacity = 1.0;
+                                collectionAxis.focus = true;
+                                gameFound.launch();
+                            } else {
+                                console.log("No se encontró el juego con el título:", selectedTitle);
+                            }
+                        }
                     }
                 }
             }
