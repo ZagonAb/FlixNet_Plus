@@ -472,7 +472,7 @@ FocusScope {
             Rectangle {
                 id: historySearch
                 width: parent.width
-                height: parent.height * 0.55
+                height: parent.height * 0.48
                 color: "transparent"
                 border.color: "transparent"
                 border.width: 5
