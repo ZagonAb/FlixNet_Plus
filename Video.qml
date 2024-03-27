@@ -15,7 +15,6 @@ Item {
 
         id: vid
         anchors.fill: parent 
-        //source: game.assets.video || ""
         source: game ? (game.assets ? game.assets.video : "") : "";
 
         fillMode: VideoOutput.Stretch
@@ -45,13 +44,13 @@ Item {
         }
     }
 
-        Image {
-            anchors.fill: parent
-            source: "assets/crt.png" // Ruta de la imagen de las líneas de exploración
-            fillMode: Image.Tile
-            visible: true
-            opacity: 0.2 // Cambiar la opacidad de las líneas de exploración para hacer el video más visible
-        }
+    Image {
+        anchors.fill: parent
+        source: "assets/crt.png" 
+        fillMode: Image.Tile
+        visible: true
+        opacity: 0.2 
+    }
 
     Image {
         id: screenshotImg
