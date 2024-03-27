@@ -75,23 +75,31 @@ Item {
             bottom: parent.bottom 
         }
 
-    FontLoader {
-        id: customFont
-        source: "font/NetflixSansMedium.ttf"
-    }
-
+        FontLoader {
+            id: customFont
+            source: "font/NetflixSansMedium.ttf"
+        }
 
         Text {
-            text: game ? game.description : ""
-            
+            text: {
+                if (game) {
+                    var firstDotIndex = game.description.indexOf(".");
+                    var secondDotIndex = game.description.indexOf(".", firstDotIndex + 1);
+                    if (secondDotIndex !== -1) {
+                        return game.description.substring(0, secondDotIndex + 1);
+                    } else {
+                        return game.description;
+                    }
+                } else {
+                    return "";
+                }
+            }
             width: parent.width
             wrapMode: Text.Wrap
-
             font.family: customFont.name 
             color: "#aeaeae"
             font {
-                pixelSize: vpx(13.5)
-                //family: globalFonts.sans
+                pixelSize: vpx(14)
             }
         }
     }
