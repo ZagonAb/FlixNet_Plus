@@ -607,33 +607,23 @@ FocusScope {
                         
                         GridView {
                             id: resultsGrid
-                            width: parent.width 
-                            height: parent.height -20
+                            anchors.fill: parent
                             anchors.centerIn: parent
                             anchors.horizontalCenter: parent.horizontalCenter 
                             anchors.verticalCenter: parent.verticalCenter
+                            model: searchInput.text.trim() === "" ? gameListModel : gamesFiltered
                             cellWidth: (parent.width - 50) / 4
                             cellHeight: (parent.height -50) / 2.10
-                            model: searchInput.text.trim() === "" ? gameListModel : gamesFiltered
+                            highlightRangeMode: GridView.StrictlyEnforceRange 
+                            snapMode: GridView.SnapOneRow
                             clip: true
-                                                        
+
                             delegate: Item {
+
                                 width: resultsGrid.cellWidth - 5
                                 height: resultsGrid.cellHeight - 5
                                 anchors {
                                     margins: -5
-                                }
-
-                                Rectangle {
-                                    width: parent.width -5 
-                                    height: parent.height -4
-                                    color: "transparent"
-                                    border.color: resultsGrid.currentIndex === index && resultsGrid.focus ? "white" : (resultsGrid.focus ? "transparent" : "black")
-                                    border.width: resultsGrid.currentIndex === index ? 3 : 0
-                                    radius: 0
-                                    z: 1
-                                    y: 2
-                                    x: 3
                                 }
 
                                 Image {
@@ -677,20 +667,31 @@ FocusScope {
                                     }
                                 }
                             }
+                            
+                            Rectangle {
+                                id: selectionRectangle
+                                width: resultsGrid.cellWidth - 5
+                                height: resultsGrid.cellHeight - 5
+                                color: "transparent"
+                                border.color: resultsGrid.focus ? "white" : "black"
+                                border.width: 2
+                                visible: resultsGrid.currentIndex !== -1
+                                Behavior on x { SmoothedAnimation { duration: 150 } }
+                                Behavior on y { SmoothedAnimation { duration: 150 } }
+
+                                x: (resultsGrid.currentItem ? resultsGrid.currentItem.x : 0) + resultsGrid.contentX
+                            }
+                            
+                            Keys.onDownPressed: {
+                                resultsGrid.moveCurrentIndexDown()
+                            }
 
                             Keys.onUpPressed: {
-                                if (resultsGrid.currentIndex < 4) {
-                                } else {
-                                    resultsGrid.currentIndex -= 4;
-                                }
+                                resultsGrid.moveCurrentIndexUp()
                             }
-
-                            Keys.onDownPressed: {
-                                if (resultsGrid.currentIndex >= (resultsGrid.count - 4)) {
-                                } else {
-                                    resultsGrid.currentIndex += 4;
-                                }
-                            }
+                             Keys.onRightPressed: {
+                                resultsGrid.moveCurrentIndexRight()
+                             } 
 
                             Keys.onLeftPressed: {
                                 if (resultsGrid.currentIndex % 4 === 0) {
@@ -742,7 +743,7 @@ FocusScope {
                                         console.log("No se encontró el juego con el título:", selectedTitle);
                                     }
                                 }
-                            }
+                            }         
                         }
                     }
                 }              
