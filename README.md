@@ -31,6 +31,7 @@ La opción "Buscar" nos permite buscar entre nuestra amplia lista de colecciones
 La opción "Plus" nos desplaza a la colección "Mi lista" contendrá todos los juegos que hemos marcado como favoritos, agrupándolos en una sola colección para una fácil accesibilidad.
 La opción "Trending" nos lleva a la colección "Juegos Recomendados", que presenta una selección de 15 juegos aleatorios que podrían ajustarse a nuestros gustos, proporcionando sugerencias emocionantes y variadas.
 
+
 - **Agregar/Quitar Juegos Favoritos con Botón (X):** Se ha añadido la opción de marcar/quitar juegos como favoritos utilizando el botón (X) del mando.
 
 ## Mejoras Visuales
@@ -55,10 +56,7 @@ Ten en cuenta que estos cambios mejorarán tanto la apariencia visual como la fu
 
 # Demostración
 
-
-https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/db4b96cf-f8b4-4ca0-98b8-e1991be12f17
-
-
+https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/140d14ed-d8c2-4f2d-9323-54b3355590b0
 
 
 ![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/38202155-9d74-4a7e-8f8a-dd2a206119cf)
