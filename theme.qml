@@ -16,11 +16,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import QtQuick 2.15
+import SortFilterProxyModel 0.2
 import QtQuick.Layouts 1.15
 import QtGraphicalEffects 1.12
-import SortFilterProxyModel 0.2
-FocusScope {
 
+FocusScope {
     focus: true
     readonly property real cellRatio: 10 / 16
     readonly property int cellHeight: vpx(255)
@@ -30,14 +30,21 @@ FocusScope {
     readonly property int labelFontSize: vpx(18)
     readonly property int labelHeight: labelFontSize * 2.5
     readonly property int leftGuideline: vpx(100)
-    ///////////////////////////////////////////
+    ////////////////////////////////////////////
     property bool searchVisible: false
+    property bool genereVisible: false
     readonly property int sidebarWidth: 60
     property bool navigatedDown: false
     property bool sidebarFocused: false
     property bool searchFocused: false
     property int selectedIndex: sidebarFocused ? 1 : -1
     property int virtualKeyboardIndex: 0
+    property string currentText: ""
+    property int maxIndex: 36
+    property bool wrapAround: true
+    property real iconAncho: 0.30
+    property real iconAlto: 0.03
+    property string selectedGenreName: ""
     
     onSidebarFocusedChanged: {
         if (!sidebarFocused) {
@@ -49,20 +56,29 @@ FocusScope {
         }
     }
 
-    //Barra lateral izquierda
+    FontLoader {
+        id: mediumFontLoader
+        source: "font/NetflixSansLight.ttf"
+    }
+
+    FontLoader {
+        id: boldFontLoader
+        source: "font/NetflixSansBold.ttf"
+    }
+       
+    //sidebar "barra lateral"
     Rectangle {
         id: sidebar
-        width: sidebarFocused ? 150 : 60
+        width: parent.width * 0.06 
         height: parent.height
-        layer.enabled: true
-        color: "transparent"
-        opacity: sidebarFocused ? 1 : 0.8
+        color: "transparent" 
+        opacity: sidebarFocused ? 1 : 75
         z: sidebarFocused ? 101 : 99
         focus: sidebarFocused
 
-        // Fondo con gradiente lineal
+
         LinearGradient {
-            width: sidebarWidth
+            width: sidebar.width * 2   
             height: sidebar.height
             anchors.left: sidebar.left
 
@@ -71,71 +87,181 @@ FocusScope {
 
             gradient: Gradient {
                 GradientStop { position: 0.0; color: "#FF000000" } 
-                GradientStop { position: 0.7; color: "#88000000" } 
+                GradientStop { position: 0.7; color: "#88000000" }
                 GradientStop { position: 1.0; color: "#00000000" } 
             }
         }
-        
-        // Animación para agrandar la barra al entrar
-        SequentialAnimation {
-            id: enterAnimation
-            NumberAnimation { target: sidebar; property: "width"; to: 150; duration: 300; easing.type: Easing.OutCubic }
-        }
 
-        // Animación para reducir la barra al salir
-        SequentialAnimation {
-            id: exitAnimation
-            NumberAnimation { target: sidebar; property: "width"; to: 60; duration: 300; easing.type: Easing.OutCubic }
-        }
+        Item {
+            id: icoContainer
+            width: parent.width
+            height: parent.height
+            anchors.left: parent.left
+            anchors.leftMargin: -5
+            
+            //aqui las fuentes
 
-        Image {
-            source: selectedIndex === 0 ? "assets/home.png" : "assets/home_inactive.png" // Ruta de la imagen de inicio
-            width: 24 
-            height: 20
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: parent.top
-                topMargin: parent.height * 0.4 
+            Image {
+                id: homeIcon
+                source: selectedIndex === 0 ? "assets/home.png" : "assets/home_inactive.png" 
+                width: parent.width * iconAncho
+                height: parent.height * iconAlto
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    top: parent.top 
+                    topMargin: parent.height * 0.40 
+                }
+                Item {          
+                    width: parent.width 
+                    height: homeIcon.height 
+                    y: homeIcon.height - 25
+                    x: sidebarFocused ? homeIcon.width + 20 : 0
+
+                    Text {
+                        id: homeText
+                        text: "Inicio"
+                        font.pixelSize: sidebarFocused && selectedIndex === 0 ?  26 : 24
+                        font.family: selectedIndex === 0 ? boldFontLoader.name : mediumFontLoader.name
+                        color: selectedIndex === 0 ? "white" : "#8c8c8c"
+                        visible: sidebarFocused
+                    }
+
+                    Behavior on x { NumberAnimation { duration: 400; easing.type: Easing.InOutCubic  } } 
+                    x: sidebarFocused ? homeIcon.width + 5 : 0 
+                }
+            }
+
+            Image {
+                id: searchIcon2
+                source: selectedIndex === 1 ? "assets/search.png" : "assets/search_inactive.png" 
+                width: parent.width * iconAncho
+                height: parent.height * iconAlto
+                anchors.centerIn: parent
+
+                Item {
+                    width: parent.width 
+                    height: searchIcon2.height
+                    //anchors.verticalCenterOffset: -5
+                    y: searchIcon2.height -27
+                    x: sidebarFocused ? categoryIcon.width + 20 : 0
+
+                    Text {
+                        id: searchText
+                        text: "Búsqueda"
+                        font.pixelSize: sidebarFocused && selectedIndex === 1 ? 26 : 24
+                        font.family: selectedIndex === 1 ? boldFontLoader.name : mediumFontLoader.name
+                        color: selectedIndex === 1 ? "white" : "#8c8c8c"
+                        visible: sidebarFocused
+                    }
+
+                    Behavior on x { NumberAnimation { duration: 500; easing.type: Easing.InOutCubic } }
+                    x: sidebarFocused ? searchIcon2.width + 5 : 0 
+                }
+            }
+
+            Image {
+                id: categoryIcon
+                source: selectedIndex === 2 ? "assets/plus.png" : "assets/plus_inactive.png" 
+                width: parent.width * iconAncho
+                height: parent.height * iconAlto
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    bottomMargin: parent.height * 0.40 
+                }
+
+                Item {
+                    width: parent.width
+                    height: categoryIcon.height
+                    y: categoryIcon.height -29
+                    x: sidebarFocused ? categoryIcon.width + 20 : 0
+
+                    Text {
+                        id: categoryText
+                        text: "Mi lista"
+                        font.pixelSize: sidebarFocused && selectedIndex === 2 ? 26 : 24
+
+                        font.family: selectedIndex === 2 ? boldFontLoader.name : mediumFontLoader.name
+                        color: selectedIndex === 2 ? "white" : "#8c8c8c"
+                        visible: sidebarFocused
+                    }
+
+                    Behavior on x { NumberAnimation { duration: 600; easing.type: Easing.InOutCubic } }
+                    x: sidebarFocused ? categoryIcon.width + 5 : 0
+                }
+            }
+
+            Image {
+                id: trendingIcon
+                source: selectedIndex === 3 ? "assets/Trending.png" : "assets/Trending_inactive.png" 
+                width: parent.width * iconAncho 
+                height: parent.height * iconAlto 
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    bottomMargin: parent.height * 0.32
+                }
+
+                Item {
+                    width: parent.width
+                    height: trendingIcon.height
+                    y: trendingIcon.height -27
+                    x: sidebarFocused ? trendingIcon.width + 20 : 0
+
+                    Text {
+                        id: trendingText
+                        text: "Recomendados"
+                        font.pixelSize: sidebarFocused && selectedIndex === 3 ? 26 : 24
+                        font.family: selectedIndex === 3 ? boldFontLoader.name : mediumFontLoader.name
+                        color: selectedIndex === 3 ? "white" : "#8c8c8c"
+                        visible: sidebarFocused
+                    }
+
+                    Behavior on x { NumberAnimation { duration: 700; easing.type: Easing.InOutCubic } }
+                    x: sidebarFocused ? trendingIcon.width + 5 : 0
+                }
+            }
+
+            Image {
+                id: categoriagIcon
+                source: selectedIndex === 4 ? "assets/categoria.png" : "assets/categoria_inactive.png" 
+                width: parent.width * iconAncho 
+                height: parent.height * iconAlto 
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    bottomMargin: parent.height * 0.25
+                }
+
+                Item {
+                    width: parent.width
+                    height: categoriagIcon.height
+                    y: categoriagIcon.height -27
+                    x: sidebarFocused ? categoriagIcon.width + 20 : 0
+
+                    Text {
+                        id: categoriaText
+                        text: "Categoria"
+                        font.pixelSize: sidebarFocused && selectedIndex === 4 ? 26 : 24
+                        font.family: selectedIndex === 4 ? boldFontLoader.name : mediumFontLoader.name
+                        color: selectedIndex === 4 ? "white" : "#8c8c8c"
+                        visible: sidebarFocused
+                    }
+
+                    Behavior on x { NumberAnimation { duration: 800; easing.type: Easing.InOutCubic } }
+                    x: sidebarFocused ? categoriagIcon.width + 5 : 0
+                }
             }
         }
 
-        Image {
-            source: selectedIndex === 1 ? "assets/search.png" : "assets/search_inactive.png" 
-            width: 24 
-            height: 20 
-            anchors.centerIn: parent
 
-        }
-
-        Image {
-            source: selectedIndex === 2 ? "assets/plus.png" : "assets/plus_inactive.png" 
-            width: 24 
-            height: 24
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
-                bottomMargin: parent.height * 0.4 
-            }
-        }
-
-        Image {
-            source: selectedIndex === 3 ? "assets/Trending.png" : "assets/Trending_inactive.png" 
-            width: 24 
-            height: 20 
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
-                bottomMargin: parent.height * 0.32
-            }
-        }
-
-
+        //Falta logica de Enter para la opcion categoria.!
         Keys.onUpPressed: {
             selectedIndex = Math.max(selectedIndex - 1, 0)
         }
 
         Keys.onDownPressed: {
-            selectedIndex = Math.min(selectedIndex + 1, 3) 
+            selectedIndex = Math.min(selectedIndex + 1, 4) 
         }
 
         // Lógica para enfocar/desenfocar la barra lateral
@@ -158,7 +284,7 @@ FocusScope {
         Keys.onPressed: {
             if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                 if (selectedIndex === 0) {
-                    collectionAxis.currentIndex = 0
+                    collectionAxis.currentIndex = 0;
                 } else if (selectedIndex === 1) {
                     searchVisible = true;
                     sidebarFocused = false;
@@ -171,17 +297,29 @@ FocusScope {
                     }
                 } else if (selectedIndex === 3) {
                     collectionAxis.currentIndex = 1;
+                } else if (selectedIndex === 4) {
+                    collectionAxis.focus = false;
+                    sidebarFocused = false;
+                    genereVisible = true;
+                    genereListView.visible = true;
+                    genereListView.focus = true;
                 }
+            } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
+                event.accepted = true;
+                sidebarFocused = false;
+                searchFocused = false; 
+                selectionMarker.opacity = 1.0;
+                collectionAxis.focus = true;
+                collectionAxis.currentIndex = Math.min(collectionAxis.currentIndex, collectionAxis.model.count - 1);
             }
         }
     }
 
-    //Filtrado de api.allGames
     SortFilterProxyModel {
         id: gamesFiltered
         sourceModel: api.allGames
-        property string searchTerm: "" 
-        
+        property string searchTerm: ""
+
         filters: [
             RegExpFilter {
                 roleName: "title"; 
@@ -190,6 +328,8 @@ FocusScope {
                 enabled: gamesFiltered.searchTerm !== "";
             }
         ]
+        
+        property bool hasResults: count > 0
     }
 
     Item {
@@ -218,7 +358,6 @@ FocusScope {
                 visible: searchVisible
                 y:45
                 anchors {
-                    //top: virtualKeyboardContainer.bottom
                     bottom: virtualKeyboardContainer.top
                     left: parent.left
                 }
@@ -250,7 +389,7 @@ FocusScope {
                     border.width: 2
                     visible: buttonKeyContainer.focus
                     clip: true
-                    radius: 7
+                    radius:0
                 }
 
                 Keys.onPressed: {
@@ -283,17 +422,15 @@ FocusScope {
                 }
             }
 
-            //Teclado virtual
             Rectangle {
                 id: virtualKeyboardContainer
                 width: parent.width
-                height: parent.height * 0.38 //300
+                height: parent.height * 0.38 
                 color: "#171717"
                 border.color: "#171717"
                 radius: 0
                 border.width: 3
                 anchors {
-                    //top: searchBar.bottom
                     top:buttonKeyContainer.bottom
                     left: parent.left
                 }
@@ -326,15 +463,16 @@ FocusScope {
                                 clip: true
                                 color: "transparent"
                                 border.color: virtualKeyboardIndex === index && virtualKeyboardContainer.focus ? "white" : (virtualKeyboardContainer.focus ? "transparent" : "#171717")
-                                border.width: 2
-                                radius: 7
+                                border.width: 0.5
+                                //border.width: 2
+                                radius: 0
 
                                 Item {
                                     anchors.fill: parent
                                     Text {
                                         anchors.centerIn: parent
                                         text: index < 26 ? String.fromCharCode(97 + index) : (index < 26 + 10 ? index - 26 : "")
-                                        font.pixelSize: 20
+                                        font.pixelSize: Math.min(keyboardGrid.width / keyboardGrid.columns, keyboardGrid.height / keyboardGrid.rows) * 0.5 // Tamaño del texto proporcional al tamaño de la celda
                                         color: "grey"
                                         horizontalAlignment: Text.AlignHCenter
                                         verticalAlignment: Text.AlignVCenter
@@ -381,14 +519,17 @@ FocusScope {
                                 navigatedDown = false;
                             }
                         }
-
                     } else if (event.key === Qt.Key_Down) {
                         if (virtualKeyboardIndex < (26 + 10) - 6) {
                             virtualKeyboardIndex += 6;
-                        } else if (virtualKeyboardIndex >= 30 && virtualKeyboardIndex <= 35) {
-                            if (searchResults.visible) {
-                                resultsList.focus = true;
-                                navigatedDown = true;
+                        }  else if (event.key === Qt.Key_Down) {
+                            if (virtualKeyboardIndex < (26 + 10) - 6) {
+                                virtualKeyboardIndex += 6;
+                            } else if (virtualKeyboardIndex >= 30 && virtualKeyboardIndex <= 35) {
+                                if (searchResults.visible && resultsList.model.count > 0) {
+                                    resultsList.focus = true;
+                                    navigatedDown = true;
+                                }
                             }
                         }
                     } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
@@ -397,11 +538,14 @@ FocusScope {
                         } else {
                             searchInput.text += virtualKeyboardIndex - 26;
                         }
+                    } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
+                        event.accepted = true;
+                        searchVisible = false;
+                        sidebarFocused = true;
                     }
                 }
             }
 
-            //Historial de juegos lanzados
             Rectangle {
                 id: historySearch
                 width: parent.width
@@ -438,7 +582,7 @@ FocusScope {
                     width: parent.width
                     height: parent.height - recentGames.height
                     anchors.top: recentGames.bottom 
-                    model: continuePlayingProxyModel //lastPlayedList
+                    model: continuePlayingProxyModel 
                     clip: true
 
                     delegate: Rectangle {
@@ -465,7 +609,6 @@ FocusScope {
                         }
                     }
 
-                    // Manejar evento de tecla para mover el foco hacia arriba
                     Keys.onUpPressed: {
                         if (resultsList.currentIndex === 0) {
                             virtualKeyboardContainer.focus = true;
@@ -476,7 +619,6 @@ FocusScope {
                         }
                     }
 
-                    // Manejar evento de tecla para lanzar el juego seleccionado
                     Keys.onPressed: {
                         if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                             var selectedGame = continuePlayingProxyModel.get(resultsList.currentIndex);
@@ -485,9 +627,7 @@ FocusScope {
                             var gameFound = gamesArray.find(function(game) {
                                 return game.title === selectedTitle;
                             });
-                            // Verificar si se encontró el juego
                             if (gameFound) {
-                                console.log("Se lanzará el juego seleccionado:", gameFound.title);
                                 sidebarFocused = false;
                                 searchVisible = false;
                                 searchFocused = false; 
@@ -495,14 +635,17 @@ FocusScope {
                                 collectionAxis.focus = true;
                                 gameFound.launch();
                             } else {
-                                console.log("No se encontró el juego con el título:", selectedTitle);
                             }
+                        } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
+                            event.accepted = true;
+                            virtualKeyboardContainer.focus = true;
+                            resultsList.focus = false;
+                            navigatedDown = false;
                         }
                     }
                 }
-            }
+            }                
 
-            //Resultado de busqueda//Resuelto por ahora.
             Item {
                 id: searchResultsContainer
                 width: parent.width * 3.80
@@ -511,7 +654,6 @@ FocusScope {
                 anchors.left: parent.right
                 anchors.rightMargin: parent.width 
                 
-                //Barra de busqueda
                 Rectangle {
                     id: searchBarContainer
                     width: parent.width
@@ -520,7 +662,6 @@ FocusScope {
                     border.color: "transparent"
                     visible: searchVisible
                     
-                    //Barra de busqueda
                     Rectangle {
                         id: searchBar
                         width: parent.width
@@ -537,22 +678,23 @@ FocusScope {
                                 height: parent.height
                                 color: "transparent"
                             }
+                            
                             Item {
-                              width: vpx(7) // Ajusta este valor para mover el ícono a la derecha
+                              width: vpx(7)
                               height: parent.height
                             }
+                            
                             Image {
                                 id: searchIcon
                                 source: "assets/search.png"
-                                width: vpx(18)
-                                height: vpx(18)
+                                width: vpx(16)
+                                height: vpx(16)
                                 y:35
                                 visible: searchInput.text.trim().length > 0
                                 Behavior on opacity {
                                     NumberAnimation { duration: 200 }
                                 }
                             }
-
 
                             TextInput {
                                 id: searchInput
@@ -568,7 +710,6 @@ FocusScope {
                                 font.family: netflixSansMedium.name
                                 font.pixelSize: 26
                                 onTextChanged: {
-                                    // Lógica de búsqueda
                                     gamesFiltered.searchTerm = searchInput.text.trim();
                                 }
                             }
@@ -579,7 +720,7 @@ FocusScope {
                                 color: "white"
                                 y: 28
                                 font.family: netflixSansMedium.name
-                                font.pixelSize: 26
+                                font.pixelSize: 24
                                 visible: searchInput.length === 0
                                 Behavior on opacity {
                                     NumberAnimation { duration: 50 }
@@ -689,9 +830,10 @@ FocusScope {
                             Keys.onUpPressed: {
                                 resultsGrid.moveCurrentIndexUp()
                             }
-                             Keys.onRightPressed: {
-                                resultsGrid.moveCurrentIndexRight()
-                             } 
+                            
+                            Keys.onRightPressed: {
+                            resultsGrid.moveCurrentIndexRight()
+                            } 
 
                             Keys.onLeftPressed: {
                                 if (resultsGrid.currentIndex % 4 === 0) {
@@ -709,10 +851,8 @@ FocusScope {
                                     var selectedGame;
                                     var selectedTitle;
                                     var gameFound;
-
-                                    // Verificar si hay texto en la barra de búsqueda
-                                    if (searchInput.text.trim() !== "") {
-                                        // Si hay texto, buscar en el modelo gamesFiltered
+                                    
+                                    if (searchInput.text.trim() !== "") {                                       
                                         selectedGame = gamesFiltered.get(resultsGrid.currentIndex);
                                         selectedTitle = selectedGame.title;
 
@@ -721,7 +861,6 @@ FocusScope {
                                             return game.title === selectedTitle;
                                         });
                                     } else {
-                                        // Si no hay texto, buscar en el modelo gameListModel
                                         selectedGame = gameListModel.get(resultsGrid.currentIndex);
                                         selectedTitle = selectedGame.title;
 
@@ -732,7 +871,6 @@ FocusScope {
                                     }
 
                                     if (gameFound) {
-                                        console.log("Se lanzará el juego seleccionado:", gameFound.title);
                                         sidebarFocused = false;
                                         searchVisible = false;
                                         searchFocused = false;
@@ -740,25 +878,568 @@ FocusScope {
                                         collectionAxis.focus = true;
                                         gameFound.launch();
                                     } else {
-                                        console.log("No se encontró el juego con el título:", selectedTitle);
                                     }
+                                } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
+                                        event.accepted = true;
+                                        virtualKeyboardContainer.focus = true;
+                                        virtualKeyboardIndex = 0
+                                        resultsGrid.focus = false
+                                        navigatedDown = false;
                                 }
-                            }         
+                            }
+
+                            Rectangle {
+                                width: resultsGrid.width
+                                height: resultsGrid.height
+                                color: "transparent"
+                                visible: !gamesFiltered.hasResults  
+                                
+                                Text {
+                                    text: "No hay coicidencias para tu búsqueda"
+                                    color: "white"
+                                    font.pixelSize: 26
+                                    anchors.centerIn: parent
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                            }
                         }
                     }
-                }              
+                }             
             }
         }
     }
 
-    //Modelo de colecciones funciona perfectamente
+    function updateImage(index) {
+        var genresString = api.memory.get("genres");
+        if (genresString) {
+            try {
+                var genresArray = JSON.parse(genresString);
+                if (genresArray && genresArray.length > 0) {
+                    var genreObject = genresArray.find(function(item) {
+                        return item.index === index;
+                    });
+
+                    if (genreObject) {
+                        var genre = genreObject.name;
+                        var game = findGameWithGenre(genre);
+                        if (game && game.assets.screenshots.length > 0) {
+                            var screenshotPath = game.assets.screenshots[0];
+                            //console.log("Ruta del screenshot:", screenshotPath);
+                            genreImage.source = screenshotPath;
+                        } else {
+                            //console.log("No hay screenshot disponible para este juego.");
+                            genreImage.source = "";
+                        }
+                    } else {
+                        //onsole.log("No se encontró ningún juego para este género.");
+                        genreImage.source = "";
+                    }
+                } else {
+                    //console.log("La lista de géneros está vacía.");
+                    genreImage.source = "";
+                }
+            } catch (e) {
+                //console.log("Error al analizar la cadena JSON de géneros:", e);
+                genreImage.source = "";
+            }
+        } else {
+            //console.log("No se encontró la lista de géneros en la memoria.");
+            genreImage.source = "";
+        }
+    }
+
+    function updateImageLogo(index) {
+        var genresString = api.memory.get("genres");
+        if (genresString) {
+            try {
+                var genresArray = JSON.parse(genresString);
+                if (genresArray && genresArray.length > 0) {
+                    var genreObject = genresArray.find(function(item) {
+                        return item.index === index;
+                    });
+
+                    if (genreObject) {
+                        var genre = genreObject.name;
+                        var game = findGameWithGenre(genre);
+                        if (game && game.assets.logo.length > 0) {
+                            var logoPath = game.assets.logo;
+                            //console.log("Ruta del screenshot:", screenshotPath);
+                            whellImage.source = logoPath;
+                        } else {
+                            //console.log("No hay screenshot disponible para este juego.");
+                            whellImage.source = "";
+                        }
+                    } else {
+                        //onsole.log("No se encontró ningún juego para este género.");
+                        whellImage.source = "";
+                    }
+                } else {
+                    //console.log("La lista de géneros está vacía.");
+                    whellImage.source = "";
+                }
+            } catch (e) {
+                //console.log("Error al analizar la cadena JSON de géneros:", e);
+                whellImage.source = "";
+            }
+        } else {
+            //console.log("No se encontró la lista de géneros en la memoria.");
+            whellImage.source = "";
+        }
+    }
+    
+    function findGameWithGenre(genre) {
+        for (var i = 0; i < api.allGames.count; ++i) {
+            var game = api.allGames.get(i);
+            if (game.genreList.includes(genre)) {
+                return game;
+            }
+        }
+        return null; 
+    }
+
+    //Filtro de generos
+    SortFilterProxyModel {
+        id: genreFilteredModel
+        sourceModel: api.allGames
+
+        filters: [
+            ExpressionFilter {
+                id: customExpressionFilter
+                enabled: selectedGenreName !== ""
+                expression: (selectedGenreName !== "") && genreList.some(genre => genre === selectedGenreName)
+            }
+        ]
+    }
+
+    Rectangle {
+        id: screenBackGround
+        width: parent.width
+        height: parent.height 
+        color: "transparent" 
+        x: parent.width * 0.05
+        visible: genereVisible
+        //visible: true
+        clip: true
+        z: 100
+
+        Image {
+            id: genreImage
+            source: ""
+            width: parent.width * 1.05
+            height: parent.height * 1.05
+            visible: genereListView.currentIndex >= 0
+            fillMode: Image.Stretch
+            scale: 1.2
+
+            SequentialAnimation on x {
+                loops: Animation.Infinite
+                PropertyAnimation {
+                    from: 0 
+                    to: parent.width - genreImage.width 
+                    duration: 10000 
+                }
+                PropertyAnimation {
+                    from: parent.width - genreImage.width
+                    to: 0
+                    duration: 10000
+                }
+            }
+        }
+
+        LinearGradient {
+            width: genreImage.width
+            height: height * 3.50
+            anchors.bottom: genreImage.bottom
+            anchors.right: genreImage.right
+            start: Qt.point(0, height)
+            end: Qt.point(0, 0)
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "#FF000000" }
+                GradientStop { position: 1.0; color: "#00000000" }
+            }
+        }
+
+        LinearGradient {
+            width: screenBackGround.width * 1
+            height: screenBackGround.height
+            anchors.left: screenBackGround.left
+            start: Qt.point(0, 0)
+            end: Qt.point(width, 0)
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "#FF000000" }
+                GradientStop { position: 1.0; color: "#00000000" }
+            }
+        }
+
+        Image {
+            id: whellImage
+            source: ""
+            visible: genereListView.currentIndex >= 0
+            width: parent.width * 0.2 
+            height: parent.height * 0.1 
+            x: screenBackGround.x + screenBackGround.width * 0.75 - width * 0.5 
+            y: rectangleGridView.y - height - parent.height * 0.05
+            opacity: 0 
+           
+            onSourceChanged: {
+                if (source !== "") {
+                    whellImageOpacityAnimation.start();
+                } else {
+                    whellImageOpacityAnimation.direction = Animation.Backward;
+                    whellImageOpacityAnimation.start();
+                }
+            }
+
+            PropertyAnimation {
+                id: whellImageOpacityAnimation
+                target: whellImage
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: 1000
+                easing.type: Easing.OutQuad
+            }
+        }
+
+        Image {
+            anchors.fill: parent
+            source: "assets/crt.png" 
+            fillMode: Image.Tile
+            visible: true
+            opacity: 0.2 
+        }
+
+        Rectangle {
+            id: rectangleGridView
+            width: parent.width * 0.75 
+            height: parent.height / 4 
+            x: parent.width * 0.25 
+            y: parent.height - rectangleGridView.height
+            z: 100
+            color: "transparent"
+
+            GridView {
+                id: gameGridView
+                anchors.fill: parent
+                anchors.centerIn: parent
+                anchors.horizontalCenter: parent.horizontalCenter 
+                anchors.verticalCenter: parent.verticalCenter
+                cellWidth: (parent.width - 100) / 6
+                cellHeight: parent.height  / 1
+                highlightRangeMode: GridView.StrictlyEnforceRange 
+                snapMode: GridView.SnapOneRow
+                clip: true
+                model: genreFilteredModel
+                
+                delegate: Item {
+                    width: gameGridView.cellWidth -5
+                    height: gameGridView.cellHeight -5
+                    
+                    anchors {
+                        margins: -5
+                    }
+
+                    Image {
+                        id: gameImage
+                        source: model.assets.boxFront 
+                        anchors.centerIn: parent
+                        width: parent.width - 5
+                        height: parent.height - 5
+                        sourceSize { width: 456; height: 456 }
+                        fillMode: Image.Stretch
+                        z: 0
+                    }
+                }
+
+                Rectangle {
+                    id: selectionRectangle2
+                    width: gameGridView.cellWidth - 5
+                    height: gameGridView.cellHeight - 5
+                    color: "transparent"
+                    border.color: gameGridView.focus ? "white" : "transparent"
+                    border.width: 2
+                    visible: gameGridView.currentIndex !== -1
+                    Behavior on x { SmoothedAnimation { duration: 150 } }
+                    Behavior on y { SmoothedAnimation { duration: 150 } }
+
+                    x: (gameGridView.currentItem ? gameGridView.currentItem.x : 0) + gameGridView.contentX
+                }
+
+                LinearGradient {
+                    width: gameGridView.width
+                    height: labelHeight * 3.50
+                    anchors.bottom: gameGridView.bottom
+                    anchors.right: gameGridView.right
+                    start: Qt.point(0, height)
+                    end: Qt.point(0, 0)
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "#FF000000" }
+                        GradientStop { position: 1.0; color: "#00000000" }
+                    }
+                }
+
+                Keys.onDownPressed: {
+                    gameGridView.moveCurrentIndexDown()
+                }
+
+                Keys.onUpPressed: {
+                    gameGridView.moveCurrentIndexUp()
+                }
+                
+                Keys.onRightPressed: {
+                gameGridView.moveCurrentIndexRight()
+                }
+
+                Keys.onLeftPressed: {
+                    if (gameGridView.currentIndex === 0) {
+                        genereListView.visible = true;
+                        genereListView.focus = true;
+                        genereListView.opacity = 1;
+                    } else {
+                        gameGridView.moveCurrentIndexLeft();
+                    }
+                }
+
+                Keys.onPressed: {
+                    if (api.keys.isCancel(event)) {
+                        event.accepted = true;
+                        genereListView.visible = true;
+                        genereListView.focus = true;
+                        genereListView.opacity = 1;
+                    } else if (api.keys.isAccept(event)) {
+                        event.accepted = true;
+                        var selectedGameTitle = genreFilteredModel.get(gameGridView.currentIndex).title;
+                        var foundGame = null;
+
+                        // Buscar el juego en api.allGames
+                        for (var i = 0; i < api.allGames.count; i++) {
+                            if (api.allGames.get(i).title === selectedGameTitle) {
+                                foundGame = api.allGames.get(i);
+                                break;
+                            }
+                        }
+
+                        if (foundGame !== null) {
+                            console.log("Lanzando el juego:", selectedGameTitle);
+                            foundGame.launch();
+                        } else {
+                            console.log("Juego no encontrado en api.allGames.");
+                        }
+                    }
+                }
+            }
+        }
+
+        Rectangle {
+            id: rectangleListView
+            width: screenBackGround.width / 4
+            height: parent.height
+            color: "transparent"
+            clip: true
+            visible: genereVisible
+            z: 100
+
+            LinearGradient {
+                width: rectangleListView.width * 1
+                height: rectangleListView.height
+                anchors.left: rectangleListView.left
+                start: Qt.point(0, 0)
+                end: Qt.point(width, 0)
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: "#FF000000" }
+                    GradientStop { position: 1.0; color: "#00000000" }
+                }
+            }
+
+            ListView {
+                id: genereListView
+                anchors.fill: parent
+                spacing: 15
+                
+                property int indexToPosition: -1
+
+                model: {
+                    var genres = [];
+                    for (var i = 0; i < api.allGames.count; ++i) {
+                        var game = api.allGames.get(i);
+                        for (var j = 0; j < game.genreList.length; ++j) {
+                            var genre = game.genreList[j];
+                            if (!genres.includes(genre)) {
+                                genres.push(genre);
+                            }
+                        }
+                    }
+                    genres.sort();
+                    return genres;
+                }
+
+                delegate: Item {
+                    width: ListView.view.width
+                    height: 50
+
+                    Text {
+                        text: modelData
+                        anchors.fill: parent
+                        wrapMode: Text.Wrap
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        color: genereListView.currentIndex === index ? "white" : "gray"
+                        font.family: index === genereListView.currentIndex ? boldFontLoader.name : mediumFontLoader.name
+                        font.bold: index === genereListView.currentIndex
+                        font.pixelSize: genereListView.currentIndex === index ? 24 : 18
+                        opacity: genereListView.currentIndex === index ? 1.0 : 0.5
+                    }
+                }
+                    
+                Keys.onLeftPressed: {
+                    genereVisible = false;
+                    sidebarFocused = true;
+                    searchFocused = true; 
+                }
+
+                Keys.onRightPressed: {
+                    genereListView.focus = false
+                    gameGridView.focus = true
+                    genereListView.opacity = 0.5;
+                }
+
+                Keys.onPressed: {
+                    if (api.keys.isCancel(event)) {
+                        event.accepted = true;
+                        genereVisible = false;
+                        sidebarFocused = true;
+                        searchFocused = true; 
+                    }
+                }
+
+                onCurrentItemChanged: {
+                    indexToPosition = currentIndex
+                    updateImage(currentIndex)
+                    updateImageLogo(currentIndex)
+
+                    var genresString = api.memory.get("genres");
+                    if (genresString) {
+                        try {
+                            var genresArray = JSON.parse(genresString);
+                            if (genresArray && genresArray.length > 0) {
+                                var genreObject = genresArray.find(function(item) {
+                                    return item.index === currentIndex;
+                                });
+
+                                if (genreObject) {
+                                    selectedGenreName = genreObject.name;
+                                    //console.log("Índice seleccionado:", currentIndex, "Nombre del género:", selectedGenreName);
+                                } else {
+                                    //console.log("No se encontró el género para el índice:", currentIndex);
+                                }
+                            }
+                        } catch (e) {
+                            //console.log("Error al analizar la cadena JSON de géneros:", e);
+                        }
+                    } else {
+                        //console.log("No se encontró la lista de géneros en la memoria.");
+                    }
+                }
+
+                Behavior on indexToPosition {
+                    NumberAnimation {
+                        duration: 300  // Duración de la animación de arrastre
+                        easing.type: Easing.OutCubic  // Curva de animación suave
+                    }
+                }
+
+                onIndexToPositionChanged: {
+                    if (indexToPosition >= 0) {
+                        positionViewAtIndex(indexToPosition, ListView.Center)
+                    }
+                }
+            }
+        }
+
+        Component.onCompleted: {
+            var genresString = api.memory.get("genres");
+            if (!genresString) {
+                var genres = [];
+                for (var i = 0; i < api.allGames.count; ++i) {
+                    var game = api.allGames.get(i);
+                    for (var j = 0; j < game.genreList.length; ++j) {
+                        var genre = game.genreList[j];
+                        if (!genres.includes(genre)) {
+                            genres.push(genre);
+                        }
+                    }
+                }
+                genres.sort();
+                const formattedGenres = genres.map((genre, index) => ({ index, name: genre }));
+                genresString = JSON.stringify(formattedGenres);
+                api.memory.set("genres", genresString);
+            };
+
+            if (genresString) {
+                try {
+                    var genresArray = JSON.parse(genresString);
+                    if (genresArray && genresArray.length > 0) {
+                        var firstGenreObject = genresArray[0];
+                        if (firstGenreObject) {
+                            selectedGenreName = firstGenreObject.name;
+                        }
+                    }
+                } catch (e) {
+                    //console.log("Error al analizar la cadena JSON de géneros:", e);
+                }
+            }
+        }
+    }
+
+    Video {
+        game: collectionAxis.currentItem ? collectionAxis.currentItem.currentGame : null
+        anchors {
+            top: parent.top
+            left: parent.horizontalCenter
+            right: parent.right
+            bottom: selectionMarker.top
+            bottomMargin: -5
+            leftMargin: - 200
+        }
+    }
+
+    Details {
+        id: detailsID
+        game: collectionAxis.currentItem ? collectionAxis.currentItem.currentGame : null
+        anchors {
+            top: parent.top
+            left: parent.left; leftMargin: leftGuideline
+            bottom: collectionAxis.top; bottomMargin: labelHeight * 0.63
+            right: parent.horizontalCenter
+        }
+        opacity: virtualKeyboardContainer.focus ? 0.0 :  buttonKeyContainer.focus? 0.0 : resultsGrid.focus? 0.0 : sidebarFocused ? 0.5 : 1.0 
+    }
+
+    Rectangle {
+        id: selectionMarker
+        width: cellWidth
+        height: cellHeight
+        z: 100
+        anchors {
+            left: parent.left
+            leftMargin: leftGuideline
+            bottom: parent.bottom
+            bottomMargin: labelHeight - cellHeight + vpx(304.5)
+        }
+        color: "transparent"
+        border { width: 3; color: "white" }
+    }
+    
+    //Nuemo modelo de colecciones
     Item {
-        id: root
+        id: collectionsItem
         property alias favoritesModel: favoritesProxyModel
         property bool favoritesVisible: favoritesProxyModel.count > 0 
         property alias continuePlayingModel: continuePlayingProxyModel
         property bool continuePlayingVisible: continuePlayingProxyModel.count > 0
-
+    
+        //Lismodel original
         ListModel {
             id: collectionsListModel
             property int allIndex: 0
@@ -772,6 +1453,9 @@ FocusScope {
 
                 var recommendedCollection = { name: "Juegos recomendados", shortName: "recomendados", games: gameListModel };
                 collectionsListModel.append(recommendedCollection);
+
+                var allCollection = { name: "Juega con Amigos: Diversión Multijugador Garantizada", shortName: "multijugador", games: multiplayer };
+                collectionsListModel.append(allCollection);
 
                 if (favoritesProxyModel.count > 0) {
                     var favoritesCollection = { name: "Mi lista", shortName: "milista", games: favoritesProxyModel };
@@ -795,6 +1479,43 @@ FocusScope {
             }
         }
 
+        SortFilterProxyModel {
+            id: gamesFiltered4
+            sourceModel: api.allGames
+            sorters: RoleSorter {
+                roleName: "players"
+                sortOrder: Qt.AscendingOrder
+            }
+            filters: [
+                ExpressionFilter {
+                    expression: players > 1
+                }
+            ]
+        }
+
+        ListModel {
+            id: multiplayer
+
+            function getRandomIndices(count) {
+                var indices = [];
+                for (var i = 0; i < count; ++i) {
+                    indices.push(i);
+                }
+                indices.sort(function() { return 0.5 - Math.random() });
+                return indices;
+            }
+
+            Component.onCompleted: {
+                var maxGames = 10;
+                var randomIndices = getRandomIndices(gamesFiltered4.count);
+                for (var j = 0; j < maxGames && j < randomIndices.length; ++j) {
+                    var gameIndex = randomIndices[j];
+                    var game = gamesFiltered4.get(gameIndex);
+                    multiplayer.append(game);
+                }
+            }
+        }
+          
         SortFilterProxyModel {
             id: gamesFiltered2
             sourceModel: api.allGames
@@ -892,48 +1613,9 @@ FocusScope {
         }
     }
 
-    Video {
-        game: collectionAxis.currentItem ? collectionAxis.currentItem.currentGame : null
-        anchors {
-            top: parent.top
-            left: parent.horizontalCenter
-            right: parent.right
-            bottom: selectionMarker.top
-            bottomMargin: -5
-            leftMargin: - 200
-        }
-    }
-
-    Details {
-        id: detailsID
-        game: collectionAxis.currentItem ? collectionAxis.currentItem.currentGame : null
-        anchors {
-            top: parent.top
-            left: parent.left; leftMargin: leftGuideline
-            bottom: collectionAxis.top; bottomMargin: labelHeight * 0.63
-            right: parent.horizontalCenter
-        }
-        opacity: virtualKeyboardContainer.focus ? 0.0 :  buttonKeyContainer.focus? 0.0 : resultsGrid.focus? 0.5 : sidebarFocused ? 0.5 : 1.0 
-    }
-
-    Rectangle {
-        id: selectionMarker
-        width: cellWidth
-        height: cellHeight
-        z: 100
-        anchors {
-            left: parent.left
-            leftMargin: leftGuideline
-            bottom: parent.bottom
-            bottomMargin: labelHeight - cellHeight + vpx(304.5)
-        }
-        color: "transparent"
-        border { width: 3; color: "white" }
-    }
-    // Cuadrícula de colecciones
     PathView {
         id: collectionAxis
-        property real collectionAxisOpacity: searchVisible ? 0.0 : 1.0
+        property real collectionAxisOpacity: (searchVisible || genereVisible) ? 0.0 : 1
         width: parent.width
         height: 1.3 * (labelHeight + cellHeight) + vpx(5)
         anchors.bottom: parent.bottom
@@ -991,12 +1673,12 @@ FocusScope {
             if (!event.isAutoRepeat) {
                 if (api.keys.isDetails(event)) {
                     var game = currentItem.currentGame;
-                    console.log("Juego actual:", game.title);
+                    //console.log("Juego actual:", game.title);
                     game.favorite = !game.favorite;
                     if (game.favorite) {
-                        console.log("Juego marcado como favorito:", game.title);
+                        //console.log("Juego marcado como favorito:", game.title);
                     } else {
-                        console.log("Juego desmarcado como favorito:", game.title);
+                        //console.log("Juego desmarcado como favorito:", game.title);
                     }
                 } else if (api.keys.isAccept(event)) {
                     var game = currentItem.currentGame;
@@ -1008,8 +1690,7 @@ FocusScope {
         }
         opacity: collectionAxisOpacity
     }
-    // Componente para el delegado de la cuadrícula de colecciones
-    // Define cómo se muestra cada fila de la cuadrícula de colecciones
+
     Component {
         id: collectionAxisDelegate
         Item {
@@ -1127,5 +1808,5 @@ FocusScope {
                 preferredHighlightEnd: preferredHighlightBegin
             }
         }
-    }
-}
+    }       
+}   
