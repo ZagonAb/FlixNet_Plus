@@ -6,40 +6,42 @@ Item {
     property var game: null
     property bool videoEnded: false
     property alias screenshot: screenshotImg.source
+    property int screenshotDuration: 500
 
     width: vid.width
     height: vid.height
     visible: game
 
-    Video {
-
-        id: vid
-        anchors.fill: parent 
-        source: game ? (game.assets ? game.assets.video : "") : "";
-
-        fillMode: VideoOutput.Stretch
-        autoPlay: true
-        visible: true
-        opacity: 1.5
-
-        onStatusChanged: {
-            if (status === MediaPlayer.Loaded) {
-                vid.width = vid.height * videoWidth / videoHeight;
-                player.play();
-            }
+    Timer {
+        id: screenshotTimer
+        interval: screenshotDuration
+        running: false
+        onTriggered: {
+            screenshotImg.visible = false
+            vid.play()
         }
+    }
+
+    Video {
+        id: vid
+        anchors.fill: parent
+        source: game ? (game.assets ? game.assets.video : "") : ""
+        fillMode: VideoOutput.Stretch
+        autoPlay: false
+        visible: !screenshotImg.visible
 
         onStopped: {
             if (vid.position === vid.duration) {
-                screenshotImg.source = (game && game.assets.screenshots[0]) || "";
-                videoEnded = true;
+                screenshotImg.source = (game && game.assets.screenshots.length > 0) ? game.assets.screenshots[0] : ""
+                screenshotImg.visible = true
+                videoEnded = true
             }
         }
 
         onPositionChanged: {
             if (videoEnded && vid.position < vid.duration) {
-                screenshotImg.source = "";
-                videoEnded = false;
+                screenshotImg.source = ""
+                videoEnded = false
             }
         }
     }
@@ -55,7 +57,16 @@ Item {
     Image {
         id: screenshotImg
         anchors.fill: parent
-        visible: videoEnded
+        source: (game && game.assets.screenshots.length > 0) ? game.assets.screenshots[0] : ""
+        visible: screenshotTimer.running
+        
+        Image {
+            anchors.fill: parent
+            source: "assets/crt.png"
+            fillMode: Image.Tile
+            visible: true
+            opacity: 0.2
+        }
 
         LinearGradient {
             id: screenshotGrad
@@ -96,10 +107,8 @@ Item {
     LinearGradient {
         width: vid.width
         height: labelHeight * 0.50
-
         anchors.bottom: vid.bottom
         anchors.right: vid.right
-
         start: Qt.point(0, height)
         end: Qt.point(0, 0)
         gradient: Gradient {
@@ -108,13 +117,10 @@ Item {
         }
     }
 
-
     LinearGradient {
         width: vid.width * 0.75
         height: vid.height
-
         anchors.left: vid.left
-
         start: Qt.point(0, 0)
         end: Qt.point(width, 0)
         gradient: Gradient {
@@ -124,10 +130,15 @@ Item {
     }
 
     onGameChanged: {
-        //vid.source = game.assets.video || "";
-        vid.source = game ? (game.assets ? game.assets.video : "") : "";
-
-        screenshotImg.source = "";
-        videoEnded = false;
+        vid.source = game ? (game.assets ? game.assets.video : "") : ""
+        screenshotImg.source = ""
+        videoEnded = false
+        if (game && game.assets.screenshots.length > 0) {
+            screenshotImg.source = game.assets.screenshots[0]
+            screenshotImg.visible = true
+            screenshotTimer.restart()
+        } else {
+            vid.play()
+        }
     }
 }
