@@ -58,6 +58,10 @@ Ten en cuenta que estos cambios mejorarán tanto la apariencia visual como la fu
 
 
 
+https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/4fcb8fb6-7f3f-4733-9e35-1bf6e41cce62
+
+
+
 ![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/38202155-9d74-4a7e-8f8a-dd2a206119cf)
 
 
