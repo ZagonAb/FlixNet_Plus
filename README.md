@@ -56,9 +56,6 @@ Ten en cuenta que estos cambios mejorarán tanto la apariencia visual como la fu
 
 # Demostración
 
-file:///home/gonzalo/Descargas/flixnet.mp4
-
-
 
 
 ![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/38202155-9d74-4a7e-8f8a-dd2a206119cf)
