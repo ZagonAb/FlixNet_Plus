@@ -22,8 +22,8 @@ import QtGraphicalEffects 1.12
 
 FocusScope {
     focus: true
-    readonly property real cellRatio: 10 / 16
-    readonly property int cellHeight: vpx(255)
+    readonly property real cellRatio: 7 / 10
+    readonly property int cellHeight: vpx(216)
     readonly property int cellWidth: cellHeight * cellRatio
     readonly property int cellSpacing: vpx(10)
     readonly property int cellPaddedWidth: cellWidth + cellSpacing
@@ -66,7 +66,6 @@ FocusScope {
         source: "font/NetflixSansBold.ttf"
     }
        
-    //sidebar "barra lateral"
     Rectangle {
         id: sidebar
         width: parent.width * 0.06 
@@ -98,8 +97,6 @@ FocusScope {
             height: parent.height
             anchors.left: parent.left
             anchors.leftMargin: -5
-            
-            //aqui las fuentes
 
             Image {
                 id: homeIcon
@@ -141,7 +138,6 @@ FocusScope {
                 Item {
                     width: parent.width 
                     height: searchIcon2.height
-                    //anchors.verticalCenterOffset: -5
                     y: searchIcon2.height -27
                     x: sidebarFocused ? categoryIcon.width + 20 : 0
 
@@ -254,8 +250,6 @@ FocusScope {
             }
         }
 
-
-        //Falta logica de Enter para la opcion categoria.!
         Keys.onUpPressed: {
             selectedIndex = Math.max(selectedIndex - 1, 0)
         }
@@ -264,7 +258,6 @@ FocusScope {
             selectedIndex = Math.min(selectedIndex + 1, 4) 
         }
 
-        // Lógica para enfocar/desenfocar la barra lateral
         Keys.onLeftPressed: {
             selectionMarker.opacity = 0.0;
             sidebarFocused = true;
@@ -284,6 +277,10 @@ FocusScope {
         Keys.onPressed: {
             if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                 if (selectedIndex === 0) {
+                    sidebarFocused = false;
+                    searchFocused = false; 
+                    selectionMarker.opacity = 1.0;
+                    collectionAxis.focus = true;
                     collectionAxis.currentIndex = 0;
                 } else if (selectedIndex === 1) {
                     searchVisible = true;
@@ -292,10 +289,18 @@ FocusScope {
                     virtualKeyboardContainer.visible = true;
                     virtualKeyboardContainer.focus = true;
                 } else if (selectedIndex === 2) {
+                    sidebarFocused = false;
+                    searchFocused = false; 
+                    selectionMarker.opacity = 1.0;
+                    collectionAxis.focus = true;
                     if (favoritesProxyModel.count > 0) {
                         collectionAxis.currentIndex = collectionsListModel.favoritesIndex;
                     }
                 } else if (selectedIndex === 3) {
+                    sidebarFocused = false;
+                    searchFocused = false; 
+                    selectionMarker.opacity = 1.0;
+                    collectionAxis.focus = true;
                     collectionAxis.currentIndex = 1;
                 } else if (selectedIndex === 4) {
                     collectionAxis.focus = false;
@@ -346,7 +351,6 @@ FocusScope {
             color: "black" 
             visible: searchVisible
 
-            //botones con iconos
             Rectangle {
                 id: buttonKeyContainer
                 width: parent.width
@@ -357,6 +361,7 @@ FocusScope {
                 border.width: 3
                 visible: searchVisible
                 y:45
+
                 anchors {
                     bottom: virtualKeyboardContainer.top
                     left: parent.left
@@ -430,10 +435,12 @@ FocusScope {
                 border.color: "#171717"
                 radius: 0
                 border.width: 3
+
                 anchors {
                     top:buttonKeyContainer.bottom
                     left: parent.left
                 }
+
                 focus: searchVisible
                 z: 100  
 
@@ -464,7 +471,6 @@ FocusScope {
                                 color: "transparent"
                                 border.color: virtualKeyboardIndex === index && virtualKeyboardContainer.focus ? "white" : (virtualKeyboardContainer.focus ? "transparent" : "#171717")
                                 border.width: 0.5
-                                //border.width: 2
                                 radius: 0
 
                                 Item {
@@ -554,6 +560,7 @@ FocusScope {
                 border.color: "transparent"
                 border.width: 5
                 visible: searchVisible
+
                 anchors {
                     top: virtualKeyboardContainer.bottom
                     left: parent.left
@@ -592,10 +599,12 @@ FocusScope {
                         border.color: ListView.isCurrentItem && navigatedDown ? "red" : "transparent"
                         border.width: ListView.isCurrentItem && navigatedDown ? 3 : 0 
                         radius: 5
+
                         FontLoader {
                           id: netflixSansBold
                           source: "font/NetflixSansBold.ttf"
                         }
+
                         Text {
                             anchors.fill: parent
                             text: model.title !== undefined ? model.title : "Title not available"
@@ -650,9 +659,9 @@ FocusScope {
                 id: searchResultsContainer
                 width: parent.width * 3.80
                 height: parent.height 
-                z: 100
                 anchors.left: parent.right
-                anchors.rightMargin: parent.width 
+                anchors.rightMargin: parent.width
+                z: 100 
                 
                 Rectangle {
                     id: searchBarContainer
@@ -691,6 +700,7 @@ FocusScope {
                                 height: vpx(16)
                                 y:35
                                 visible: searchInput.text.trim().length > 0
+
                                 Behavior on opacity {
                                     NumberAnimation { duration: 200 }
                                 }
@@ -703,12 +713,15 @@ FocusScope {
                                 color: "white"
                                 y: 28
                                 leftPadding: + 10
+
                                 FontLoader {
                                     id: netflixSansMedium
                                     source: "font/NetflixSansMedium.ttf"
                                 }
+
                                 font.family: netflixSansMedium.name
                                 font.pixelSize: 26
+
                                 onTextChanged: {
                                     gamesFiltered.searchTerm = searchInput.text.trim();
                                 }
@@ -722,9 +735,11 @@ FocusScope {
                                 font.family: netflixSansMedium.name
                                 font.pixelSize: 24
                                 visible: searchInput.length === 0
+
                                 Behavior on opacity {
                                     NumberAnimation { duration: 50 }
                                 }
+
                                 wrapMode: Text.Wrap
                             }
                         }
@@ -736,6 +751,7 @@ FocusScope {
                     height: parent.height
                     color: "black"
                     y: 60
+
                     Rectangle {
                         id: searchResults
                         width: parent.width - 40
@@ -814,12 +830,11 @@ FocusScope {
                                 width: resultsGrid.cellWidth - 5
                                 height: resultsGrid.cellHeight - 5
                                 color: "transparent"
-                                border.color: resultsGrid.focus ? "white" : "black"
+                                border.color: resultsGrid.focus ? "white" : "transparent"
                                 border.width: 2
                                 visible: resultsGrid.currentIndex !== -1
                                 Behavior on x { SmoothedAnimation { duration: 150 } }
                                 Behavior on y { SmoothedAnimation { duration: 150 } }
-
                                 x: (resultsGrid.currentItem ? resultsGrid.currentItem.x : 0) + resultsGrid.contentX
                             }
                             
@@ -924,27 +939,21 @@ FocusScope {
                         var genre = genreObject.name;
                         var game = findGameWithGenre(genre);
                         if (game && game.assets.screenshots.length > 0) {
-                            var screenshotPath = game.assets.screenshots[0];
-                            //console.log("Ruta del screenshot:", screenshotPath);
+                            var screenshotPath = game.assets.screenshots[0];;
                             genreImage.source = screenshotPath;
                         } else {
-                            //console.log("No hay screenshot disponible para este juego.");
                             genreImage.source = "";
                         }
                     } else {
-                        //onsole.log("No se encontró ningún juego para este género.");
                         genreImage.source = "";
                     }
                 } else {
-                    //console.log("La lista de géneros está vacía.");
                     genreImage.source = "";
                 }
             } catch (e) {
-                //console.log("Error al analizar la cadena JSON de géneros:", e);
                 genreImage.source = "";
             }
         } else {
-            //console.log("No se encontró la lista de géneros en la memoria.");
             genreImage.source = "";
         }
     }
@@ -964,26 +973,20 @@ FocusScope {
                         var game = findGameWithGenre(genre);
                         if (game && game.assets.logo.length > 0) {
                             var logoPath = game.assets.logo;
-                            //console.log("Ruta del screenshot:", screenshotPath);
                             whellImage.source = logoPath;
                         } else {
-                            //console.log("No hay screenshot disponible para este juego.");
                             whellImage.source = "";
                         }
                     } else {
-                        //onsole.log("No se encontró ningún juego para este género.");
                         whellImage.source = "";
                     }
                 } else {
-                    //console.log("La lista de géneros está vacía.");
                     whellImage.source = "";
                 }
             } catch (e) {
-                //console.log("Error al analizar la cadena JSON de géneros:", e);
                 whellImage.source = "";
             }
         } else {
-            //console.log("No se encontró la lista de géneros en la memoria.");
             whellImage.source = "";
         }
     }
@@ -998,7 +1001,6 @@ FocusScope {
         return null; 
     }
 
-    //Filtro de generos
     SortFilterProxyModel {
         id: genreFilteredModel
         sourceModel: api.allGames
@@ -1019,7 +1021,6 @@ FocusScope {
         color: "transparent" 
         x: parent.width * 0.05
         visible: genereVisible
-        //visible: true
         clip: true
         z: 100
 
@@ -1137,7 +1138,7 @@ FocusScope {
                     height: gameGridView.cellHeight -5
                     
                     anchors {
-                        margins: -5
+                        margins: - 5
                     }
 
                     Image {
@@ -1212,7 +1213,6 @@ FocusScope {
                         var selectedGameTitle = genreFilteredModel.get(gameGridView.currentIndex).title;
                         var foundGame = null;
 
-                        // Buscar el juego en api.allGames
                         for (var i = 0; i < api.allGames.count; i++) {
                             if (api.allGames.get(i).title === selectedGameTitle) {
                                 foundGame = api.allGames.get(i);
@@ -1221,10 +1221,10 @@ FocusScope {
                         }
 
                         if (foundGame !== null) {
-                            console.log("Lanzando el juego:", selectedGameTitle);
+                            //console.log("Lanzando el juego:", selectedGameTitle);
                             foundGame.launch();
                         } else {
-                            console.log("Juego no encontrado en api.allGames.");
+                            //console.log("Juego no encontrado en api.allGames.");
                         }
                     }
                 }
@@ -1329,23 +1329,19 @@ FocusScope {
 
                                 if (genreObject) {
                                     selectedGenreName = genreObject.name;
-                                    //console.log("Índice seleccionado:", currentIndex, "Nombre del género:", selectedGenreName);
                                 } else {
-                                    //console.log("No se encontró el género para el índice:", currentIndex);
                                 }
                             }
                         } catch (e) {
-                            //console.log("Error al analizar la cadena JSON de géneros:", e);
                         }
                     } else {
-                        //console.log("No se encontró la lista de géneros en la memoria.");
                     }
                 }
 
                 Behavior on indexToPosition {
                     NumberAnimation {
-                        duration: 300  // Duración de la animación de arrastre
-                        easing.type: Easing.OutCubic  // Curva de animación suave
+                        duration: 300
+                        easing.type: Easing.OutCubic
                     }
                 }
 
@@ -1386,7 +1382,6 @@ FocusScope {
                         }
                     }
                 } catch (e) {
-                    //console.log("Error al analizar la cadena JSON de géneros:", e);
                 }
             }
         }
@@ -1407,12 +1402,14 @@ FocusScope {
     Details {
         id: detailsID
         game: collectionAxis.currentItem ? collectionAxis.currentItem.currentGame : null
+
         anchors {
             top: parent.top
             left: parent.left; leftMargin: leftGuideline
             bottom: collectionAxis.top; bottomMargin: labelHeight * 0.63
             right: parent.horizontalCenter
         }
+
         opacity: virtualKeyboardContainer.focus ? 0.0 :  buttonKeyContainer.focus? 0.0 : resultsGrid.focus? 0.0 : sidebarFocused ? 0.5 : 1.0 
     }
 
@@ -1425,13 +1422,12 @@ FocusScope {
             left: parent.left
             leftMargin: leftGuideline
             bottom: parent.bottom
-            bottomMargin: labelHeight - cellHeight + vpx(304.5)
+            bottomMargin: labelHeight - cellHeight + vpx(255)
         }
         color: "transparent"
         border { width: 3; color: "white" }
     }
-    
-    //Nuemo modelo de colecciones
+
     Item {
         id: collectionsItem
         property alias favoritesModel: favoritesProxyModel
@@ -1439,7 +1435,6 @@ FocusScope {
         property alias continuePlayingModel: continuePlayingProxyModel
         property bool continuePlayingVisible: continuePlayingProxyModel.count > 0
     
-        //Lismodel original
         ListModel {
             id: collectionsListModel
             property int allIndex: 0
@@ -1448,7 +1443,7 @@ FocusScope {
             property bool favoritesAvailable: false
 
             Component.onCompleted: {
-                var allCollection = { name: "Todos los juegos", shortName: "todoslosjuegos", games: api.allGames };
+                var allCollection = { name: "Todos los juegos", shortName: "todoslosjuegos", games: gamesRandon };
                 collectionsListModel.append(allCollection);
 
                 var recommendedCollection = { name: "Juegos recomendados", shortName: "recomendados", games: gameListModel };
@@ -1491,6 +1486,39 @@ FocusScope {
                     expression: players > 1
                 }
             ]
+        }
+
+        ListModel {
+            id: gamesRandon
+
+            function shuffle(array) {
+                var currentIndex = array.length, temporaryValue, randomIndex;
+
+                while (0 !== currentIndex) {
+
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+
+                    temporaryValue = array[currentIndex];
+                    array[currentIndex] = array[randomIndex];
+                    array[randomIndex] = temporaryValue;
+                }
+
+                return array;
+            }
+
+            Component.onCompleted: {
+                var games = [];
+                for (var i = 0; i < gamesFiltered2.count; ++i) {
+                    games.push(gamesFiltered2.get(i));
+                }
+                // Mezclar los juegos
+                games = shuffle(games);
+                // Añadir los juegos mezclados al ListModel
+                for (var j = 0; j < games.length; ++j) {
+                    gamesRandon.append(games[j]);
+                }
+            }
         }
 
         ListModel {
@@ -1673,12 +1701,9 @@ FocusScope {
             if (!event.isAutoRepeat) {
                 if (api.keys.isDetails(event)) {
                     var game = currentItem.currentGame;
-                    //console.log("Juego actual:", game.title);
                     game.favorite = !game.favorite;
                     if (game.favorite) {
-                        //console.log("Juego marcado como favorito:", game.title);
                     } else {
-                        //console.log("Juego desmarcado como favorito:", game.title);
                     }
                 } else if (api.keys.isAccept(event)) {
                     var game = currentItem.currentGame;
@@ -1688,6 +1713,7 @@ FocusScope {
                 }
             }
         }
+        
         opacity: collectionAxisOpacity
     }
 
@@ -1809,4 +1835,4 @@ FocusScope {
             }
         }
     }       
-}   
+} 
