@@ -19,14 +19,14 @@ import QtQuick 2.7
 Column {
     property int fontSize: vpx(16)
     property int maxHours: 1
-    property int maxBarWidth: 150
+    property int maxBarWidth: 260
 
     height: fontSize + vpx(2)
     spacing: vpx(1)
 
     FontLoader {
         id: customFontLoader
-        source: "font/NetflixSansBold.ttf" // Ruta a la fuente personalizada
+        source: "font/NetflixSansBold.ttf"
     }
 
     Row {
@@ -73,7 +73,6 @@ Column {
             height: vpx(6)
             color: "#5b5a5b"
             visible: game && game.playTime >= 60
-            //visible: game.playTime >= 60 // Mostrar solo si el tiempo de juego es mayor o igual a 1 minuto
             border.color: "#5b5a5b"
             radius: vpx(4)
 
@@ -105,7 +104,7 @@ Column {
                 color: "#eee"
                 font.pixelSize: vpx(13)
                 font.family: customFontLoader.name
-                visible: game && game.playTime >= 60 // Mostrar solo si el tiempo de juego es mayor o igual a 1 minuto
+                visible: game && game.playTime >= 60
                 verticalAlignment: Text.AlignVCenter
             }
         }
