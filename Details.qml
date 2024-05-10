@@ -29,11 +29,9 @@ Item {
         source: game && game.assets && game.assets.logo ? game.assets.logo : ""
         fillMode: Image.PreserveAspectFit
         smooth: true
-        // La visibilidad del logo se controla aquí
         visible: game && game.assets && game.assets.logo && game.assets.logo !== ""
-        // Asigna el tamaño relativo al contenedor padre (Item)
-        width: parent.width * 0.4 // Por ejemplo, ajusta este valor según sea necesario
-        height: parent.height * 0.4 // Por ejemplo, ajusta este valor según sea necesario
+        width: parent.width * 0.4
+        height: parent.height * 0.4
 
         anchors {
             top: parent.top
@@ -41,16 +39,14 @@ Item {
             margins: vpx(10)
         }
 
-        // Aplicamos la animación de opacidad solo cuando el logo es visible
         opacity: 0
 
         Behavior on opacity {
-            OpacityAnimator { duration: 2500 } // Agrega una animación de opacidad con una duración de 1000 milisegundos
+            OpacityAnimator { duration: 2500 }
         }
     }
 
     onGameChanged: {
-        // Reiniciar la animación de opacidad cuando cambia el juego
         logoImage.opacity = 0;
         logoImage.opacity = 1;
     }
