@@ -1,4 +1,4 @@
-# Tema Flixnet_Pus para pegasus-frontend.
+# Tema Flixnet+ para pegasus-frontend.
  - Un tema inspirado en los televisores inteligentes y las aplicaciones de transmisión de video.
 
 Author: Mátyás Mustoha - modified by Gonzalo Abbate
