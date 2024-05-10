@@ -23,7 +23,7 @@ Item {
     function isRecentlyPlayed(lastPlayedDate, playTimeInSeconds) {
         var currentDate = new Date();
         var twoWeeksAgo = new Date(currentDate.getTime() - (7 * 24 * 60 * 60 * 1000));
-        var oneMinuteInSeconds = 60; // 1 minuto en segundos
+        var oneMinuteInSeconds = 60;
 
         return lastPlayedDate > twoWeeksAgo && lastPlayedDate <= currentDate && playTimeInSeconds >= oneMinuteInSeconds;
     }
@@ -31,7 +31,7 @@ Item {
     property bool islastPlayed: isRecentlyPlayed(game.lastPlayed, game.playTime)
 
     property int maxHours: 1
-    property int maxBarWidth: 150 //parent.width * 0.1
+    property int maxBarWidth: 150
 
     Rectangle {
         anchors.fill: parent
@@ -93,11 +93,11 @@ Item {
         height: parent.height * 0.9
 
         Rectangle {
-            anchors.centerIn: parent // Centrar el rectángulo dentro del Item
-            width: parent.width * 1.2 // Hacer el rectángulo un poco más grande que el Item
-            height: parent.height * 1.2 // Hacer el rectángulo un poco más grande que el Item
-            color: "black" // Color del fondo del contenedor
-            opacity: 0.7 // Ajusta el nivel de opacidad según tus preferencias
+            anchors.centerIn: parent
+            width: parent.width * 1.2
+            height: parent.height * 1.2
+            color: "black"
+            opacity: 0.7
             visible: islastPlayed
         }
 
@@ -111,10 +111,10 @@ Item {
 
         Rectangle {
             anchors {
-                bottom: parent.bottom // Alinea la parte inferior del rectángulo exterior con la parte inferior del contenedor padre
+                bottom: parent.bottom
                 horizontalCenter: parent.horizontalCenter
             }
-            width: parent.width * 1 // Establecer un ancho predefinido para el rectángulo exterior
+            width: parent.width * 1
             height: vpx(6)
             color: "#5b5a5b"
             visible: islastPlayed
@@ -122,7 +122,7 @@ Item {
             radius: vpx(4)
 
             Rectangle {
-                width: parent.width * 1 * (game && game.playTime / (maxHours * 60 * 60)) // Ancho de la barra de progreso como porcentaje del rectángulo exterior
+                width: parent.width * 1 * (game && game.playTime / (maxHours * 60 * 60))
                 height: parent.height
                 color: "#ea0000"
                 radius: vpx(6)
