@@ -24,7 +24,7 @@ Item {
     property int size
 
     readonly property real padding: size * 0.2
-    readonly property real textWidth: size * 4 // Ancho fijo para el texto
+    readonly property real textWidth: size * 4
 
     FontLoader {
         id: customFont
@@ -35,7 +35,7 @@ Item {
     height: size + padding * 2
 
     Text {
-        width: root.textWidth // Ancho fijo para el Text
+        width: root.textWidth
         anchors.verticalCenter: parent.verticalCenter
         height: size
 
@@ -43,11 +43,11 @@ Item {
             var textColor = "#aeaeae";
             return "<font color='white'>Jugador:</font> <font color='" + textColor + "'>" + playerCount + "</font>";
         }
-        font.pixelSize: size * 0.90 // Ajusta el tamaño de la fuente aquí
+        font.pixelSize: size * 0.90
         font.family: customFont.name 
         color: "#aeaeae"
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        textFormat: Text.RichText // Permite el uso de etiquetas HTML en el texto
+        textFormat: Text.RichText
     }
 }
