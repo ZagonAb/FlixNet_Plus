@@ -35,7 +35,7 @@ La opción "Trending" nos lleva a la colección "Juegos Recomendados", que prese
 
 ## Mejoras Visuales
 
-- **Efecto Scanlines en Video y Captura:** Se ha implementado el efecto scanlines para mejorar la estética visual.
+- **Efecto Scanlines mediante .png en Video y Captura:** Se ha implementado el efecto scanlines para mejorar la estética visual.
 - **Etiqueta Automática "Seguir Jugando":** Se ha introducido una nueva característica automática: "Segui jugando". Esta etiqueta se mostrará dinámicamente para juegos lanzados en los últimos 7 días, indicando que han sido jugados recientemente. Para los demás juegos, la etiqueta se ocultará automáticamente. Esta funcionalidad mejora la visualización y destaca los juegos más recientemente jugados.
 
 ## Detalles Adicionales
