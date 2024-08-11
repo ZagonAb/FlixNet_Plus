@@ -41,7 +41,7 @@ Column {
 
         Text {
             textFormat: Text.RichText
-            text: "<font color='white'>Lanzamiento: </font><font color='#aeaeae'>" + (game && game.releaseYear > 0 ? game.releaseYear : "") + "</font>"
+            text: "<font color='white'>Release: </font><font color='#aeaeae'>" + (game && game.releaseYear > 0 ? game.releaseYear : "") + "</font>"
             font.pixelSize: vpx(14)
             font.family: customFont.name
             anchors.verticalCenter: parent.verticalCenter
@@ -50,7 +50,7 @@ Column {
 
         Text {
             textFormat: Text.RichText
-            text: "<font color='white'>Desarrollador: </font><font color='#aeaeae'>" + (game ? game.developer : "") +  "</font>"
+            text: "<font color='white'>Developer: </font><font color='#aeaeae'>" + (game ? game.developer : "") +  "</font>"
             font.pixelSize: vpx(14)
             font.family: customFont.name
             anchors.verticalCenter: parent.verticalCenter
@@ -97,7 +97,7 @@ Column {
                     function formatTiempoReproduccion(tiempoSegundos) {
                         var horas = Math.floor(tiempoSegundos / (60 * 60));
                         var minutos = Math.floor((tiempoSegundos % (60 * 60)) / 60);
-                        return "Tiempo de juego:  " + horas + " h y " + minutos + " min";
+                        return "Play time:  " + horas + " h y " + minutos + " min";
                     }
                     return "" + formatTiempoReproduccion(game ? game.playTime : 0);
                 }
