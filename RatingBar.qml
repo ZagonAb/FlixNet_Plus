@@ -32,7 +32,7 @@ Item {
 
     Text {
         anchors.centerIn: parent
-        text: Math.round(percent * 100) + " % de valoración"
+        text: Math.round(percent * 100) + " % rating"
         font.pixelSize: parent.calculatedFontSize
         font.family: customFont.name
         color: "#4ae170"
