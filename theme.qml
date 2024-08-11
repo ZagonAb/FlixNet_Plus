@@ -45,7 +45,7 @@ FocusScope {
     property real iconAncho: 0.30
     property real iconAlto: 0.03
     property string selectedGenreName: ""
-    
+
     onSidebarFocusedChanged: {
         if (!sidebarFocused) {
             selectedIndex = -1;
@@ -54,16 +54,6 @@ FocusScope {
                 selectedIndex = 1;
             }
         }
-    }
-
-    FontLoader {
-        id: mediumFontLoader
-        source: "font/NetflixSansLight.ttf"
-    }
-
-    FontLoader {
-        id: boldFontLoader
-        source: "font/NetflixSansBold.ttf"
     }
        
     Rectangle {
@@ -74,7 +64,6 @@ FocusScope {
         opacity: sidebarFocused ? 1 : 75
         z: sidebarFocused ? 101 : 99
         focus: sidebarFocused
-
 
         LinearGradient {
             width: sidebar.width * 2   
@@ -100,7 +89,7 @@ FocusScope {
 
             Image {
                 id: homeIcon
-                source: selectedIndex === 0 ? "assets/home.png" : "assets/home_inactive.png" 
+                source: selectedIndex === 0 ? "assets/home.svg" : "assets/home_inactive.svg" 
                 width: parent.width * iconAncho
                 height: parent.height * iconAlto
                 anchors {
@@ -108,6 +97,7 @@ FocusScope {
                     top: parent.top 
                     topMargin: parent.height * 0.40 
                 }
+
                 Item {          
                     width: parent.width 
                     height: homeIcon.height 
@@ -116,8 +106,8 @@ FocusScope {
 
                     Text {
                         id: homeText
-                        text: "Inicio"
-                        font.pixelSize: sidebarFocused && selectedIndex === 0 ?  26 : 24
+                        text: "Home"
+                        font.pixelSize: sidebarFocused && selectedIndex === 0 ?  24 : 22
                         font.family: selectedIndex === 0 ? boldFontLoader.name : mediumFontLoader.name
                         color: selectedIndex === 0 ? "white" : "#8c8c8c"
                         visible: sidebarFocused
@@ -130,7 +120,7 @@ FocusScope {
 
             Image {
                 id: searchIcon2
-                source: selectedIndex === 1 ? "assets/search.png" : "assets/search_inactive.png" 
+                source: selectedIndex === 1 ? "assets/search.svg" : "assets/search_inactive.svg" 
                 width: parent.width * iconAncho
                 height: parent.height * iconAlto
                 anchors.centerIn: parent
@@ -143,8 +133,8 @@ FocusScope {
 
                     Text {
                         id: searchText
-                        text: "Búsqueda"
-                        font.pixelSize: sidebarFocused && selectedIndex === 1 ? 26 : 24
+                        text: "Search"
+                        font.pixelSize: sidebarFocused && selectedIndex === 1 ? 24 : 22
                         font.family: selectedIndex === 1 ? boldFontLoader.name : mediumFontLoader.name
                         color: selectedIndex === 1 ? "white" : "#8c8c8c"
                         visible: sidebarFocused
@@ -157,7 +147,7 @@ FocusScope {
 
             Image {
                 id: categoryIcon
-                source: selectedIndex === 2 ? "assets/plus.png" : "assets/plus_inactive.png" 
+                source: selectedIndex === 2 ? "assets/plus.svg" : "assets/plus_inactive.svg" 
                 width: parent.width * iconAncho
                 height: parent.height * iconAlto
                 anchors {
@@ -174,8 +164,8 @@ FocusScope {
 
                     Text {
                         id: categoryText
-                        text: "Mi lista"
-                        font.pixelSize: sidebarFocused && selectedIndex === 2 ? 26 : 24
+                        text: "My list"
+                        font.pixelSize: sidebarFocused && selectedIndex === 2 ? 24 : 22
 
                         font.family: selectedIndex === 2 ? boldFontLoader.name : mediumFontLoader.name
                         color: selectedIndex === 2 ? "white" : "#8c8c8c"
@@ -189,7 +179,7 @@ FocusScope {
 
             Image {
                 id: trendingIcon
-                source: selectedIndex === 3 ? "assets/Trending.png" : "assets/Trending_inactive.png" 
+                source: selectedIndex === 3 ? "assets/trending.svg" : "assets/trending_inactive.svg" 
                 width: parent.width * iconAncho 
                 height: parent.height * iconAlto 
                 anchors {
@@ -206,8 +196,8 @@ FocusScope {
 
                     Text {
                         id: trendingText
-                        text: "Recomendados"
-                        font.pixelSize: sidebarFocused && selectedIndex === 3 ? 26 : 24
+                        text: "Recommended"
+                        font.pixelSize: sidebarFocused && selectedIndex === 3 ? 24 : 22
                         font.family: selectedIndex === 3 ? boldFontLoader.name : mediumFontLoader.name
                         color: selectedIndex === 3 ? "white" : "#8c8c8c"
                         visible: sidebarFocused
@@ -220,7 +210,7 @@ FocusScope {
 
             Image {
                 id: categoriagIcon
-                source: selectedIndex === 4 ? "assets/categoria.png" : "assets/categoria_inactive.png" 
+                source: selectedIndex === 4 ? "assets/category.svg" : "assets/category_inactive.svg" 
                 width: parent.width * iconAncho 
                 height: parent.height * iconAlto 
                 anchors {
@@ -237,8 +227,8 @@ FocusScope {
 
                     Text {
                         id: categoriaText
-                        text: "Categoria"
-                        font.pixelSize: sidebarFocused && selectedIndex === 4 ? 26 : 24
+                        text: "Category"
+                        font.pixelSize: sidebarFocused && selectedIndex === 4 ? 24 : 22
                         font.family: selectedIndex === 4 ? boldFontLoader.name : mediumFontLoader.name
                         color: selectedIndex === 4 ? "white" : "#8c8c8c"
                         visible: sidebarFocused
@@ -264,6 +254,7 @@ FocusScope {
             searchFocused = true; 
             collectionAxis.focus = false;
         }
+
         Keys.onRightPressed: {
             if (sidebarFocused) {
                 sidebarFocused = false;
@@ -318,6 +309,16 @@ FocusScope {
                 collectionAxis.currentIndex = Math.min(collectionAxis.currentIndex, collectionAxis.model.count - 1);
             }
         }
+    }
+
+    FontLoader {
+        id: mediumFontLoader
+        source: "font/NetflixSansLight.ttf"
+    }
+
+    FontLoader {
+        id: boldFontLoader
+        source: "font/NetflixSansBold.ttf"
     }
 
     SortFilterProxyModel {
@@ -379,8 +380,9 @@ FocusScope {
                         Image {
                             width: buttonKeyContainer.width / 3
                             height: parent.height
-                            source: index === 0 ? "assets/del.png" : (index === 1 ? "assets/espacio.png" : (index === 2 ? "assets/sidebar.png" : ""))
+                            source: index === 0 ? "assets/del.svg" : (index === 1 ? "assets/spacebar.svg" : (index === 2 ? "assets/sidebar.svg" : ""))
                             fillMode: Image.PreserveAspectFit
+                             sourceSize { width: 156; height: 156 }
                         }
                     }
                 }
@@ -574,7 +576,7 @@ FocusScope {
                     visible: searchVisible
 
                     Text {
-                        text: "Juegos recién lanzados"
+                        text: "Newly released games"
                         font.bold: true
                         color: "white"
                         font.pixelSize: 20
@@ -695,7 +697,7 @@ FocusScope {
                             
                             Image {
                                 id: searchIcon
-                                source: "assets/search.png"
+                                source: "assets/search.svg"
                                 width: vpx(16)
                                 height: vpx(16)
                                 y:35
@@ -729,7 +731,7 @@ FocusScope {
 
                             Text {
                                 id: searchPlaceholder
-                                text: "Juegos recomendados"
+                                text: "Recommended games"
                                 color: "white"
                                 y: 28
                                 font.family: netflixSansMedium.name
@@ -910,7 +912,7 @@ FocusScope {
                                 visible: !gamesFiltered.hasResults  
                                 
                                 Text {
-                                    text: "No hay coicidencias para tu búsqueda"
+                                    text: "There are no matches for your search"
                                     color: "white"
                                     font.pixelSize: 26
                                     anchors.centerIn: parent
@@ -1443,31 +1445,31 @@ FocusScope {
             property bool favoritesAvailable: false
 
             Component.onCompleted: {
-                var allCollection = { name: "Todos los juegos", shortName: "todoslosjuegos", games: gamesRandon };
+                var allCollection = { name: "All games", shortName: "allgames", games: gamesRandon };
                 collectionsListModel.append(allCollection);
 
-                var recommendedCollection = { name: "Juegos recomendados", shortName: "recomendados", games: gameListModel };
+                var recommendedCollection = { name: "Recommended games", shortName: "recommendedgames", games: gameListModel };
                 collectionsListModel.append(recommendedCollection);
 
-                var allCollection = { name: "Juega con Amigos: Diversión Multijugador Garantizada", shortName: "multijugador", games: multiplayer };
+                var allCollection = { name: "Play with Friends: Guaranteed Multiplayer Fun", shortName: "multiplayer", games: multiplayer };
                 collectionsListModel.append(allCollection);
 
                 if (favoritesProxyModel.count > 0) {
-                    var favoritesCollection = { name: "Mi lista", shortName: "milista", games: favoritesProxyModel };
+                    var favoritesCollection = { name: "My list", shortName: "mylist", games: favoritesProxyModel };
                     collectionsListModel.append(favoritesCollection);
                     collectionsListModel.favoritesIndex = collectionsListModel.count - 1;
                     collectionsListModel.favoritesAvailable = true;
                 }
 
                 if (continuePlayingProxyModel.count > 0) {
-                    var continuePlayingCollection = { name: "Seguir jugando", shortName: "seguirjugando", games: continuePlayingProxyModel };
+                    var continuePlayingCollection = { name: "Continue playing", shortName: "continueplaying", games: continuePlayingProxyModel };
                     collectionsListModel.append(continuePlayingCollection);
                     collectionsListModel.continuePlayingIndex = collectionsListModel.count - 1;
                 }
 
                 for (var i = 0; i < api.collections.count; ++i) {
                     var collection = api.collections.get(i);
-                    if (collection.name !== "Mi lista" && collection.name !== "Seguir jugando") {
+                    if (collection.name !== "My list" && collection.name !== "Continue playing") {
                         collectionsListModel.append(collection);
                     }
                 }
@@ -1600,13 +1602,13 @@ FocusScope {
                     var allIndex = collectionsListModel.allIndex;
                     var continuePlayingIndex = -1;
                     for (var i = 0; i < collectionsListModel.count; ++i) {
-                        if (collectionsListModel.get(i).shortName === "recomendados") {
+                        if (collectionsListModel.get(i).shortName === "recommendedgames") {
                             continuePlayingIndex = i + 1;
                             break;
                         }
                     }
                     if (continuePlayingIndex !== -1) {
-                        var continuePlayingCollection = { name: "Continuar jugando", shortName: "continuarjugando", games: continuePlayingProxyModel };
+                        var continuePlayingCollection = { name: "Continue playing", shortName: "continueplaying", games: continuePlayingProxyModel };
                         collectionsListModel.insert(continuePlayingIndex, continuePlayingCollection);
                         collectionsListModel.continuePlayingIndex = continuePlayingIndex;
                     }
@@ -1626,13 +1628,13 @@ FocusScope {
                     var allIndex = collectionsListModel.allIndex;
                     var favoritesIndex = -1;
                     for (var i = 0; i < collectionsListModel.count; ++i) {
-                        if (collectionsListModel.get(i).shortName === "recomendados") {
+                        if (collectionsListModel.get(i).shortName === "recommendedgames") {
                             favoritesIndex = i + 1;
                             break;
                         }
                     }
                     if (favoritesIndex !== -1) {
-                        var favoritesCollection = { name: "Mi lista", shortName: "milista", games: favoritesProxyModel };
+                        var favoritesCollection = { name: "My list", shortName: "mylist", games: favoritesProxyModel };
                         collectionsListModel.insert(favoritesIndex, favoritesCollection);
                         collectionsListModel.favoritesIndex = favoritesIndex;
                     }
@@ -1754,9 +1756,9 @@ FocusScope {
 
                     Text {
                         id: collectionName
-                        text: name === "todoslosjuegos" ? "Todos los juegos" :
-                              name === "milista" ? "Mi lista" :
-                              name === "continuarjugando" ? "Continuar jugando" :
+                        text: name === "allgames" ? "All games" :
+                              name === "mylist" ? "My list" :
+                              name === "continueplaying" ? "Continue playing" :
                               name
                         color: "white"
                         font.family: netflixsansbold.name
@@ -1776,10 +1778,11 @@ FocusScope {
                         source: "assets/favoriteyes.png"
                         width: parent.height * 0.9
                         height: parent.height * 0.9
+                        sourceSize { width: 45; height: 45 }
                     }
 
                     Text {
-                        text: "  Mi lista   "
+                        text: "  My list   "
                         color: "white"
                         font.family: netflixsansbold.name
                         font.pixelSize: vpx(15)
@@ -1787,7 +1790,7 @@ FocusScope {
 
                     Image {
                         id: favoriteImage
-                        source: gameAxis.currentItem.game.favorite ? "assets/check.png" : "assets/plus.png"
+                        source: gameAxis.currentItem.game.favorite ? "assets/check.svg" : "assets/plus.svg"
                         width: parent.height * 0.9
                         height: parent.height * 0.9
                         rotation: gameAxis.currentItem.game.favorite ? 360 : 0
@@ -1835,4 +1838,4 @@ FocusScope {
             }
         }
     }       
-} 
+}
