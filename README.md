@@ -52,29 +52,14 @@ Ten en cuenta que estos cambios mejorarán tanto la apariencia visual como la fu
 - Requiere elementos del juego para lucir el tema:  "Screenshots,boxFront,Videos y Wheel"  que los puedes obtener de 
 [Skraper](https://www.skraper.net/) y crear los metadatos con [Bellerophon](https://github.com/valsou/bellerophon)
 
-
 # Demostración
-
-
 
 https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/4fcb8fb6-7f3f-4733-9e35-1bf6e41cce62
 
-
-
-![1](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/38202155-9d74-4a7e-8f8a-dd2a206119cf)
-
-
-![2](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/b04b4bab-0224-4414-80e6-1ead2d9e4966)
-
-
-![3](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/29e3f49c-077e-4572-9a11-1c2e0b7f644a)
-
-
-
-![2](https://github.com/ZagonAb/FlixNet_Plus/assets/132770507/45e70dae-1d77-416d-9146-7462cb5d8eda)
-
-
-
+![1](https://github.com/user-attachments/assets/cc4083fa-2c94-4d77-a494-79febfcf32b1)
+![2](https://github.com/user-attachments/assets/d214ce54-8c3f-4441-83f0-c0502df1e7f4)
+![3](https://github.com/user-attachments/assets/11459dba-8e27-4c60-a7af-7e5e92082f2b)
+![4](https://github.com/user-attachments/assets/c6f0a4f1-7bae-4977-8c8c-cca67d182a8c)
 
 ## Instalación
 
