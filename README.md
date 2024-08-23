@@ -46,7 +46,6 @@ Ten en cuenta que estos cambios mejorarán tanto la apariencia visual como la fu
 # Pequeños detalles
 
 - Todos los cambios se han probado en resolución de 1366x768 Windows - GNU/Linux
-- No soy programador por lo que utilizo chatgpt para aprender del código original [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet) y obviamente [qt](https://doc.qt.io/qt-6/gettingstarted.html).
 
 - Usarlo siempre en pantalla completa para una mejor experiencia.
 - Requiere elementos del juego para lucir el tema:  "Screenshots,boxFront,Videos y Wheel"  que los puedes obtener de 
