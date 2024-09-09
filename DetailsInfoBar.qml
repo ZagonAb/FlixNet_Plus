@@ -97,7 +97,7 @@ Column {
                     function formatTiempoReproduccion(tiempoSegundos) {
                         var horas = Math.floor(tiempoSegundos / (60 * 60));
                         var minutos = Math.floor((tiempoSegundos % (60 * 60)) / 60);
-                        return "Play time:  " + horas + " h y " + minutos + " min";
+                        return "Play time:  " + horas + " h and " + minutos + " min";
                     }
                     return "" + formatTiempoReproduccion(game ? game.playTime : 0);
                 }
