@@ -50,23 +50,23 @@ FocusScope {
         if (!sidebarFocused) {
             selectedIndex = -1;
         } else {
-            if (selectedIndex === -1) {            
+            if (selectedIndex === -1) {
                 selectedIndex = 1;
             }
         }
     }
-       
+
     Rectangle {
         id: sidebar
-        width: parent.width * 0.06 
+        width: parent.width * 0.06
         height: parent.height
-        color: "transparent" 
+        color: "transparent"
         opacity: sidebarFocused ? 1 : 75
         z: sidebarFocused ? 101 : 99
         focus: sidebarFocused
 
         LinearGradient {
-            width: sidebar.width * 2   
+            width: sidebar.width * 2
             height: sidebar.height
             anchors.left: sidebar.left
 
@@ -74,9 +74,9 @@ FocusScope {
             end: Qt.point(width, 0)
 
             gradient: Gradient {
-                GradientStop { position: 0.0; color: "#FF000000" } 
+                GradientStop { position: 0.0; color: "#FF000000" }
                 GradientStop { position: 0.7; color: "#88000000" }
-                GradientStop { position: 1.0; color: "#00000000" } 
+                GradientStop { position: 1.0; color: "#00000000" }
             }
         }
 
@@ -89,18 +89,18 @@ FocusScope {
 
             Image {
                 id: homeIcon
-                source: selectedIndex === 0 ? "assets/home.svg" : "assets/home_inactive.svg" 
+                source: selectedIndex === 0 ? "assets/home.svg" : "assets/home_inactive.svg"
                 width: parent.width * iconAncho
                 height: parent.height * iconAlto
                 anchors {
                     horizontalCenter: parent.horizontalCenter
-                    top: parent.top 
-                    topMargin: parent.height * 0.40 
+                    top: parent.top
+                    topMargin: parent.height * 0.40
                 }
 
-                Item {          
-                    width: parent.width 
-                    height: homeIcon.height 
+                Item {
+                    width: parent.width
+                    height: homeIcon.height
                     y: homeIcon.height - 25
                     x: sidebarFocused ? homeIcon.width + 20 : 0
 
@@ -113,20 +113,20 @@ FocusScope {
                         visible: sidebarFocused
                     }
 
-                    Behavior on x { NumberAnimation { duration: 400; easing.type: Easing.InOutCubic  } } 
-                    x: sidebarFocused ? homeIcon.width + 5 : 0 
+                    Behavior on x { NumberAnimation { duration: 400; easing.type: Easing.InOutCubic  } }
+                    x: sidebarFocused ? homeIcon.width + 5 : 0
                 }
             }
 
             Image {
                 id: searchIcon2
-                source: selectedIndex === 1 ? "assets/search.svg" : "assets/search_inactive.svg" 
+                source: selectedIndex === 1 ? "assets/search.svg" : "assets/search_inactive.svg"
                 width: parent.width * iconAncho
                 height: parent.height * iconAlto
                 anchors.centerIn: parent
 
                 Item {
-                    width: parent.width 
+                    width: parent.width
                     height: searchIcon2.height
                     y: searchIcon2.height -27
                     x: sidebarFocused ? categoryIcon.width + 20 : 0
@@ -141,19 +141,19 @@ FocusScope {
                     }
 
                     Behavior on x { NumberAnimation { duration: 500; easing.type: Easing.InOutCubic } }
-                    x: sidebarFocused ? searchIcon2.width + 5 : 0 
+                    x: sidebarFocused ? searchIcon2.width + 5 : 0
                 }
             }
 
             Image {
                 id: categoryIcon
-                source: selectedIndex === 2 ? "assets/plus.svg" : "assets/plus_inactive.svg" 
+                source: selectedIndex === 2 ? "assets/plus.svg" : "assets/plus_inactive.svg"
                 width: parent.width * iconAncho
                 height: parent.height * iconAlto
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
-                    bottomMargin: parent.height * 0.40 
+                    bottomMargin: parent.height * 0.40
                 }
 
                 Item {
@@ -179,9 +179,9 @@ FocusScope {
 
             Image {
                 id: trendingIcon
-                source: selectedIndex === 3 ? "assets/trending.svg" : "assets/trending_inactive.svg" 
-                width: parent.width * iconAncho 
-                height: parent.height * iconAlto 
+                source: selectedIndex === 3 ? "assets/trending.svg" : "assets/trending_inactive.svg"
+                width: parent.width * iconAncho
+                height: parent.height * iconAlto
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -210,9 +210,9 @@ FocusScope {
 
             Image {
                 id: categoriagIcon
-                source: selectedIndex === 4 ? "assets/category.svg" : "assets/category_inactive.svg" 
-                width: parent.width * iconAncho 
-                height: parent.height * iconAlto 
+                source: selectedIndex === 4 ? "assets/category.svg" : "assets/category_inactive.svg"
+                width: parent.width * iconAncho
+                height: parent.height * iconAlto
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -245,20 +245,20 @@ FocusScope {
         }
 
         Keys.onDownPressed: {
-            selectedIndex = Math.min(selectedIndex + 1, 4) 
+            selectedIndex = Math.min(selectedIndex + 1, 4)
         }
 
         Keys.onLeftPressed: {
             selectionMarker.opacity = 0.0;
             sidebarFocused = true;
-            searchFocused = true; 
+            searchFocused = true;
             collectionAxis.focus = false;
         }
 
         Keys.onRightPressed: {
             if (sidebarFocused) {
                 sidebarFocused = false;
-                searchFocused = false; 
+                searchFocused = false;
                 selectionMarker.opacity = 1.0;
                 collectionAxis.focus = true;
                 collectionAxis.currentIndex = Math.min(collectionAxis.currentIndex, collectionAxis.model.count - 1);
@@ -269,7 +269,7 @@ FocusScope {
             if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                 if (selectedIndex === 0) {
                     sidebarFocused = false;
-                    searchFocused = false; 
+                    searchFocused = false;
                     selectionMarker.opacity = 1.0;
                     collectionAxis.focus = true;
                     collectionAxis.currentIndex = 0;
@@ -281,7 +281,7 @@ FocusScope {
                     virtualKeyboardContainer.focus = true;
                 } else if (selectedIndex === 2) {
                     sidebarFocused = false;
-                    searchFocused = false; 
+                    searchFocused = false;
                     selectionMarker.opacity = 1.0;
                     collectionAxis.focus = true;
                     if (favoritesProxyModel.count > 0) {
@@ -289,7 +289,7 @@ FocusScope {
                     }
                 } else if (selectedIndex === 3) {
                     sidebarFocused = false;
-                    searchFocused = false; 
+                    searchFocused = false;
                     selectionMarker.opacity = 1.0;
                     collectionAxis.focus = true;
                     collectionAxis.currentIndex = 1;
@@ -303,7 +303,7 @@ FocusScope {
             } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
                 event.accepted = true;
                 sidebarFocused = false;
-                searchFocused = false; 
+                searchFocused = false;
                 selectionMarker.opacity = 1.0;
                 collectionAxis.focus = true;
                 collectionAxis.currentIndex = Math.min(collectionAxis.currentIndex, collectionAxis.model.count - 1);
@@ -328,28 +328,28 @@ FocusScope {
 
         filters: [
             RegExpFilter {
-                roleName: "title"; 
+                roleName: "title";
                 pattern: "^" + gamesFiltered.searchTerm.trim().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ".+";
-                caseSensitivity: Qt.CaseInsensitive; 
+                caseSensitivity: Qt.CaseInsensitive;
                 enabled: gamesFiltered.searchTerm !== "";
             }
         ]
-        
+
         property bool hasResults: count > 0
     }
 
     Item {
         id: searchBarAndKeyboard
         width: parent.width
-        height: parent.height 
+        height: parent.height
         z: 100
         anchors.left: parent.left
-        anchors.leftMargin: parent.width * 0.04 
+        anchors.leftMargin: parent.width * 0.04
 
         Rectangle {
             width: parent.width * 0.20
-            height: parent.height 
-            color: "black" 
+            height: parent.height
+            color: "black"
             visible: searchVisible
 
             Rectangle {
@@ -367,7 +367,7 @@ FocusScope {
                     bottom: virtualKeyboardContainer.top
                     left: parent.left
                 }
-                
+
                 property int selectedIndex: 0
 
                 Row {
@@ -382,7 +382,7 @@ FocusScope {
                             height: parent.height
                             source: index === 0 ? "assets/del.svg" : (index === 1 ? "assets/spacebar.svg" : (index === 2 ? "assets/sidebar.svg" : ""))
                             fillMode: Image.PreserveAspectFit
-                             sourceSize { width: 156; height: 156 }
+                            sourceSize { width: 156; height: 156 }
                         }
                     }
                 }
@@ -432,7 +432,7 @@ FocusScope {
             Rectangle {
                 id: virtualKeyboardContainer
                 width: parent.width
-                height: parent.height * 0.38 
+                height: parent.height * 0.38
                 color: "#171717"
                 border.color: "#171717"
                 radius: 0
@@ -444,7 +444,7 @@ FocusScope {
                 }
 
                 focus: searchVisible
-                z: 100  
+                z: 100
 
                 Column {
                     anchors.fill: parent
@@ -463,7 +463,7 @@ FocusScope {
                         anchors.horizontalCenter: parent.horizontalCenter
                         columnSpacing: (parent.width - (6 * 40)) / 7
                         rowSpacing: (parent.height - (6 * 40)) / 7
-                         
+
                         Repeater {
                             model: 26 + 10
                             Rectangle {
@@ -507,14 +507,14 @@ FocusScope {
                             if (virtualKeyboardIndex === 5 || virtualKeyboardIndex === 11 || virtualKeyboardIndex === 17 || virtualKeyboardIndex === 23 || virtualKeyboardIndex === 29 || virtualKeyboardIndex === 35 || virtualKeyboardIndex === 41) {
                                 searchVisible = false;
                                 sidebarFocused = true;
-                                
+
                             }
                         }
                     } else if (event.key === Qt.Key_Right) {
                         if (virtualKeyboardIndex < (26 + 12) - 1) {
                             virtualKeyboardIndex++;
                             if (virtualKeyboardIndex === 6 || virtualKeyboardIndex === 12 || virtualKeyboardIndex === 18 || virtualKeyboardIndex === 24 || virtualKeyboardIndex === 30 || virtualKeyboardIndex === 36) {
-                                searchResults.visible 
+                                searchResults.visible
                                 resultsGrid.focus = true;
                                 //navigatedDown = true;
                             }
@@ -580,9 +580,9 @@ FocusScope {
                         font.bold: true
                         color: "white"
                         font.pixelSize: 20
-                        horizontalAlignment: Text.AlignHCenter 
+                        horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        anchors.fill: parent 
+                        anchors.fill: parent
                     }
                 }
 
@@ -590,21 +590,21 @@ FocusScope {
                     id: resultsList
                     width: parent.width
                     height: parent.height - recentGames.height
-                    anchors.top: recentGames.bottom 
-                    model: continuePlayingProxyModel 
+                    anchors.top: recentGames.bottom
+                    model: continuePlayingProxyModel
                     clip: true
 
                     delegate: Rectangle {
                         width: parent ? parent.width : 0
                         height: 30
-                        color: ListView.isCurrentItem && navigatedDown ? "red" : "transparent" 
+                        color: ListView.isCurrentItem && navigatedDown ? "red" : "transparent"
                         border.color: ListView.isCurrentItem && navigatedDown ? "red" : "transparent"
-                        border.width: ListView.isCurrentItem && navigatedDown ? 3 : 0 
+                        border.width: ListView.isCurrentItem && navigatedDown ? 3 : 0
                         radius: 5
 
                         FontLoader {
-                          id: netflixSansBold
-                          source: "font/NetflixSansBold.ttf"
+                            id: netflixSansBold
+                            source: "font/NetflixSansBold.ttf"
                         }
 
                         Text {
@@ -613,7 +613,7 @@ FocusScope {
                             font.family: netflixSansBold.name
                             font.pixelSize: 18
                             verticalAlignment: Text.AlignVCenter
-                            padding: 5 
+                            padding: 5
                             color: "white"
                             wrapMode: Text.WordWrap
                             elide: Text.ElideRight
@@ -641,7 +641,7 @@ FocusScope {
                             if (gameFound) {
                                 sidebarFocused = false;
                                 searchVisible = false;
-                                searchFocused = false; 
+                                searchFocused = false;
                                 selectionMarker.opacity = 1.0;
                                 collectionAxis.focus = true;
                                 gameFound.launch();
@@ -655,16 +655,16 @@ FocusScope {
                         }
                     }
                 }
-            }                
+            }
 
             Item {
                 id: searchResultsContainer
                 width: parent.width * 3.80
-                height: parent.height 
+                height: parent.height
                 anchors.left: parent.right
                 anchors.rightMargin: parent.width
-                z: 100 
-                
+                z: 100
+
                 Rectangle {
                     id: searchBarContainer
                     width: parent.width
@@ -672,7 +672,7 @@ FocusScope {
                     color: "transparent"
                     border.color: "transparent"
                     visible: searchVisible
-                    
+
                     Rectangle {
                         id: searchBar
                         width: parent.width
@@ -689,12 +689,12 @@ FocusScope {
                                 height: parent.height
                                 color: "transparent"
                             }
-                            
+
                             Item {
-                              width: vpx(7)
-                              height: parent.height
+                                width: vpx(7)
+                                height: parent.height
                             }
-                            
+
                             Image {
                                 id: searchIcon
                                 source: "assets/search.svg"
@@ -763,17 +763,17 @@ FocusScope {
                         visible: searchVisible
                         z: 100
                         x:30
-                        
+
                         GridView {
                             id: resultsGrid
                             anchors.fill: parent
                             anchors.centerIn: parent
-                            anchors.horizontalCenter: parent.horizontalCenter 
+                            anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                             model: searchInput.text.trim() === "" ? gameListModel : gamesFiltered
                             cellWidth: (parent.width - 50) / 4
                             cellHeight: (parent.height -50) / 2.10
-                            highlightRangeMode: GridView.StrictlyEnforceRange 
+                            highlightRangeMode: GridView.StrictlyEnforceRange
                             snapMode: GridView.SnapOneRow
                             clip: true
 
@@ -787,7 +787,7 @@ FocusScope {
 
                                 Image {
                                     id: gameImage
-                                    source: model.assets.boxFront 
+                                    source: model.assets.boxFront
                                     anchors.centerIn: parent
                                     width: parent.width - 5
                                     height: parent.height - 5
@@ -826,7 +826,7 @@ FocusScope {
                                     }
                                 }
                             }
-                            
+
                             Rectangle {
                                 id: selectionRectangle
                                 width: resultsGrid.cellWidth - 5
@@ -839,7 +839,7 @@ FocusScope {
                                 Behavior on y { SmoothedAnimation { duration: 150 } }
                                 x: (resultsGrid.currentItem ? resultsGrid.currentItem.x : 0) + resultsGrid.contentX
                             }
-                            
+
                             Keys.onDownPressed: {
                                 resultsGrid.moveCurrentIndexDown()
                             }
@@ -847,10 +847,10 @@ FocusScope {
                             Keys.onUpPressed: {
                                 resultsGrid.moveCurrentIndexUp()
                             }
-                            
+
                             Keys.onRightPressed: {
-                            resultsGrid.moveCurrentIndexRight()
-                            } 
+                                resultsGrid.moveCurrentIndexRight()
+                            }
 
                             Keys.onLeftPressed: {
                                 if (resultsGrid.currentIndex % 4 === 0) {
@@ -863,13 +863,13 @@ FocusScope {
                                 }
                             }
 
-                            Keys.onPressed: {
+                            /*Keys.onPressed: {
                                 if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                                     var selectedGame;
                                     var selectedTitle;
                                     var gameFound;
-                                    
-                                    if (searchInput.text.trim() !== "") {                                       
+
+                                    if (searchInput.text.trim() !== "") {
                                         selectedGame = gamesFiltered.get(resultsGrid.currentIndex);
                                         selectedTitle = selectedGame.title;
 
@@ -897,11 +897,64 @@ FocusScope {
                                     } else {
                                     }
                                 } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
-                                        event.accepted = true;
-                                        virtualKeyboardContainer.focus = true;
-                                        virtualKeyboardIndex = 0
-                                        resultsGrid.focus = false
-                                        navigatedDown = false;
+                                    event.accepted = true;
+                                    virtualKeyboardContainer.focus = true;
+                                    virtualKeyboardIndex = 0
+                                    resultsGrid.focus = false
+                                    navigatedDown = false;
+                                }
+                            }*/
+
+                            Keys.onPressed: {
+                                if (!event.isAutoRepeat && api.keys.isAccept(event)) {
+                                    let selectedGame;
+                                    if (searchInput.text.trim() !== "") {
+                                        selectedGame = gamesFiltered.get(resultsGrid.currentIndex);
+                                    } else {
+                                        selectedGame = gameListModel.get(resultsGrid.currentIndex);
+                                    }
+
+                                    if (selectedGame) {
+                                        let collectionFound = false;
+                                        for (let i = 0; i < api.collections.count; i++) {
+                                            const collection = api.collections.get(i);
+
+                                            for (let j = 0; j < collection.games.count; j++) {
+                                                const game = collection.games.get(j);
+                                                if (game.title === selectedGame.title &&
+                                                    game.assets.video === selectedGame.assets.video &&
+                                                    game.assets.boxFront === selectedGame.assets.boxFront) {
+
+                                                    console.log("Colección actual:", collection.name);
+                                                console.log("Lanzando juego:", game.title);
+                                                game.launch();
+                                                collectionFound = true;
+                                                break;
+                                                    }
+                                            }
+
+                                            if (collectionFound) break;
+                                        }
+
+                                        if (!collectionFound) {
+                                            console.log("El juego no se encontró en ninguna colección.");
+                                        }
+
+                                        sidebarFocused = false;
+                                        searchVisible = false;
+                                        searchFocused = false;
+                                        selectionMarker.opacity = 1.0;
+                                        collectionAxis.focus = true;
+                                    }
+
+                                    event.accepted = true;
+
+                                } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
+                                    event.accepted = true;
+                                    virtualKeyboardContainer.focus = true;
+                                    virtualKeyboardIndex = 0;
+                                    resultsGrid.focus = false;
+                                    navigatedDown = false;
                                 }
                             }
 
@@ -909,8 +962,8 @@ FocusScope {
                                 width: resultsGrid.width
                                 height: resultsGrid.height
                                 color: "transparent"
-                                visible: !gamesFiltered.hasResults  
-                                
+                                visible: !gamesFiltered.hasResults
+
                                 Text {
                                     text: "There are no matches for your search"
                                     color: "white"
@@ -922,7 +975,7 @@ FocusScope {
                             }
                         }
                     }
-                }             
+                }
             }
         }
     }
@@ -992,7 +1045,7 @@ FocusScope {
             whellImage.source = "";
         }
     }
-    
+
     function findGameWithGenre(genre) {
         for (var i = 0; i < api.allGames.count; ++i) {
             var game = api.allGames.get(i);
@@ -1000,7 +1053,7 @@ FocusScope {
                 return game;
             }
         }
-        return null; 
+        return null;
     }
 
     SortFilterProxyModel {
@@ -1019,8 +1072,8 @@ FocusScope {
     Rectangle {
         id: screenBackGround
         width: parent.width
-        height: parent.height 
-        color: "transparent" 
+        height: parent.height
+        color: "transparent"
         x: parent.width * 0.05
         visible: genereVisible
         clip: true
@@ -1038,9 +1091,9 @@ FocusScope {
             SequentialAnimation on x {
                 loops: Animation.Infinite
                 PropertyAnimation {
-                    from: 0 
-                    to: parent.width - genreImage.width 
-                    duration: 10000 
+                    from: 0
+                    to: parent.width - genreImage.width
+                    duration: 10000
                 }
                 PropertyAnimation {
                     from: parent.width - genreImage.width
@@ -1079,12 +1132,12 @@ FocusScope {
             id: whellImage
             source: ""
             visible: genereListView.currentIndex >= 0
-            width: parent.width * 0.2 
-            height: parent.height * 0.1 
-            x: screenBackGround.x + screenBackGround.width * 0.75 - width * 0.5 
+            width: parent.width * 0.2
+            height: parent.height * 0.1
+            x: screenBackGround.x + screenBackGround.width * 0.75 - width * 0.5
             y: rectangleGridView.y - height - parent.height * 0.05
-            opacity: 0 
-           
+            opacity: 0
+
             onSourceChanged: {
                 if (source !== "") {
                     whellImageOpacityAnimation.start();
@@ -1107,17 +1160,17 @@ FocusScope {
 
         Image {
             anchors.fill: parent
-            source: "assets/crt.png" 
+            source: "assets/crt.png"
             fillMode: Image.Tile
             visible: true
-            opacity: 0.2 
+            opacity: 0.2
         }
 
         Rectangle {
             id: rectangleGridView
-            width: parent.width * 0.75 
-            height: parent.height / 4 
-            x: parent.width * 0.25 
+            width: parent.width * 0.75
+            height: parent.height / 4
+            x: parent.width * 0.25
             y: parent.height - rectangleGridView.height
             z: 100
             color: "transparent"
@@ -1126,26 +1179,26 @@ FocusScope {
                 id: gameGridView
                 anchors.fill: parent
                 anchors.centerIn: parent
-                anchors.horizontalCenter: parent.horizontalCenter 
+                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 cellWidth: (parent.width - 100) / 6
                 cellHeight: parent.height  / 1
-                highlightRangeMode: GridView.StrictlyEnforceRange 
+                highlightRangeMode: GridView.StrictlyEnforceRange
                 snapMode: GridView.SnapOneRow
                 clip: true
                 model: genreFilteredModel
-                
+
                 delegate: Item {
                     width: gameGridView.cellWidth -5
                     height: gameGridView.cellHeight -5
-                    
+
                     anchors {
                         margins: - 5
                     }
 
                     Image {
                         id: gameImage
-                        source: model.assets.boxFront 
+                        source: model.assets.boxFront
                         anchors.centerIn: parent
                         width: parent.width - 5
                         height: parent.height - 5
@@ -1189,9 +1242,9 @@ FocusScope {
                 Keys.onUpPressed: {
                     gameGridView.moveCurrentIndexUp()
                 }
-                
+
                 Keys.onRightPressed: {
-                gameGridView.moveCurrentIndexRight()
+                    gameGridView.moveCurrentIndexRight()
                 }
 
                 Keys.onLeftPressed: {
@@ -1258,7 +1311,7 @@ FocusScope {
                 id: genereListView
                 anchors.fill: parent
                 spacing: 15
-                
+
                 property int indexToPosition: -1
 
                 model: {
@@ -1293,11 +1346,11 @@ FocusScope {
                         opacity: genereListView.currentIndex === index ? 1.0 : 0.5
                     }
                 }
-                    
+
                 Keys.onLeftPressed: {
                     genereVisible = false;
                     sidebarFocused = true;
-                    searchFocused = true; 
+                    searchFocused = true;
                 }
 
                 Keys.onRightPressed: {
@@ -1311,7 +1364,7 @@ FocusScope {
                         event.accepted = true;
                         genereVisible = false;
                         sidebarFocused = true;
-                        searchFocused = true; 
+                        searchFocused = true;
                     }
                 }
 
@@ -1412,7 +1465,7 @@ FocusScope {
             right: parent.horizontalCenter
         }
 
-        opacity: virtualKeyboardContainer.focus ? 0.0 :  buttonKeyContainer.focus? 0.0 : resultsGrid.focus? 0.0 : sidebarFocused ? 0.5 : 1.0 
+        opacity: virtualKeyboardContainer.focus ? 0.0 :  buttonKeyContainer.focus? 0.0 : resultsGrid.focus? 0.0 : sidebarFocused ? 0.5 : 1.0
     }
 
     Rectangle {
@@ -1433,10 +1486,10 @@ FocusScope {
     Item {
         id: collectionsItem
         property alias favoritesModel: favoritesProxyModel
-        property bool favoritesVisible: favoritesProxyModel.count > 0 
+        property bool favoritesVisible: favoritesProxyModel.count > 0
         property alias continuePlayingModel: continuePlayingProxyModel
         property bool continuePlayingVisible: continuePlayingProxyModel.count > 0
-    
+
         ListModel {
             id: collectionsListModel
             property int allIndex: 0
@@ -1545,7 +1598,7 @@ FocusScope {
                 }
             }
         }
-          
+
         SortFilterProxyModel {
             id: gamesFiltered2
             sourceModel: api.allGames
@@ -1715,7 +1768,7 @@ FocusScope {
                 }
             }
         }
-        
+
         opacity: collectionAxisOpacity
     }
 
@@ -1757,9 +1810,9 @@ FocusScope {
                     Text {
                         id: collectionName
                         text: name === "allgames" ? "All games" :
-                              name === "mylist" ? "My list" :
-                              name === "continueplaying" ? "Continue playing" :
-                              name
+                        name === "mylist" ? "My list" :
+                        name === "continueplaying" ? "Continue playing" :
+                        name
                         color: "white"
                         font.family: netflixsansbold.name
                         font.pixelSize: vpx(15)
@@ -1819,8 +1872,8 @@ FocusScope {
                 property int fullPathWidth: pathItemCount * cellPaddedWidth
                 path: Path {
                     startX: (gameAxis.model ? gameAxis.model.count >= gameAxis.maxItemCount : false)
-                        ? leftGuideline - cellPaddedWidth * 1.5
-                        : leftGuideline + (cellPaddedWidth * 0.5 - cellSpacing * 0.5);
+                    ? leftGuideline - cellPaddedWidth * 1.5
+                    : leftGuideline + (cellPaddedWidth * 0.5 - cellSpacing * 0.5);
                     startY: cellHeight * 0.5
                     PathLine {
                         x: gameAxis.path.startX + gameAxis.fullPathWidth
@@ -1832,10 +1885,10 @@ FocusScope {
                 highlightRangeMode: PathView.StrictlyEnforceRange
                 clip: true
                 preferredHighlightBegin: (gameAxis.model ? gameAxis.model.count >= gameAxis.maxItemCount : false)
-                    ? (2 * cellPaddedWidth - cellSpacing / 2) / fullPathWidth
-                    : 0;
+                ? (2 * cellPaddedWidth - cellSpacing / 2) / fullPathWidth
+                : 0;
                 preferredHighlightEnd: preferredHighlightBegin
             }
         }
-    }       
+    }
 }
