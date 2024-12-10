@@ -13,8 +13,6 @@
 
 **Visualización de la Fase**
 
-¿Cómo funciona la barra de progreso?
-
 **Fase 0: 1-30 minutos**
 - Durante los primeros 30 minutos de juego, la barra es de color verde. La barra se va llenando a medida que el jugador acumula más minutos, proporcionando una representación visual clara del tiempo jugado en esta fase inicial.
 
