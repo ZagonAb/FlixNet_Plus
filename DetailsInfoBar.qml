@@ -142,12 +142,14 @@ Column {
 
             Text {
                 text: {
-                    if (game && game.playTime >= 3600) {
+                    if (game && game.playTime < 1800) {
+                        return "Phase: 0";
+                    } else if (game && game.playTime >= 1800 && game.playTime < 3600) {
+                        return "Phase: 1";
+                    } else if (game && game.playTime >= 3600) {
                         let hoursPlayed = Math.floor(game.playTime / 3600);
                         let currentPhase = Math.floor(hoursPlayed / 10) + 1;
                         return "Phase: " + currentPhase;
-                    } else {
-                        return "Phase: 1 (Minutes)";
                     }
                 }
                 color: "#ccc"
