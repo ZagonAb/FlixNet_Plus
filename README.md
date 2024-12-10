@@ -17,10 +17,12 @@
 
 **Fase 0: 1-30 minutos**
 - Durante los primeros 30 minutos de juego, la barra es de color verde. La barra se va llenando a medida que el jugador acumula más minutos, proporcionando una representación visual clara del tiempo jugado en esta fase inicial.
+
 ![0](https://github.com/ZagonAb/FlixNet_Plus/blob/769b518a464ae627ab722a5acdad6e330f5fae6d/.meta/screenshots/phase0.png)
 
 **Fase 1: 30-60 minutos**
 - Cuando el tiempo de juego supera los 30 minutos pero no llega a 1 hora, la barra se vuelve azul. Esta fase indica que el jugador está superando la etapa inicial y avanzando en el juego.
+
 ![1](https://github.com/ZagonAb/FlixNet_Plus/blob/769b518a464ae627ab722a5acdad6e330f5fae6d/.meta/screenshots/phase1.png)
 
 **Fase 2: Más de 1 hora**
