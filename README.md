@@ -3,12 +3,38 @@
  - Author: Mátyás Mustoha - modified by Gonzalo Abbate
  - Bifurcado de [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet)
 
-
-
 - Sigo actualizando partes del codigo por lo que puede variar este repositorio. No olvide hacer una copia de su tema instalado.
 - Tambien puede ver las versiones remplazadas [Aqui](https://www.mediafire.com/folder/wycdtzwa6hdoh/FlixNet_Plus_Versiones)
 
 # Cambios Recientes en el Tema
+
+ **Barra de Progreso de Tiempo de Juego y Fases**
+- **La barra de progreso muestra visualmente el tiempo de juego acumulado, ayudando a los jugadores a ver su avance de manera clara y dinámica. A medida que el jugador acumula más tiempo en el juego, la barra cambia de color y se adapta a las diferentes fases de progreso.**
+
+¿Cómo funciona la barra de progreso?
+**Fase 0: 1-30 minutos**
+- Color: Verde (#2ecc71)
+- Descripción: Durante los primeros 30 minutos de juego, la barra es de color verde. La barra se va llenando a medida que el jugador acumula más minutos, proporcionando una representación visual clara del tiempo jugado en esta fase inicial.
+
+**Fase 1: 30-60 minutos**
+- Color: Azul (#3498db)
+- Descripción: Cuando el tiempo de juego supera los 30 minutos pero no llega a 1 hora, la barra se vuelve azul. Esta fase indica que el jugador está superando la etapa inicial y avanzando en el juego.
+
+**Fase 2: Más de 1 hora**
+- Color: Amarillo (#f1c40f) o Rojo (#e74c3c)
+- Descripción: A partir de 1 hora de juego, el color de la barra cambia según el tiempo acumulado:
+- De 1 a 20 horas: La barra es amarilla.
+- Más de 20 horas: La barra se vuelve roja, indicando que el jugador ha alcanzado un nivel de juego avanzado y ha invertido muchas horas en el juego.
+
+**Visualización de la Fase**
+- En cada fase, se muestra el "Phase" correspondiente en el texto al lado de la barra. Por ejemplo:
+- Si el tiempo de juego es menor a 1 hora, se mostrará "Phase: 1 (Minutes)".
+- Si el tiempo supera 1 hora, la fase se actualizará y se mostrará el número de fase correspondiente (por ejemplo, "Phase: 2", "Phase: 3", etc.).
+Ocultación de la Barra
+- Si el tiempo de juego es inferior a 1 minuto, la barra no será visible. Esto garantiza que solo se muestren las barras cuando el tiempo de juego es significativo y aporta información útil al jugador.
+
+**Objetivo de la Barra**
+- La barra y las fases proporcionan una forma visualmente atractiva de seguir el progreso del jugador. A medida que el jugador avanza, no solo puede ver el tiempo jugado, sino también el cambio de color que refleja su progreso en el juego. Esto hace que la experiencia sea más interactiva y motivadora.
 
 ## Interfaz de Usuario
 
@@ -22,14 +48,13 @@
 
 - Se han agregado 4 nuevas colecciones: "Todos los juegos", "Mi lista", "Seguir jugando" y "Juegos recomendados", como una mejora para mantener el orden y la organización en la interfaz.
 - La colección "Mi Lista" y la colección "Seguir Jugando" estarán automáticamente ocultas si no contienen juegos en esas respectivas colecciones, lo que garantiza una interfaz limpia y sin elementos innecesarios. Además, la colección "Seguir Jugando" únicamente contendrá juegos que hayan sido lanzados por más de 1 minuto en los últimos 7 días. Esta característica permite que la colección varíe según la actividad de juego del usuario, evitando acumular una cantidad infinita de juegos lanzados por error o aquellos que han sido jugados hace mucho tiempo. De esta manera, se mantiene la colección fresca y actualizada con los últimos juegos jugados, promoviendo una experiencia de usuario más organizada y centrada en los juegos recientes.
-- **Barra de Progreso con playTime:** Se agregó una barra de progreso utilizando "playTime" para proporcionar información adicional en DetailsInfoBar.
+- ~~**Barra de Progreso con playTime:** Se agregó una barra de progreso utilizando "playTime" para proporcionar información adicional en DetailsInfoBar.~~
 - **Conteo de Juegos Disponibles:** Se muestra la cantidad de juegos disponibles en cada colección con "Juegos disponibles: game.count".
 - Se ha implementado una barra lateral izquierda que facilita el acceso al índice de cada colección nueva:
 La opción "Home" nos permite volver al índice 0 de la interfaz, proporcionando una navegación intuitiva y rápida.
 La opción "Buscar" nos permite buscar entre nuestra amplia lista de colecciones, ahorrándonos tiempo en la interfaz al encontrar rápidamente lo que necesitamos.
 La opción "Plus" nos desplaza a la colección "Mi lista" contendrá todos los juegos que hemos marcado como favoritos, agrupándolos en una sola colección para una fácil accesibilidad.
 La opción "Trending" nos lleva a la colección "Juegos Recomendados", que presenta una selección de 15 juegos aleatorios que podrían ajustarse a nuestros gustos, proporcionando sugerencias emocionantes y variadas.
-
 
 - **Agregar/Quitar Juegos Favoritos con Botón (X):** Se ha añadido la opción de marcar/quitar juegos como favoritos utilizando el botón (X) del mando.
 

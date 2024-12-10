@@ -72,14 +72,46 @@ Column {
             anchors.verticalCenter: parent.verticalCenter
             height: vpx(6)
             color: "#5b5a5b"
-            visible: game && game.playTime >= 60
             border.color: "#5b5a5b"
             radius: vpx(4)
+            visible: game && game.playTime >= 60
 
             Rectangle {
-                width: Math.min(parent.width, maxBarWidth * (Math.min(game && game.playTime / (60 * 60), maxHours) / maxHours))
+                width: game && game.playTime < 1800
+                ? Math.min(parent.width, maxBarWidth * (game.playTime / 1800))
+                : 0
                 height: parent.height
-                color: "#ea0000"
+                color: "#2ecc71"
+                radius: vpx(6)
+
+                Behavior on width {
+                    NumberAnimation { duration: 500 }
+                }
+            }
+
+            Rectangle {
+                width: game && game.playTime >= 1800 && game.playTime < 3600
+                ? Math.min(parent.width, maxBarWidth * ((game.playTime - 1800) / 1800))
+                : 0
+                height: parent.height
+                color: "#3498db"
+                radius: vpx(6)
+
+                Behavior on width {
+                    NumberAnimation { duration: 500 }
+                }
+            }
+
+            Rectangle {
+                width: game && game.playTime >= 3600
+                ? Math.min(parent.width, maxBarWidth * ((Math.floor(game.playTime / 3600) % 10) / 10))
+                : 0
+                height: parent.height
+                color: {
+                    if (!game || game.playTime < 3600) return "#2ecc71";
+                    else if (game.playTime < 3600 * 20) return "#f1c40f";
+                    else return "#e74c3c";
+                }
                 radius: vpx(6)
 
                 Behavior on width {
@@ -97,7 +129,7 @@ Column {
                     function formatTiempoReproduccion(tiempoSegundos) {
                         var horas = Math.floor(tiempoSegundos / (60 * 60));
                         var minutos = Math.floor((tiempoSegundos % (60 * 60)) / 60);
-                        return "Play time:  " + horas + " h and " + minutos + " min";
+                        return "Play time: " + horas + " h and " + minutos + " min";
                     }
                     return "" + formatTiempoReproduccion(game ? game.playTime : 0);
                 }
@@ -107,6 +139,23 @@ Column {
                 visible: game && game.playTime >= 60
                 verticalAlignment: Text.AlignVCenter
             }
+
+            Text {
+                text: {
+                    if (game && game.playTime >= 3600) {
+                        let hoursPlayed = Math.floor(game.playTime / 3600);
+                        let currentPhase = Math.floor(hoursPlayed / 10) + 1;
+                        return "Phase: " + currentPhase;
+                    } else {
+                        return "Phase: 1 (Minutes)";
+                    }
+                }
+                color: "#ccc"
+                font.pixelSize: vpx(13)
+                font.family: customFontLoader.name
+                verticalAlignment: Text.AlignVCenter
+                visible: game && game.playTime >= 60
+            }
         }
     }
 
@@ -114,10 +163,5 @@ Column {
         interval: 1000
         running: game && game.playTime > 0
         repeat: true
-        onTriggered: {
-            if (game.playTime >= maxHours * 60 * 60) {
-                maxHours++;
-            }
-        }
     }
 }

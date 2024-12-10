@@ -14,11 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
 import QtQuick 2.7
 import QtGraphicalEffects 1.0
 
 Item {
     property var game
+    property int maxBarWidth: 150
+    property int maxHours: 1
+
+    function formatTiempoReproduccion(tiempoSegundos) {
+        var horas = Math.floor(tiempoSegundos / (60 * 60));
+        var minutos = Math.floor((tiempoSegundos % (60 * 60)) / 60);
+        return horas + " h y " + minutos + " min";
+    }
 
     function isRecentlyPlayed(lastPlayedDate, playTimeInSeconds) {
         var currentDate = new Date();
@@ -27,11 +36,7 @@ Item {
 
         return lastPlayedDate > twoWeeksAgo && lastPlayedDate <= currentDate && playTimeInSeconds >= oneMinuteInSeconds;
     }
-
     property bool islastPlayed: isRecentlyPlayed(game.lastPlayed, game.playTime)
-
-    property int maxHours: 1
-    property int maxBarWidth: 150
 
     Rectangle {
         anchors.fill: parent
@@ -40,7 +45,6 @@ Item {
 
         Image {
             anchors.centerIn: parent
-
             visible: image.status === Image.Loading
             source: "assets/loading-spinner.png"
 
@@ -53,14 +57,11 @@ Item {
 
         Text {
             text: game.title
-
             width: parent.width * 0.8
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
-
             anchors.centerIn: parent
             visible: !game.assets.gridicon
-
             color: "#eee"
             font {
                 pixelSize: vpx(16)
@@ -71,17 +72,13 @@ Item {
 
     Image {
         id: image
-
         anchors.fill: parent
         visible: source
-
         asynchronous: true
         fillMode: Image.Stretch
-
         source: game.assets.banner || game.assets.steam || game.assets.marquee ||
-                game.assets.tile || game.assets.boxFront || game.assets.poster ||
-                game.assets.cartridge
-
+        game.assets.tile || game.assets.boxFront || game.assets.poster ||
+        game.assets.cartridge
         sourceSize { width: 456; height: 456 }
     }
 
@@ -114,17 +111,50 @@ Item {
                 bottom: parent.bottom
                 horizontalCenter: parent.horizontalCenter
             }
+
             width: parent.width * 1
             height: vpx(6)
             color: "#5b5a5b"
-            visible: islastPlayed
             border.color: "#5b5a5b"
             radius: vpx(4)
+            visible: islastPlayed
 
             Rectangle {
-                width: parent.width * 1 * (game && game.playTime / (maxHours * 60 * 60))
+                width: game && game.playTime < 1800
+                ? Math.min(parent.width, maxBarWidth * (game.playTime / 1800))
+                : 0
                 height: parent.height
-                color: "#ea0000"
+                color: "#2ecc71"
+                radius: vpx(6)
+
+                Behavior on width {
+                    NumberAnimation { duration: 500 }
+                }
+            }
+
+            Rectangle {
+                width: game && game.playTime >= 1800 && game.playTime < 3600
+                ? Math.min(parent.width, maxBarWidth * ((game.playTime - 1800) / 1800))
+                : 0
+                height: parent.height
+                color: "#3498db"
+                radius: vpx(6)
+
+                Behavior on width {
+                    NumberAnimation { duration: 500 }
+                }
+            }
+
+            Rectangle {
+                width: game && game.playTime >= 3600
+                ? Math.min(parent.width, maxBarWidth * ((Math.floor(game.playTime / 3600) % 10) / 10))
+                : 0
+                height: parent.height
+                color: {
+                    if (!game || game.playTime < 3600) return "#2ecc71";
+                    else if (game.playTime < 3600 * 20) return "#f1c40f";
+                    else return "#e74c3c";
+                }
                 radius: vpx(6)
 
                 Behavior on width {
@@ -132,16 +162,11 @@ Item {
                 }
             }
         }
+    }
 
-        Timer {
-            interval: 1000
-            running: game && game.playTime > 0
-            repeat: true
-            onTriggered: {
-                if (game.playTime >= maxHours * 60 * 60) {
-                    maxHours++;
-                }
-            }
-        }
+    Timer {
+        interval: 1000
+        running: game && game.playTime > 0
+        repeat: true
     }
 }
