@@ -981,70 +981,72 @@ FocusScope {
     }
 
     function updateImage(index) {
-        var genresString = api.memory.get("genres");
-        if (genresString) {
-            try {
-                var genresArray = JSON.parse(genresString);
-                if (genresArray && genresArray.length > 0) {
-                    var genreObject = genresArray.find(function(item) {
-                        return item.index === index;
-                    });
+        // Valor por defecto
+        var previousSource = genreImage.source;
+        genreImage.source = "";
 
-                    if (genreObject) {
-                        var genre = genreObject.name;
-                        var game = findGameWithGenre(genre);
-                        if (game && game.assets.screenshots.length > 0) {
-                            var screenshotPath = game.assets.screenshots[0];;
-                            genreImage.source = screenshotPath;
-                        } else {
-                            genreImage.source = "";
-                        }
-                    } else {
-                        genreImage.source = "";
-                    }
-                } else {
-                    genreImage.source = "";
-                }
-            } catch (e) {
-                genreImage.source = "";
+        var genresString = api.memory.get("genres");
+        if (!genresString) {
+            return;
+        }
+
+        try {
+            var genresArray = JSON.parse(genresString);
+            if (!genresArray || genresArray.length === 0) {
+                return;
             }
-        } else {
-            genreImage.source = "";
+
+            var genreObject = genresArray.find(item => item.index === index);
+            if (!genreObject) {
+                return;
+            }
+
+            var genre = genreObject.name;
+            var game = findGameWithGenre(genre);
+            if (game && game.assets.screenshots.length > 0) {
+                var screenshotPath = game.assets.screenshots[0];
+                if (previousSource !== screenshotPath) {
+                    genreImage.source = screenshotPath; // Cambia la imagen solo si es diferente
+                }
+            }
+        } catch (e) {
+            console.warn("Error parsing genres:", e);
         }
     }
+
 
     function updateImageLogo(index) {
-        var genresString = api.memory.get("genres");
-        if (genresString) {
-            try {
-                var genresArray = JSON.parse(genresString);
-                if (genresArray && genresArray.length > 0) {
-                    var genreObject = genresArray.find(function(item) {
-                        return item.index === index;
-                    });
+        whellImage.source = ""; // Valor por defecto
 
-                    if (genreObject) {
-                        var genre = genreObject.name;
-                        var game = findGameWithGenre(genre);
-                        if (game && game.assets.logo.length > 0) {
-                            var logoPath = game.assets.logo;
-                            whellImage.source = logoPath;
-                        } else {
-                            whellImage.source = "";
-                        }
-                    } else {
-                        whellImage.source = "";
-                    }
-                } else {
-                    whellImage.source = "";
-                }
-            } catch (e) {
-                whellImage.source = "";
+        var genresString = api.memory.get("genres");
+        if (!genresString) {
+            return;
+        }
+
+        try {
+            var genresArray = JSON.parse(genresString);
+            if (!genresArray || genresArray.length === 0) {
+                return;
             }
-        } else {
-            whellImage.source = "";
+
+            var genreObject = genresArray.find(function(item) {
+                return item.index === index;
+            });
+
+            if (!genreObject) {
+                return;
+            }
+
+            var genre = genreObject.name;
+            var game = findGameWithGenre(genre);
+            if (game && game.assets.logo.length > 0) {
+                whellImage.source = game.assets.logo;
+            }
+        } catch (e) {
+            console.warn("Error parsing genres:", e);
         }
     }
+
 
     function findGameWithGenre(genre) {
         for (var i = 0; i < api.allGames.count; ++i) {
@@ -1156,7 +1158,7 @@ FocusScope {
                 property: "opacity"
                 from: 0
                 to: 1
-                duration: 1000
+                duration: 1500
                 easing.type: Easing.OutQuad
             }
         }
@@ -1208,6 +1210,20 @@ FocusScope {
                         sourceSize { width: 456; height: 456 }
                         fillMode: Image.Stretch
                         z: 0
+                    }
+                }
+
+                onCurrentIndexChanged: {
+                    if (currentIndex !== -1) {
+                        var game = genreFilteredModel.get(currentIndex);
+
+                        if (game && game.assets.logo) {
+                            whellImage.source = game.assets.logo;
+                        }
+
+                        if (game && game.assets.screenshots.length > 0) {
+                            genreImage.source = game.assets.screenshots[0];
+                        }
                     }
                 }
 

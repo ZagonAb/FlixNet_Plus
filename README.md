@@ -35,6 +35,10 @@
 **Objetivo de la Barra**
 - La barra y las fases proporcionan una forma visualmente atractiva de seguir el progreso del jugador. A medida que el jugador avanza, no solo puede ver el tiempo jugado, sino también el cambio de color que refleja su progreso en el juego. Esto hace que la experiencia sea más interactiva y motivadora.
 
+
+ **Cambios en la captura de pantalla y logo en la "Categoría""**
+- Ahora, tanto la captura de pantalla como el logo del juego se actualizarán dinámicamente según el juego seleccionado en el GridView.
+
 ## Interfaz de Usuario
 
 - **Video por Captura del Juego:** Ahora se incluye un video por captura del juego para mejorar la experiencia visual.
@@ -43,19 +47,22 @@
 - **Utilizando boxFront:** Se ha cambiado la fuente de captura a boxFront para una presentación más uniforme.
 - **Uso de wheel por Texto:** Se ha cambiado texto por wheel del juego, proporcionando una mejor experiencia visual.
 
-## Funcionalidades y Mejoras
+<details>
+<summary>Funcionalidades y Mejoras</summary>
 
 - Se han agregado 4 nuevas colecciones: "Todos los juegos", "Mi lista", "Seguir jugando" y "Juegos recomendados", como una mejora para mantener el orden y la organización en la interfaz.
 - La colección "Mi Lista" y la colección "Seguir Jugando" estarán automáticamente ocultas si no contienen juegos en esas respectivas colecciones, lo que garantiza una interfaz limpia y sin elementos innecesarios. Además, la colección "Seguir Jugando" únicamente contendrá juegos que hayan sido lanzados por más de 1 minuto en los últimos 7 días. Esta característica permite que la colección varíe según la actividad de juego del usuario, evitando acumular una cantidad infinita de juegos lanzados por error o aquellos que han sido jugados hace mucho tiempo. De esta manera, se mantiene la colección fresca y actualizada con los últimos juegos jugados, promoviendo una experiencia de usuario más organizada y centrada en los juegos recientes.
 - ~~**Barra de Progreso con playTime:** Se agregó una barra de progreso utilizando "playTime" para proporcionar información adicional en DetailsInfoBar.~~
 - **Conteo de Juegos Disponibles:** Se muestra la cantidad de juegos disponibles en cada colección con "Juegos disponibles: game.count".
 - Se ha implementado una barra lateral izquierda que facilita el acceso al índice de cada colección nueva:
-La opción "Home" nos permite volver al índice 0 de la interfaz, proporcionando una navegación intuitiva y rápida.
-La opción "Buscar" nos permite buscar entre nuestra amplia lista de colecciones, ahorrándonos tiempo en la interfaz al encontrar rápidamente lo que necesitamos.
-La opción "Plus" nos desplaza a la colección "Mi lista" contendrá todos los juegos que hemos marcado como favoritos, agrupándolos en una sola colección para una fácil accesibilidad.
-La opción "Trending" nos lleva a la colección "Juegos Recomendados", que presenta una selección de 15 juegos aleatorios que podrían ajustarse a nuestros gustos, proporcionando sugerencias emocionantes y variadas.
-
+  - La opción "Home" nos permite volver al índice 0 de la interfaz, proporcionando una navegación intuitiva y rápida.
+  - La opción "Buscar" nos permite buscar entre nuestra amplia lista de colecciones, ahorrándonos tiempo en la interfaz al encontrar rápidamente lo que necesitamos.
+  - La opción "Plus" nos desplaza a la colección "Mi lista", que contendrá todos los juegos que hemos marcado como favoritos, agrupándolos en una sola colección para una fácil accesibilidad.
+  - La opción "Trending" nos lleva a la colección "Juegos Recomendados", que presenta una selección de 15 juegos aleatorios que podrían ajustarse a nuestros gustos, proporcionando sugerencias emocionantes y variadas.
 - **Agregar/Quitar Juegos Favoritos con Botón (X):** Se ha añadido la opción de marcar/quitar juegos como favoritos utilizando el botón (X) del mando.
+
+</details>
+
 
 ## Mejoras Visuales
 
