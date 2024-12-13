@@ -66,7 +66,7 @@
   - La opción "Buscar" nos permite buscar entre nuestra amplia lista de colecciones, ahorrándonos tiempo en la interfaz al encontrar rápidamente lo que necesitamos.
   - La opción "Plus" nos desplaza a la colección "Mi lista", que contendrá todos los juegos que hemos marcado como favoritos, agrupándolos en una sola colección para una fácil accesibilidad.
   - La opción "Trending" nos lleva a la colección "Juegos Recomendados", que presenta una selección de 15 juegos aleatorios que podrían ajustarse a nuestros gustos, proporcionando sugerencias emocionantes y variadas.
-  - La opción "Category" nos muestra una lista con todos los géneros y sus juegos disponibles en nuestra amplia colección. Tenga en cuenta que si su archivo metadata.txt no está debidamente configurado, es decir, si falta el campo "genre", no será posible exhibir el juego en la lista de generos opción.
+  - La opción "Category" nos muestra una lista con todos los géneros y sus juegos disponibles en nuestra amplia colección. Tenga en cuenta que si su archivo metadata.txt no está debidamente configurado, es decir, si falta el campo "genre", no será posible exhibir el juego en la lista de generos.
 
 
 - **Agregar/Quitar Juegos Favoritos con Botón (X):** Se ha añadido la opción de marcar/quitar juegos como favoritos utilizando el botón (X) del mando.
