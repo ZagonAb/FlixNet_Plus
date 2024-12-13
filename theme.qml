@@ -1132,11 +1132,14 @@ FocusScope {
             id: whellImage
             source: ""
             visible: genereListView.currentIndex >= 0
-            width: parent.width * 0.2
-            height: parent.height * 0.1
-            x: screenBackGround.x + screenBackGround.width * 0.75 - width * 0.5
-            y: rectangleGridView.y - height - parent.height * 0.05
+            fillMode: Image.PreserveAspectFit
             opacity: 0
+            width: parent.width * 0.2
+            height: parent.height * 0.3
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.topMargin: parent.height * 0.45
+            anchors.rightMargin: parent.width * 0.10
 
             onSourceChanged: {
                 if (source !== "") {
