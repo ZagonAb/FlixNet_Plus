@@ -6,9 +6,10 @@
 - Sigo actualizando partes del codigo por lo que puede variar este repositorio. No olvide hacer una copia de su tema instalado.
 - Tambien puede ver las versiones remplazadas [Aqui](https://www.mediafire.com/folder/wycdtzwa6hdoh/FlixNet_Plus_Versiones)
 
-# Cambios Recientes en el Tema
+<details>
+<summary>Cambios Recientes en el Tema</summary>
 
- **Barra de Progreso de Tiempo de Juego y Fases**
+**Barra de Progreso de Tiempo de Juego y Fases**
 - **La barra de progreso muestra visualmente el tiempo de juego acumulado, ayudando a los jugadores a ver su avance de manera clara y dinámica. A medida que el jugador acumula más tiempo en el juego, la barra cambia de color y se adapta a las diferentes fases de progreso.**
 
 **Visualización de la Fase**
@@ -25,8 +26,8 @@
 
 **Fase 2: Más de 1 hora**
 - A partir de 1 hora de juego, el color de la barra cambia según el tiempo acumulado:
-- De 1 a 20 horas: La barra es amarilla.
-- Más de 20 horas: La barra se vuelve roja, indicando que el jugador ha alcanzado un nivel de juego avanzado y ha invertido muchas horas en el juego.
+  - De 1 a 20 horas: La barra es amarilla.
+  - Más de 20 horas: La barra se vuelve roja, indicando que el jugador ha alcanzado un nivel de juego avanzado y ha invertido muchas horas en el juego.
 
 ![2](https://github.com/ZagonAb/FlixNet_Plus/blob/769b518a464ae627ab722a5acdad6e330f5fae6d/.meta/screenshots/phase2.png)
 
@@ -35,17 +36,23 @@
 **Objetivo de la Barra**
 - La barra y las fases proporcionan una forma visualmente atractiva de seguir el progreso del jugador. A medida que el jugador avanza, no solo puede ver el tiempo jugado, sino también el cambio de color que refleja su progreso en el juego. Esto hace que la experiencia sea más interactiva y motivadora.
 
-
- **Cambios en la captura de pantalla y logo en la "Categoría""**
+**Cambios en la captura de pantalla y logo en la "Categoría"**
 - Ahora, tanto la captura de pantalla como el logo del juego se actualizarán dinámicamente según el juego seleccionado en el GridView.
 
-## Interfaz de Usuario
+</details>
+
+
+<details>
+<summary>Interfaz de Usuario</summary>
 
 - **Video por Captura del Juego:** Ahora se incluye un video por captura del juego para mejorar la experiencia visual.
 - **Captura al Final del Video:** Se agregó una captura al final del video para evitar bucles de reproducción.
 - **Relación de Aspecto 10:16:** El tema utiliza ahora una relación de aspecto de 10:16 en los boxfront para mejorar la visualización.
 - **Utilizando boxFront:** Se ha cambiado la fuente de captura a boxFront para una presentación más uniforme.
 - **Uso de wheel por Texto:** Se ha cambiado texto por wheel del juego, proporcionando una mejor experiencia visual.
+
+</details>
+
 
 <details>
 <summary>Funcionalidades y Mejoras</summary>
@@ -64,16 +71,20 @@
 </details>
 
 
-## Mejoras Visuales
+<details>
+<summary>Mejoras Visuales</summary>
 
 - **Efecto Scanlines mediante .png en Video y Captura:** Se ha implementado el efecto scanlines para mejorar la estética visual.
-- **Etiqueta Automática "Seguir Jugando":** Se ha introducido una nueva característica automática: "Segui jugando". Esta etiqueta se mostrará dinámicamente para juegos lanzados en los últimos 7 días, indicando que han sido jugados recientemente. Para los demás juegos, la etiqueta se ocultará automáticamente. Esta funcionalidad mejora la visualización y destaca los juegos más recientemente jugados.
+- **Etiqueta Automática "Seguir Jugando":** Se ha introducido una nueva característica automática: "Seguir jugando". Esta etiqueta se mostrará dinámicamente para juegos lanzados en los últimos 7 días, indicando que han sido jugados recientemente. Para los demás juegos, la etiqueta se ocultará automáticamente. Esta funcionalidad mejora la visualización y destaca los juegos más recientemente jugados.
+
+</details>
+
 
 ## Detalles Adicionales
 
 - **Mejoras Insignificantes:** Se han realizado ajustes y mejoras adicionales para una experiencia más refinada.
-
 Ten en cuenta que estos cambios mejorarán tanto la apariencia visual como la funcionalidad del tema, ofreciendo a los usuarios una experiencia más completa y atractiva.
+
 # Pequeños detalles
 
 - Todos los cambios se han probado en resolución de 1366x768 Windows - GNU/Linux
