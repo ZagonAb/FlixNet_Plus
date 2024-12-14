@@ -120,43 +120,48 @@ Item {
             visible: islastPlayed
 
             Rectangle {
-                width: game && game.playTime < 1800
-                ? Math.min(parent.width, maxBarWidth * (game.playTime / 1800))
+                width: game && game.playTime < 3600
+                ? Math.min(parent.width, maxBarWidth * (game.playTime / 3600))
                 : 0
                 height: parent.height
                 color: "#2ecc71"
                 radius: vpx(6)
-
                 Behavior on width {
                     NumberAnimation { duration: 500 }
                 }
             }
 
             Rectangle {
-                width: game && game.playTime >= 1800 && game.playTime < 3600
-                ? Math.min(parent.width, maxBarWidth * ((game.playTime - 1800) / 1800))
+                width: game && game.playTime >= 3600 && game.playTime < (4 * 3600)
+                ? Math.min(parent.width, maxBarWidth * ((game.playTime - 3600) / (3 * 3600)))
                 : 0
                 height: parent.height
                 color: "#3498db"
                 radius: vpx(6)
-
                 Behavior on width {
                     NumberAnimation { duration: 500 }
                 }
             }
 
             Rectangle {
-                width: game && game.playTime >= 3600
-                ? Math.min(parent.width, maxBarWidth * ((Math.floor(game.playTime / 3600) % 10) / 10))
+                width: game && game.playTime >= (4 * 3600) && game.playTime < (20 * 3600)
+                ? Math.min(parent.width, maxBarWidth * ((game.playTime - (4 * 3600)) / (16 * 3600)))
                 : 0
                 height: parent.height
-                color: {
-                    if (!game || game.playTime < 3600) return "#2ecc71";
-                    else if (game.playTime < 3600 * 20) return "#f1c40f";
-                    else return "#e74c3c";
-                }
+                color: "#f1c40f"
                 radius: vpx(6)
+                Behavior on width {
+                    NumberAnimation { duration: 500 }
+                }
+            }
 
+            Rectangle {
+                width: game && game.playTime >= (20 * 3600)
+                ? Math.min(parent.width, maxBarWidth * ((((game.playTime - (20 * 3600)) % (10 * 3600)) / (10 * 3600))))
+                : 0
+                height: parent.height
+                color: "#e74c3c"
+                radius: vpx(6)
                 Behavior on width {
                     NumberAnimation { duration: 500 }
                 }
