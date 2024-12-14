@@ -29,7 +29,6 @@ Esta fase indica que el jugador está superando la etapa inicial y avanzando en 
 **Fase 2: 4-20 horas**
 - A partir de las 4 horas de juego y hasta las 20 horas acumuladas, el color de la barra cambia a amarillo.
 Este color representa un compromiso más prolongado con el juego y un avance considerable en su progreso.
-  -
 
 ![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase2.png)
 
