@@ -32,13 +32,12 @@ Este color representa un compromiso más prolongado con el juego y un avance con
 
 ![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase2.png)
 
-- Fase 3 y posteriores: Más de 20 horas (rojo)
-
-![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase3.png)
+**Fase 3 y posteriores: Más de 20 horas**
 
  Cuando el tiempo de juego supera las 20 horas, la barra se vuelve roja, indicando un nivel avanzado de juego.
 Las fases adicionales (Fase 3 en adelante) se calculan automáticamente cada 10 horas adicionales de tiempo jugado.
 
+![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase3.png)
 
 **Detalles Adicionales**
 
