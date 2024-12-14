@@ -32,8 +32,6 @@ Este color representa un compromiso más prolongado con el juego y un avance con
 
 ![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase2.png)
 
-- Si el tiempo de juego es inferior a 1 minuto, la barra no será visible. Esto garantiza que solo se muestren las barras cuando el tiempo de juego es significativo y aporta información útil al jugador.
-
 - Fase 3 y posteriores: Más de 20 horas (rojo)
 
 ![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase3.png)
