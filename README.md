@@ -14,27 +14,43 @@
 
 **Visualización de la Fase**
 
-**Fase 0: 1-30 minutos**
-- Durante los primeros 30 minutos de juego, la barra es de color verde. La barra se va llenando a medida que el jugador acumula más minutos, proporcionando una representación visual clara del tiempo jugado en esta fase inicial.
+**Fase 0: 1-60 minutos**
+- Durante los primeros 60 minutos de juego, la barra es de color verde.
+La barra se va llenando a medida que el jugador acumula más minutos, proporcionando una representación visual clara del tiempo jugado en esta fase inicial.
 
-![0](https://github.com/ZagonAb/FlixNet_Plus/blob/769b518a464ae627ab722a5acdad6e330f5fae6d/.meta/screenshots/phase0.png)
+![0](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase0.png)
 
-**Fase 1: 30-60 minutos**
-- Cuando el tiempo de juego supera los 30 minutos pero no llega a 1 hora, la barra se vuelve azul. Esta fase indica que el jugador está superando la etapa inicial y avanzando en el juego.
+**Fase 1: 1-4 horas**
+- Cuando el tiempo de juego supera los 60 minutos pero no llega a las 4 horas, la barra se vuelve azul.
+Esta fase indica que el jugador está superando la etapa inicial y avanzando en el juego.
 
-![1](https://github.com/ZagonAb/FlixNet_Plus/blob/769b518a464ae627ab722a5acdad6e330f5fae6d/.meta/screenshots/phase1.png)
+![1](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase1.png)
 
-**Fase 2: Más de 1 hora**
-- A partir de 1 hora de juego, el color de la barra cambia según el tiempo acumulado:
-  - De 1 a 20 horas: La barra es amarilla.
-  - Más de 20 horas: La barra se vuelve roja, indicando que el jugador ha alcanzado un nivel de juego avanzado y ha invertido muchas horas en el juego.
+**Fase 2: 4-20 horas**
+- A partir de las 4 horas de juego y hasta las 20 horas acumuladas, el color de la barra cambia a amarillo.
+Este color representa un compromiso más prolongado con el juego y un avance considerable en su progreso.
+  -
 
-![2](https://github.com/ZagonAb/FlixNet_Plus/blob/769b518a464ae627ab722a5acdad6e330f5fae6d/.meta/screenshots/phase2.png)
+![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase2.png)
 
 - Si el tiempo de juego es inferior a 1 minuto, la barra no será visible. Esto garantiza que solo se muestren las barras cuando el tiempo de juego es significativo y aporta información útil al jugador.
 
+- Fase 3 y posteriores: Más de 20 horas (rojo)
+
+![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase3.png)
+
+ Cuando el tiempo de juego supera las 20 horas, la barra se vuelve roja, indicando un nivel avanzado de juego.
+Las fases adicionales (Fase 3 en adelante) se calculan automáticamente cada 10 horas adicionales de tiempo jugado.
+
+
+**Detalles Adicionales**
+
+-Si el tiempo de juego es inferior a 1 minuto, la barra no será visible. Esto garantiza que solo se muestren las barras cuando el tiempo de juego es significativo y aporta información útil al jugador.
+
 **Objetivo de la Barra**
-- La barra y las fases proporcionan una forma visualmente atractiva de seguir el progreso del jugador. A medida que el jugador avanza, no solo puede ver el tiempo jugado, sino también el cambio de color que refleja su progreso en el juego. Esto hace que la experiencia sea más interactiva y motivadora.
+La barra y las fases proporcionan una forma visualmente atractiva de seguir el progreso del jugador.
+
+
 
 **Cambios en la captura de pantalla y logo en la "Categoría"**
 - Ahora, tanto la captura de pantalla como el logo del juego se actualizarán dinámicamente según el juego seleccionado en el GridView.
