@@ -9,7 +9,8 @@
 
 
 <details>
-<summary>Cambios Recientes en el Tema 12/24</summary>
+<summary>Cambios Recientes en el Tema 12/24 </summary>
+
 
   <details>
   <summary>Mejoras en Category</summary>
