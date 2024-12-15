@@ -41,7 +41,7 @@ Las fases adicionales (Fase 3 en adelante) se calculan automáticamente cada 10 
 
 **Detalles Adicionales**
 
--Si el tiempo de juego es inferior a 1 minuto, la barra no será visible. Esto garantiza que solo se muestren las barras cuando el tiempo de juego es significativo y aporta información útil al jugador.
+- Si el tiempo de juego es inferior a 1 minuto, la barra no será visible. Esto garantiza que solo se muestren las barras cuando el tiempo de juego es significativo y aporta información útil al jugador.
 
 **Objetivo de la Barra**
 La barra y las fases proporcionan una forma visualmente atractiva de seguir el progreso del jugador.
