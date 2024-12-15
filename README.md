@@ -7,66 +7,71 @@
 - Tambien puede ver las versiones remplazadas [Aqui](https://www.mediafire.com/folder/wycdtzwa6hdoh/FlixNet_Plus_Versiones)
 
 
-<details>
-<summary>Mejoras en Category</summary>
-
-- Se ha actualizado el modelo de **"Category"** para mejorar y simplificar el código, con el fin de optimizar el rendimiento y ofrecer una visualización más clara de los "géneros". En el sistema anterior, cada título podía tener su propio género, lo que significaba que podía haber tantos géneros como títulos en el lisview, lo que resultaba complicado de gestionar y poco atractivo para el usuario final.
-
-**Recopilación de géneros**
-- La Recopilación  de géneros consiste en revisar todos los juegos de la biblioteca, extraer y normalizar los nombres de los géneros. Luego, se agrupan los juegos por una categoría base, tomando la primera palabra de cada género (por ejemplo, "Action Adventure" y "Action RPG" se agrupan bajo "**Action**"). A continuación, se crea un modelo de categorías que incluye el nombre de la categoría, el número de juegos en ella y la lista de juegos correspondientes. Finalmente, las categorías se ordenan según el número de juegos, de mayor a menor.
-
-**Proceso de ordenamiento**
-- Si hay categorías almacenadas en **api.memory**, se valida que los juegos en cada categoría aún existan en **api.allGames** (lo que requiere activar la opción "Mostrar solo juegos existentes" en la configuración de Pegasus Frontend). Si esta opción no está activada, los juegos pueden aparecer en las categorías pero no ser ejecutables, lo que afecta negativamente la experiencia del usuario. En caso de que algún juego ya no exista, se elimina, y si una categoría se queda sin juegos, también se elimina. Si no quedan categorías válidas o no hay categorías, se procesan desde cero utilizando **api.allGames**, y luego se actualiza **api.memory** con las categorías validadas. Este proceso mantiene las categorías actualizadas, optimiza el rendimiento al mantenerlas en memoria, se adapta a los cambios en la biblioteca de juegos y elimina las referencias a juegos eliminados.
-
-![Category](https://github.com/ZagonAb/FlixNet_Plus/blob/d2d2ca920ad0247228c9a6cacf6635050fc95e6f/.meta/screenshots/category.png)
-
-</details>
 
 <details>
-<summary>Cambios Recientes en el Tema</summary>
+<summary>Cambios Recientes en el Tema 12/24</summary>
 
-**Barra de Progreso de Tiempo de Juego y Fases**
-- **La barra de progreso muestra visualmente el tiempo de juego acumulado, ayudando a los jugadores a ver su avance de manera clara y dinámica. A medida que el jugador acumula más tiempo en el juego, la barra cambia de color y se adapta a las diferentes fases de progreso.**
+  <details>
+  <summary>Mejoras en Category</summary>
 
-**Visualización de la Fase**
+  - Se ha actualizado el modelo de **"Category"** para mejorar y simplificar el código, con el fin de optimizar el rendimiento y ofrecer una visualización más clara de los "géneros". En el sistema anterior, cada título podía tener su propio género, lo que significaba que podía haber tantos géneros como títulos en el lisview, lo que resultaba complicado de gestionar y poco atractivo para el usuario final.
 
-**Fase 0: 1-60 minutos**
-- Durante los primeros 60 minutos de juego, la barra es de color verde.
-La barra se va llenando a medida que el jugador acumula más minutos, proporcionando una representación visual clara del tiempo jugado en esta fase inicial.
+  **Recopilación de géneros**
+  - La Recopilación  de géneros consiste en revisar todos los juegos de la biblioteca, extraer y normalizar los nombres de los géneros. Luego, se agrupan los juegos por una categoría base, tomando la primera palabra de cada género (por ejemplo, "Action Adventure" y "Action RPG" se agrupan bajo "**Action**"). A continuación, se crea un modelo de categorías que incluye el nombre de la categoría, el número de juegos en ella y la lista de juegos correspondientes. Finalmente, las categorías se ordenan según el número de juegos, de mayor a menor.
 
-![0](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase0.png)
+  **Proceso de ordenamiento**
+  - Si hay categorías almacenadas en **api.memory**, se valida que los juegos en cada categoría aún existan en **api.allGames** (lo que requiere activar la opción "Mostrar solo juegos existentes" en la configuración de Pegasus Frontend). Si esta opción no está activada, los juegos pueden aparecer en las categorías pero no ser ejecutables, lo que afecta negativamente la experiencia del usuario. En caso de que algún juego ya no exista, se elimina, y si una categoría se queda sin juegos, también se elimina. Si no quedan categorías válidas o no hay categorías, se procesan desde cero utilizando **api.allGames**, y luego se actualiza **api.memory** con las categorías validadas. Este proceso mantiene las categorías actualizadas, optimiza el rendimiento al mantenerlas en memoria, se adapta a los cambios en la biblioteca de juegos y elimina las referencias a juegos eliminados.
 
-**Fase 1: 1-4 horas**
-- Cuando el tiempo de juego supera los 60 minutos pero no llega a las 4 horas, la barra se vuelve azul.
-Esta fase indica que el jugador está superando la etapa inicial y avanzando en el juego.
+  ![Category](https://github.com/ZagonAb/FlixNet_Plus/blob/d2d2ca920ad0247228c9a6cacf6635050fc95e6f/.meta/screenshots/category.png)
 
-![1](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase1.png)
+  </details>
 
-**Fase 2: 4-20 horas**
-- A partir de las 4 horas de juego y hasta las 20 horas acumuladas, el color de la barra cambia a amarillo.
-Este color representa un compromiso más prolongado con el juego y un avance considerable en su progreso.
+  <details>
+  <summary>Mejoras en la barra de progreso</summary>
+  **Barra de Progreso de Tiempo de Juego y Fases**
+  - **La barra de progreso muestra visualmente el tiempo de juego acumulado, ayudando a los jugadores a ver su avance de manera clara y dinámica. A medida que el jugador acumula más tiempo en el juego, la barra cambia de color y se adapta a las diferentes fases de progreso.**
 
-![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase2.png)
+  **Visualización de la Fase**
 
-**Fase 3 y posteriores: Más de 20 horas**
+  **Fase 0: 1-60 minutos**
+  - Durante los primeros 60 minutos de juego, la barra es de color verde.
+  La barra se va llenando a medida que el jugador acumula más minutos, proporcionando una representación visual clara del tiempo jugado en esta fase inicial.
 
-- Cuando el tiempo de juego supera las 20 horas, la barra se vuelve roja, indicando un nivel avanzado de juego.
-Las fases adicionales (Fase 3 en adelante) se calculan automáticamente cada 10 horas adicionales de tiempo jugado.
+  ![0](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase0.png)
 
-![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase3.png)
+  **Fase 1: 1-4 horas**
+  - Cuando el tiempo de juego supera los 60 minutos pero no llega a las 4 horas, la barra se vuelve azul.
+  Esta fase indica que el jugador está superando la etapa inicial y avanzando en el juego.
 
-**Detalles Adicionales**
+  ![1](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase1.png)
 
-- Si el tiempo de juego es inferior a 1 minuto, la barra no será visible. Esto garantiza que solo se muestren las barras cuando el tiempo de juego es significativo y aporta información útil al jugador.
+  **Fase 2: 4-20 horas**
+  - A partir de las 4 horas de juego y hasta las 20 horas acumuladas, el color de la barra cambia a amarillo.
+  Este color representa un compromiso más prolongado con el juego y un avance considerable en su progreso.
 
-**Objetivo de la Barra**
-La barra y las fases proporcionan una forma visualmente atractiva de seguir el progreso del jugador.
+  ![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase2.png)
+
+  **Fase 3 y posteriores: Más de 20 horas**
+
+  - Cuando el tiempo de juego supera las 20 horas, la barra se vuelve roja, indicando un nivel avanzado de juego.
+  Las fases adicionales (Fase 3 en adelante) se calculan automáticamente cada 10 horas adicionales de tiempo jugado.
+
+  ![2](https://github.com/ZagonAb/FlixNet_Plus/blob/1f46433a71a69cc70798fae9fcdaee46077edfa2/.meta/screenshots/phase3.png)
+
+  **Detalles Adicionales**
+
+  - Si el tiempo de juego es inferior a 1 minuto, la barra no será visible. Esto garantiza que solo se muestren las barras cuando el tiempo de juego es significativo y aporta información útil al jugador.
+
+  **Objetivo de la Barra**
+  La barra y las fases proporcionan una forma visualmente atractiva de seguir el progreso del jugador.
 
 
 
-**Cambios en la captura de pantalla y logo en la "Categoría"**
-- Ahora, tanto la captura de pantalla como el logo del juego se actualizarán dinámicamente según el juego seleccionado en el GridView.
-
+  **Cambios en la captura de pantalla y logo en la "Categoría"**
+  - Ahora, tanto la captura de pantalla como el logo del juego se actualizarán dinámicamente según el juego seleccionado en el GridView.
+  
+  </details>
+  
 </details>
 
 
