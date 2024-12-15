@@ -9,7 +9,8 @@
 
 <details>
 <summary>Mejoras en Category</summary>
-- Se ha actualizado el modelo de "**Category**" para mejorar y simplificar el código, con el fin de optimizar el rendimiento y ofrecer una visualización más clara de los "géneros". En el sistema anterior, cada título podía tener su propio género, lo que significaba que podía haber tantos géneros como títulos en el lisview, lo que resultaba complicado de gestionar y poco atractivo para el usuario final.
+
+- Se ha actualizado el modelo de **"Category"** para mejorar y simplificar el código, con el fin de optimizar el rendimiento y ofrecer una visualización más clara de los "géneros". En el sistema anterior, cada título podía tener su propio género, lo que significaba que podía haber tantos géneros como títulos en el lisview, lo que resultaba complicado de gestionar y poco atractivo para el usuario final.
 
 **Recopilación de géneros**
 - La Recopilación  de géneros consiste en revisar todos los juegos de la biblioteca, extraer y normalizar los nombres de los géneros. Luego, se agrupan los juegos por una categoría base, tomando la primera palabra de cada género (por ejemplo, "Action Adventure" y "Action RPG" se agrupan bajo "**Action**"). A continuación, se crea un modelo de categorías que incluye el nombre de la categoría, el número de juegos en ella y la lista de juegos correspondientes. Finalmente, las categorías se ordenan según el número de juegos, de mayor a menor.
@@ -18,7 +19,6 @@
 - Si hay categorías almacenadas en **api.memory**, se valida que los juegos en cada categoría aún existan en **api.allGames** (lo que requiere activar la opción "Mostrar solo juegos existentes" en la configuración de Pegasus Frontend). Si esta opción no está activada, los juegos pueden aparecer en las categorías pero no ser ejecutables, lo que afecta negativamente la experiencia del usuario. En caso de que algún juego ya no exista, se elimina, y si una categoría se queda sin juegos, también se elimina. Si no quedan categorías válidas o no hay categorías, se procesan desde cero utilizando **api.allGames**, y luego se actualiza **api.memory** con las categorías validadas. Este proceso mantiene las categorías actualizadas, optimiza el rendimiento al mantenerlas en memoria, se adapta a los cambios en la biblioteca de juegos y elimina las referencias a juegos eliminados.
 
 ![Category](https://github.com/ZagonAb/FlixNet_Plus/blob/d2d2ca920ad0247228c9a6cacf6635050fc95e6f/.meta/screenshots/category.png)
-
 
 </details>
 
