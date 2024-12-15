@@ -44,7 +44,6 @@ FocusScope {
     property bool wrapAround: true
     property real iconAncho: 0.30
     property real iconAlto: 0.03
-    property string selectedGenreName: ""
 
     onSidebarFocusedChanged: {
         if (!sidebarFocused) {
@@ -747,7 +746,7 @@ FocusScope {
                         }
                     }
                 }
-                //GridView
+
                 Rectangle {
                     width: parent.width
                     height: parent.height
@@ -863,48 +862,6 @@ FocusScope {
                                 }
                             }
 
-                            /*Keys.onPressed: {
-                                if (!event.isAutoRepeat && api.keys.isAccept(event)) {
-                                    var selectedGame;
-                                    var selectedTitle;
-                                    var gameFound;
-
-                                    if (searchInput.text.trim() !== "") {
-                                        selectedGame = gamesFiltered.get(resultsGrid.currentIndex);
-                                        selectedTitle = selectedGame.title;
-
-                                        var gamesArray = api.allGames.toVarArray();
-                                        gameFound = gamesArray.find(function(game) {
-                                            return game.title === selectedTitle;
-                                        });
-                                    } else {
-                                        selectedGame = gameListModel.get(resultsGrid.currentIndex);
-                                        selectedTitle = selectedGame.title;
-
-                                        var gamesArray = api.allGames.toVarArray();
-                                        gameFound = gamesArray.find(function(game) {
-                                            return game.title === selectedTitle;
-                                        });
-                                    }
-
-                                    if (gameFound) {
-                                        sidebarFocused = false;
-                                        searchVisible = false;
-                                        searchFocused = false;
-                                        selectionMarker.opacity = 1.0;
-                                        collectionAxis.focus = true;
-                                        gameFound.launch();
-                                    } else {
-                                    }
-                                } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
-                                    event.accepted = true;
-                                    virtualKeyboardContainer.focus = true;
-                                    virtualKeyboardIndex = 0
-                                    resultsGrid.focus = false
-                                    navigatedDown = false;
-                                }
-                            }*/
-
                             Keys.onPressed: {
                                 if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                                     let selectedGame;
@@ -980,95 +937,42 @@ FocusScope {
         }
     }
 
-    function updateImage(index) {
-        // Valor por defecto
-        var previousSource = genreImage.source;
-        genreImage.source = "";
 
-        var genresString = api.memory.get("genres");
-        if (!genresString) {
-            return;
+    function updateInitialImages() {
+        if (genreFilteredModel.count > 0) {
+            var firstGame = genreFilteredModel.get(0);
+
+            if (firstGame.assets.screenshots.length > 0) {
+                genreImage.source = firstGame.assets.screenshots[0];
+            }
+
+            if (firstGame.assets.logo) {
+                whellImage.source = firstGame.assets.logo;
+            }
+        } else {
+
+            genreImage.source = "";
+            whellImage.source = "";
         }
+    }
 
-        try {
-            var genresArray = JSON.parse(genresString);
-            if (!genresArray || genresArray.length === 0) {
-                return;
-            }
+    ListModel {
+        id: genreFilteredModel
 
-            var genreObject = genresArray.find(item => item.index === index);
-            if (!genreObject) {
-                return;
-            }
+        function filterCategory(category) {
+            clear();
+            for (var i = 0; i < api.allGames.count; i++) {
+                var game = api.allGames.get(i);
+                var gameCategories = game.genreList.map(function(genre) {
+                    return genre.split(/[\s\/-]/)[0].toLowerCase();
+                });
 
-            var genre = genreObject.name;
-            var game = findGameWithGenre(genre);
-            if (game && game.assets.screenshots.length > 0) {
-                var screenshotPath = game.assets.screenshots[0];
-                if (previousSource !== screenshotPath) {
-                    genreImage.source = screenshotPath; // Cambia la imagen solo si es diferente
+                if (gameCategories.includes(category.toLowerCase())) {
+                    append(game);
                 }
             }
-        } catch (e) {
-            console.warn("Error parsing genres:", e);
+            updateInitialImages();
         }
-    }
-
-
-    function updateImageLogo(index) {
-        whellImage.source = ""; // Valor por defecto
-
-        var genresString = api.memory.get("genres");
-        if (!genresString) {
-            return;
-        }
-
-        try {
-            var genresArray = JSON.parse(genresString);
-            if (!genresArray || genresArray.length === 0) {
-                return;
-            }
-
-            var genreObject = genresArray.find(function(item) {
-                return item.index === index;
-            });
-
-            if (!genreObject) {
-                return;
-            }
-
-            var genre = genreObject.name;
-            var game = findGameWithGenre(genre);
-            if (game && game.assets.logo.length > 0) {
-                whellImage.source = game.assets.logo;
-            }
-        } catch (e) {
-            console.warn("Error parsing genres:", e);
-        }
-    }
-
-
-    function findGameWithGenre(genre) {
-        for (var i = 0; i < api.allGames.count; ++i) {
-            var game = api.allGames.get(i);
-            if (game.genreList.includes(genre)) {
-                return game;
-            }
-        }
-        return null;
-    }
-
-    SortFilterProxyModel {
-        id: genreFilteredModel
-        sourceModel: api.allGames
-
-        filters: [
-            ExpressionFilter {
-                id: customExpressionFilter
-                enabled: selectedGenreName !== ""
-                expression: (selectedGenreName !== "") && genreList.some(genre => genre === selectedGenreName)
-            }
-        ]
     }
 
     Rectangle {
@@ -1086,7 +990,7 @@ FocusScope {
             source: ""
             width: parent.width * 1.05
             height: parent.height * 1.05
-            visible: genereListView.currentIndex >= 0
+            visible: gameGridView.currentIndex >= 0
             fillMode: Image.Stretch
             scale: 1.2
 
@@ -1133,7 +1037,7 @@ FocusScope {
         Image {
             id: whellImage
             source: ""
-            visible: genereListView.currentIndex >= 0
+            visible: gameGridView.currentIndex >= 0
             fillMode: Image.PreserveAspectFit
             opacity: 0
             width: parent.width * 0.2
@@ -1169,6 +1073,12 @@ FocusScope {
             fillMode: Image.Tile
             visible: true
             opacity: 0.2
+        }
+
+        Component.onCompleted: {
+            if (genereListView.model.length > 0) {
+                genereListView.currentIndex = 0;
+            }
         }
 
         Rectangle {
@@ -1276,7 +1186,7 @@ FocusScope {
                     }
                 }
 
-                Keys.onPressed: {
+                /*Keys.onPressed: {
                     if (api.keys.isCancel(event)) {
                         event.accepted = true;
                         genereListView.visible = true;
@@ -1300,6 +1210,46 @@ FocusScope {
                         } else {
                             //console.log("Juego no encontrado en api.allGames.");
                         }
+                    }
+                }*/
+
+                Keys.onPressed: {
+                    if (!event.isAutoRepeat && api.keys.isAccept(event)) {
+                        let selectedGame = genreFilteredModel.get(gameGridView.currentIndex);
+
+                        if (selectedGame) {
+                            let collectionFound = false;
+                            for (let i = 0; i < api.collections.count; i++) {
+                                const collection = api.collections.get(i);
+
+                                for (let j = 0; j < collection.games.count; j++) {
+                                    const game = collection.games.get(j);
+                                    if (game.title === selectedGame.title &&
+                                        game.assets.video === selectedGame.assets.video &&
+                                        game.assets.boxFront === selectedGame.assets.boxFront) {
+
+                                        console.log("Colección actual:", collection.name);
+                                    console.log("Lanzando juego:", game.title);
+                                    game.launch();
+                                    collectionFound = true;
+                                    break;
+                                        }
+                                }
+
+                                if (collectionFound) break;
+                            }
+
+                            if (!collectionFound) {
+                                console.log("El juego no se encontró en ninguna colección.");
+                            }
+                        }
+
+                        event.accepted = true;
+                    } else if (api.keys.isCancel(event)) {
+                        event.accepted = true;
+                        genereListView.visible = true;
+                        genereListView.focus = true;
+                        genereListView.opacity = 1;
                     }
                 }
             }
@@ -1334,26 +1284,75 @@ FocusScope {
                 property int indexToPosition: -1
 
                 model: {
-                    var genres = [];
-                    for (var i = 0; i < api.allGames.count; ++i) {
-                        var game = api.allGames.get(i);
-                        for (var j = 0; j < game.genreList.length; ++j) {
-                            var genre = game.genreList[j];
-                            if (!genres.includes(genre)) {
-                                genres.push(genre);
+                    function createCategoriesFromGenres() {
+                        var storedCategories = api.memory.has('gameCategories')
+                        ? api.memory.get('gameCategories')
+                        : null;
+
+                        if (storedCategories) {
+                            var validatedCategories = storedCategories.map(function(category) {
+                                var validGames = category.games.filter(function(gameTitle) {
+                                    for (var i = 0; i < api.allGames.count; i++) {
+                                        if (api.allGames.get(i).title === gameTitle) {
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                });
+
+                                return {
+                                    name: category.name,
+                                    count: validGames.length,
+                                    games: validGames
+                                };
+                            });
+
+                            validatedCategories = validatedCategories.filter(function(category) {
+                                return category.count > 0;
+                            });
+                            api.memory.set('gameCategories', validatedCategories);
+                            if (validatedCategories.length > 0) {
+                                return validatedCategories;
                             }
                         }
+
+                        var allGenres = {};
+                        for (var i = 0; i < api.allGames.count; i++) {
+                            var game = api.allGames.get(i);
+                            game.genreList.forEach(function(genre) {
+                                var baseCategory = genre.split(/[\s\/-]/)[0].toLowerCase();
+                                if (!allGenres[baseCategory]) {
+                                    allGenres[baseCategory] = [];
+                                }
+                                allGenres[baseCategory].push(game.title);
+                            });
+                        }
+
+                        var categoriesArray = [];
+                        Object.keys(allGenres).forEach(function(category) {
+                            categoriesArray.push({
+                                name: category,
+                                count: allGenres[category].length,
+                                games: allGenres[category]
+                            });
+                        });
+
+                        categoriesArray.sort((a, b) => b.count - a.count);
+                        api.memory.set('gameCategories', categoriesArray);
+                        return categoriesArray;
                     }
-                    genres.sort();
-                    return genres;
+
+                    createCategoriesFromGenres()
                 }
+
+                property string selectedCategory: ""
 
                 delegate: Item {
                     width: ListView.view.width
                     height: 50
 
                     Text {
-                        text: modelData
+                        text: modelData.name.charAt(0).toUpperCase() + modelData.name.slice(1) + " (" + modelData.count + " games)"
                         anchors.fill: parent
                         wrapMode: Text.Wrap
                         horizontalAlignment: Text.AlignHCenter
@@ -1387,29 +1386,10 @@ FocusScope {
                     }
                 }
 
-                onCurrentItemChanged: {
-                    indexToPosition = currentIndex
-                    updateImage(currentIndex)
-                    updateImageLogo(currentIndex)
-
-                    var genresString = api.memory.get("genres");
-                    if (genresString) {
-                        try {
-                            var genresArray = JSON.parse(genresString);
-                            if (genresArray && genresArray.length > 0) {
-                                var genreObject = genresArray.find(function(item) {
-                                    return item.index === currentIndex;
-                                });
-
-                                if (genreObject) {
-                                    selectedGenreName = genreObject.name;
-                                } else {
-                                }
-                            }
-                        } catch (e) {
-                        }
-                    } else {
-                    }
+                onCurrentIndexChanged: {
+                    indexToPosition = currentIndex;
+                    selectedCategory = model[currentIndex].name;
+                    genreFilteredModel.filterCategory(selectedCategory);
                 }
 
                 Behavior on indexToPosition {
@@ -1423,39 +1403,6 @@ FocusScope {
                     if (indexToPosition >= 0) {
                         positionViewAtIndex(indexToPosition, ListView.Center)
                     }
-                }
-            }
-        }
-
-        Component.onCompleted: {
-            var genresString = api.memory.get("genres");
-            if (!genresString) {
-                var genres = [];
-                for (var i = 0; i < api.allGames.count; ++i) {
-                    var game = api.allGames.get(i);
-                    for (var j = 0; j < game.genreList.length; ++j) {
-                        var genre = game.genreList[j];
-                        if (!genres.includes(genre)) {
-                            genres.push(genre);
-                        }
-                    }
-                }
-                genres.sort();
-                const formattedGenres = genres.map((genre, index) => ({ index, name: genre }));
-                genresString = JSON.stringify(formattedGenres);
-                api.memory.set("genres", genresString);
-            };
-
-            if (genresString) {
-                try {
-                    var genresArray = JSON.parse(genresString);
-                    if (genresArray && genresArray.length > 0) {
-                        var firstGenreObject = genresArray[0];
-                        if (firstGenreObject) {
-                            selectedGenreName = firstGenreObject.name;
-                        }
-                    }
-                } catch (e) {
                 }
             }
         }
