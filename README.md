@@ -3,14 +3,14 @@
  - Author: Mátyás Mustoha - modified by Gonzalo Abbate
  - Bifurcado de [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet)
 
-- Sigo actualizando partes del codigo por lo que puede variar este repositorio. No olvide hacer una copia de su tema instalado.
-- Tambien puede ver las versiones remplazadas [Aqui](https://www.mediafire.com/folder/wycdtzwa6hdoh/FlixNet_Plus_Versiones)
+- Sigo actualizando partes del código por lo que puede variar este repositorio. No olvide hacer una copia de su tema instalado.
+- También puede ver las versiones remplazadas [Aquí](https://www.mediafire.com/folder/wycdtzwa6hdoh/FlixNet_Plus_Versiones)
 
 
 
 <details>
 <summary>Cambios Recientes en el Tema 12/24</summary> 
-  <br> <!-- Salto de línea -->
+  <br>
   
   <details>
   <summary>Corrección y mejora del delegate "Newly Released Games"</summary>
@@ -106,8 +106,9 @@
 <details>
 <summary>Funcionalidades y Mejoras</summary>
 
-- Se han agregado 4 nuevas colecciones: "Todos los juegos", "Mi lista", "Seguir jugando" y "Juegos recomendados", como una mejora para mantener el orden y la organización en la interfaz.
+- Se han agregado 5 nuevas colecciones: "Todos los juegos", "Mi lista", "Seguir jugando" y "Juegos recomendados","Play with Friends: Guaranteed Multiplayer Fun" como una mejora para mantener el orden y la organización en la interfaz.
 - La colección "Mi Lista" y la colección "Seguir Jugando" estarán automáticamente ocultas si no contienen juegos en esas respectivas colecciones, lo que garantiza una interfaz limpia y sin elementos innecesarios. Además, la colección "Seguir Jugando" únicamente contendrá juegos que hayan sido lanzados por más de 1 minuto en los últimos 7 días. Esta característica permite que la colección varíe según la actividad de juego del usuario, evitando acumular una cantidad infinita de juegos lanzados por error o aquellos que han sido jugados hace mucho tiempo. De esta manera, se mantiene la colección fresca y actualizada con los últimos juegos jugados, promoviendo una experiencia de usuario más organizada y centrada en los juegos recientes.
+- La colección "Play with Friends: Guaranteed Multiplayer Fun" básicamente promueve el pultiplayer ofreciéndote juegos para 2 o mas jugadores.
 - ~~**Barra de Progreso con playTime:** Se agregó una barra de progreso utilizando "playTime" para proporcionar información adicional en DetailsInfoBar.~~
 - **Conteo de Juegos Disponibles:** Se muestra la cantidad de juegos disponibles en cada colección con "Juegos disponibles: game.count".
 - Se ha implementado una barra lateral izquierda que facilita el acceso al índice de cada colección nueva:
@@ -116,6 +117,7 @@
   - La opción "Plus" nos desplaza a la colección "Mi lista", que contendrá todos los juegos que hemos marcado como favoritos, agrupándolos en una sola colección para una fácil accesibilidad.
   - La opción "Trending" nos lleva a la colección "Juegos Recomendados", que presenta una selección de 15 juegos aleatorios que podrían ajustarse a nuestros gustos, proporcionando sugerencias emocionantes y variadas.
   - La opción "Category" nos muestra una lista con todos los géneros y sus juegos disponibles en nuestra amplia colección. Tenga en cuenta que si su archivo metadata.txt no está debidamente configurado, es decir, si falta el campo "genre", no será posible exhibir el juego en la lista de generos.
+  - La opción "Play something" no permite lanzar un juego aleatorio de nuestra amplia coleccion, permitiéndonos jugar algo aleatorio en momentos de indecisión."
 
 
 - **Agregar/Quitar Juegos Favoritos con Botón (X):** Se ha añadido la opción de marcar/quitar juegos como favoritos utilizando el botón (X) del mando.
@@ -130,12 +132,6 @@
 - **Etiqueta Automática "Seguir Jugando":** Se ha introducido una nueva característica automática: "Seguir jugando". Esta etiqueta se mostrará dinámicamente para juegos lanzados en los últimos 7 días, indicando que han sido jugados recientemente. Para los demás juegos, la etiqueta se ocultará automáticamente. Esta funcionalidad mejora la visualización y destaca los juegos más recientemente jugados.
 
 </details>
-
-
-## Detalles Adicionales
-
-- **Mejoras Insignificantes:** Se han realizado ajustes y mejoras adicionales para una experiencia más refinada.
-Ten en cuenta que estos cambios mejorarán tanto la apariencia visual como la funcionalidad del tema, ofreciendo a los usuarios una experiencia más completa y atractiva.
 
 # Pequeños detalles
 
