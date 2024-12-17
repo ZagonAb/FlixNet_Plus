@@ -11,6 +11,12 @@
 <details>
 <summary>Cambios Recientes en el Tema 12/24 </summary>
 
+  <details>
+  <summary>Actualizacion de sidebar</summary>
+  
+  - Se ha simplificado el código de la barra lateral y se ha añadido una nueva opción: 'Play Something', que permite jugar algo aleatorio en momentos de indecisión."
+  
+  </details>
  
 
   <details>
