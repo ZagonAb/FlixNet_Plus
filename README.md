@@ -17,6 +17,7 @@
   - Se ha simplificado el código de la barra lateral y se ha añadido una nueva opción: 'Play Something', que permite jugar algo aleatorio en momentos de indecisión."
   
   <details>
+  </details>
 
   <details>
   <summary>Mejoras en Category</summary>
