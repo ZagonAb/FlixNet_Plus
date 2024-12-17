@@ -12,6 +12,14 @@
 <summary>Cambios Recientes en el Tema 12/24 </summary>
 
 <details>
+<summary>Corrección y mejora del delegate "Newly Released Games"</summary>
+- Ahora es posible identificar títulos similares de diferentes consolas utilizando el **"shortname"** de la colección.
+
+![Category](https://github.com/ZagonAb/FlixNet_Plus/blob/d2d2ca920ad0247228c9a6cacf6635050fc95e6f/.meta/screenshots/category.png)
+
+</details>
+
+<details>
 <summary>Actualizacion de sidebar</summary>
 - Se ha simplificado el código de la barra lateral y se ha añadido una nueva opción: 'Play Something', que permite jugar algo aleatorio en momentos de indecisión."
 </details>

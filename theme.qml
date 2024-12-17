@@ -510,16 +510,33 @@ FocusScope {
                             source: "font/NetflixSansBold.ttf"
                         }
 
-                        Text {
-                            anchors.fill: parent
-                            text: model.title !== undefined ? model.title : ""
-                            font.family: netflixSansBold.name
-                            font.pixelSize: conteiner.width * 0.05 //18
-                            verticalAlignment: Text.AlignVCenter
-                            padding: 5
-                            color: "white"
-                            wrapMode: Text.WordWrap
-                            elide: Text.ElideRight
+                        RowLayout {
+                            //anchors.fill: parent
+                            width: parent.width * 0.8
+                            anchors.centerIn: parent
+                            spacing: 2
+
+                            Text {
+                                id: titleText
+                                text: model.title !== undefined ? model.title : ""
+                                font.family: netflixSansBold.name
+                                font.pixelSize: conteiner.width * 0.05
+                                color: "white"
+                                elide: Text.ElideRight
+                                Layout.fillWidth: true
+                                //verticalAlignment: Text.AlignVCenter
+                            }
+
+                            Text {
+                                text: model.collections && model.collections.count > 0
+                                ? "(" + model.collections.get(0).shortName + ")" : ""
+                                font.family: netflixSansBold.name
+                                font.pixelSize: conteiner.width * 0.04
+                                color: "white"
+                                elide: Text.ElideRight
+                                Layout.alignment: Qt.AlignRight
+                                //verticalAlignment: Text.AlignVCenter
+                            }
                         }
                     }
 
@@ -535,21 +552,37 @@ FocusScope {
 
                     Keys.onPressed: {
                         if (!event.isAutoRepeat && api.keys.isAccept(event)) {
-                            var selectedGame = continuePlayingProxyModel.get(resultsList.currentIndex);
-                            var selectedTitle = selectedGame.title;
-                            var gamesArray = api.allGames.toVarArray();
-                            var gameFound = gamesArray.find(function(game) {
-                                return game.title === selectedTitle;
-                            });
-                            if (gameFound) {
+                            let selectedGame = continuePlayingProxyModel.get(resultsList.currentIndex);
+
+                            if (selectedGame) {
+                                let collectionFound = false;
+                                for (let i = 0; i < api.collections.count; i++) {
+                                    const collection = api.collections.get(i);
+
+                                    for (let j = 0; j < collection.games.count; j++) {
+                                        const game = collection.games.get(j);
+                                        if (game.title === selectedGame.title &&
+                                            game.assets.video === selectedGame.assets.video &&
+                                            game.assets.boxFront === selectedGame.assets.boxFront) {
+
+                                            game.launch();
+                                        collectionFound = true;
+                                        break;
+                                            }
+                                    }
+
+                                    if (collectionFound) break;
+                                }
+
                                 sidebarFocused = false;
                                 searchVisible = false;
                                 searchFocused = false;
                                 selectionMarker.opacity = 1.0;
                                 collectionAxis.focus = true;
-                                gameFound.launch();
-                            } else {
                             }
+
+                            event.accepted = true;
+
                         } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
                             event.accepted = true;
                             virtualKeyboardContainer.focus = true;
