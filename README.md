@@ -15,7 +15,7 @@
 <summary>Corrección y mejora del delegate "Newly Released Games"</summary>
 - Ahora es posible identificar títulos similares de diferentes consolas utilizando el **"shortname"** de la colección.
 
-![Category](https://github.com/ZagonAb/FlixNet_Plus/blob/d2d2ca920ad0247228c9a6cacf6635050fc95e6f/.meta/screenshots/category.png)
+![Category](https://github.com/ZagonAb/FlixNet_Plus/blob/fa65ab74b09bf8cb4b33c2327cfdc2bdc00f252b/.meta/screenshots/releasedgames.png)
 
 </details>
 
