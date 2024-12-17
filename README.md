@@ -22,7 +22,8 @@
 
   <details>
   <summary>Actualizacion de sidebar</summary>
-  - Se ha simplificado el código de la barra lateral y se ha añadido una nueva opción: 'Play Something', que permite jugar algo aleatorio en momentos de indecisión."
+
+- Se ha simplificado el código de la barra lateral y se ha añadido una nueva opción: 'Play Something', que permite jugar algo aleatorio en momentos de indecisión."
   
   ![Play something](https://github.com/ZagonAb/FlixNet_Plus/blob/374a53016bd4889d988e51ad1583f48880571f28/.meta/screenshots/play_something.png)
   </details>
