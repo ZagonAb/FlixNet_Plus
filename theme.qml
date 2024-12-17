@@ -22,6 +22,7 @@ import QtGraphicalEffects 1.12
 
 FocusScope {
     focus: true
+    id: root
     readonly property real cellRatio: 7 / 10
     readonly property int cellHeight: vpx(216)
     readonly property int cellWidth: cellHeight * cellRatio
@@ -79,162 +80,58 @@ FocusScope {
             }
         }
 
-        Item {
-            id: icoContainer
-            width: parent.width
-            height: parent.height
+        Column {
+            id: iconContainer
+            spacing: 15
+            anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: -5
+            anchors.leftMargin: sidebarFocused ? 20 : 10
 
-            Image {
-                id: homeIcon
-                source: selectedIndex === 0 ? "assets/home.svg" : "assets/home_inactive.svg"
-                width: parent.width * iconAncho
-                height: parent.height * iconAlto
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    top: parent.top
-                    topMargin: parent.height * 0.40
+            Repeater {
+
+                model: ListModel {
+                    ListElement { name: "Search"; icon: "assets/search.png"; iconInactive: "assets/search_inactive.png" }
+                    ListElement { name: "Home"; icon: "assets/home.png"; iconInactive: "assets/home_inactive.png" }
+                    ListElement { name: "Recommended"; icon: "assets/trending.png"; iconInactive: "assets/trending_inactive.png" }
+                    ListElement { name: "Categories"; icon: "assets/category.png"; iconInactive: "assets/category_inactive.png" }
+                    ListElement { name: "My list"; icon: "assets/plus.png"; iconInactive: "assets/plus_inactive.png" }
+                    ListElement { name: "Play something"; icon: "assets/play_something.svg"; iconInactive: "assets/play_something_inactive.svg" }
                 }
 
-                Item {
-                    width: parent.width
-                    height: homeIcon.height
-                    y: homeIcon.height - 25
-                    x: sidebarFocused ? homeIcon.width + 20 : 0
+                delegate: Row {
+                    spacing: 10
+                    width: sidebar.width
+                    height: sidebar.height * 0.08
 
-                    Text {
-                        id: homeText
-                        text: "Home"
-                        font.pixelSize: sidebarFocused && selectedIndex === 0 ?  24 : 22
-                        font.family: selectedIndex === 0 ? boldFontLoader.name : mediumFontLoader.name
-                        color: selectedIndex === 0 ? "white" : "#8c8c8c"
-                        visible: sidebarFocused
+                    Image {
+                        id: menuIcon
+                        source: index === selectedIndex ? model.icon : model.iconInactive
+                        width: root.width * 0.020
+                        height: root.height * 0.032
+                        anchors.verticalCenter: parent.verticalCenter
+                        mipmap: true
                     }
 
-                    Behavior on x { NumberAnimation { duration: 400; easing.type: Easing.InOutCubic  } }
-                    x: sidebarFocused ? homeIcon.width + 5 : 0
-                }
-            }
-
-            Image {
-                id: searchIcon2
-                source: selectedIndex === 1 ? "assets/search.svg" : "assets/search_inactive.svg"
-                width: parent.width * iconAncho
-                height: parent.height * iconAlto
-                anchors.centerIn: parent
-
-                Item {
-                    width: parent.width
-                    height: searchIcon2.height
-                    y: searchIcon2.height -27
-                    x: sidebarFocused ? categoryIcon.width + 20 : 0
-
                     Text {
-                        id: searchText
-                        text: "Search"
-                        font.pixelSize: sidebarFocused && selectedIndex === 1 ? 24 : 22
-                        font.family: selectedIndex === 1 ? boldFontLoader.name : mediumFontLoader.name
-                        color: selectedIndex === 1 ? "white" : "#8c8c8c"
+                        id: menuText
+                        text: model.name
+                        font.pixelSize: sidebarFocused && index === selectedIndex
+                        ? Math.round(root.width * 0.020)
+                        : Math.round(root.width * 0.016)
+
+                        font.bold: index === selectedIndex
+                        color: index === selectedIndex ? "white" : "#8c8c8c"
                         visible: sidebarFocused
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        x: sidebarFocused ? menuIcon.width + 10 : menuIcon.width - 20
+                        Behavior on x {
+                            NumberAnimation {
+                                duration: (index + 1) * 100
+                                easing.type: Easing.InOutCubic
+                            }
+                        }
                     }
-
-                    Behavior on x { NumberAnimation { duration: 500; easing.type: Easing.InOutCubic } }
-                    x: sidebarFocused ? searchIcon2.width + 5 : 0
-                }
-            }
-
-            Image {
-                id: categoryIcon
-                source: selectedIndex === 2 ? "assets/plus.svg" : "assets/plus_inactive.svg"
-                width: parent.width * iconAncho
-                height: parent.height * iconAlto
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    bottom: parent.bottom
-                    bottomMargin: parent.height * 0.40
-                }
-
-                Item {
-                    width: parent.width
-                    height: categoryIcon.height
-                    y: categoryIcon.height -29
-                    x: sidebarFocused ? categoryIcon.width + 20 : 0
-
-                    Text {
-                        id: categoryText
-                        text: "My list"
-                        font.pixelSize: sidebarFocused && selectedIndex === 2 ? 24 : 22
-
-                        font.family: selectedIndex === 2 ? boldFontLoader.name : mediumFontLoader.name
-                        color: selectedIndex === 2 ? "white" : "#8c8c8c"
-                        visible: sidebarFocused
-                    }
-
-                    Behavior on x { NumberAnimation { duration: 600; easing.type: Easing.InOutCubic } }
-                    x: sidebarFocused ? categoryIcon.width + 5 : 0
-                }
-            }
-
-            Image {
-                id: trendingIcon
-                source: selectedIndex === 3 ? "assets/trending.svg" : "assets/trending_inactive.svg"
-                width: parent.width * iconAncho
-                height: parent.height * iconAlto
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    bottom: parent.bottom
-                    bottomMargin: parent.height * 0.32
-                }
-
-                Item {
-                    width: parent.width
-                    height: trendingIcon.height
-                    y: trendingIcon.height -27
-                    x: sidebarFocused ? trendingIcon.width + 20 : 0
-
-                    Text {
-                        id: trendingText
-                        text: "Recommended"
-                        font.pixelSize: sidebarFocused && selectedIndex === 3 ? 24 : 22
-                        font.family: selectedIndex === 3 ? boldFontLoader.name : mediumFontLoader.name
-                        color: selectedIndex === 3 ? "white" : "#8c8c8c"
-                        visible: sidebarFocused
-                    }
-
-                    Behavior on x { NumberAnimation { duration: 700; easing.type: Easing.InOutCubic } }
-                    x: sidebarFocused ? trendingIcon.width + 5 : 0
-                }
-            }
-
-            Image {
-                id: categoriagIcon
-                source: selectedIndex === 4 ? "assets/category.svg" : "assets/category_inactive.svg"
-                width: parent.width * iconAncho
-                height: parent.height * iconAlto
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    bottom: parent.bottom
-                    bottomMargin: parent.height * 0.25
-                }
-
-                Item {
-                    width: parent.width
-                    height: categoriagIcon.height
-                    y: categoriagIcon.height -27
-                    x: sidebarFocused ? categoriagIcon.width + 20 : 0
-
-                    Text {
-                        id: categoriaText
-                        text: "Category"
-                        font.pixelSize: sidebarFocused && selectedIndex === 4 ? 24 : 22
-                        font.family: selectedIndex === 4 ? boldFontLoader.name : mediumFontLoader.name
-                        color: selectedIndex === 4 ? "white" : "#8c8c8c"
-                        visible: sidebarFocused
-                    }
-
-                    Behavior on x { NumberAnimation { duration: 800; easing.type: Easing.InOutCubic } }
-                    x: sidebarFocused ? categoriagIcon.width + 5 : 0
                 }
             }
         }
@@ -244,7 +141,7 @@ FocusScope {
         }
 
         Keys.onDownPressed: {
-            selectedIndex = Math.min(selectedIndex + 1, 4)
+            selectedIndex = Math.min(selectedIndex + 1, 5)
         }
 
         Keys.onLeftPressed: {
@@ -266,19 +163,19 @@ FocusScope {
 
         Keys.onPressed: {
             if (!event.isAutoRepeat && api.keys.isAccept(event)) {
-                if (selectedIndex === 0) {
+                if (selectedIndex === 1) {
                     sidebarFocused = false;
                     searchFocused = false;
                     selectionMarker.opacity = 1.0;
                     collectionAxis.focus = true;
                     collectionAxis.currentIndex = 0;
-                } else if (selectedIndex === 1) {
+                } else if (selectedIndex === 0) {
                     searchVisible = true;
                     sidebarFocused = false;
                     selectionMarker.opacity = 0.0;
                     virtualKeyboardContainer.visible = true;
                     virtualKeyboardContainer.focus = true;
-                } else if (selectedIndex === 2) {
+                } else if (selectedIndex === 4) {
                     sidebarFocused = false;
                     searchFocused = false;
                     selectionMarker.opacity = 1.0;
@@ -286,18 +183,24 @@ FocusScope {
                     if (favoritesProxyModel.count > 0) {
                         collectionAxis.currentIndex = collectionsListModel.favoritesIndex;
                     }
-                } else if (selectedIndex === 3) {
+                } else if (selectedIndex === 2) {
                     sidebarFocused = false;
                     searchFocused = false;
                     selectionMarker.opacity = 1.0;
                     collectionAxis.focus = true;
                     collectionAxis.currentIndex = 1;
-                } else if (selectedIndex === 4) {
+                } else if (selectedIndex === 3) {
                     collectionAxis.focus = false;
                     sidebarFocused = false;
                     genereVisible = true;
                     genereListView.visible = true;
                     genereListView.focus = true;
+                } else if (selectedIndex === 5) {
+                    if (api.allGames.count > 0) {
+                        var randomIndex = Math.floor(Math.random() * api.allGames.count);
+                        var randomGame = api.allGames.get(randomIndex);
+                        randomGame.launch();
+                    }
                 }
             } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
                 event.accepted = true;
@@ -346,6 +249,7 @@ FocusScope {
         anchors.leftMargin: parent.width * 0.04
 
         Rectangle {
+            id: conteiner
             width: parent.width * 0.20
             height: parent.height
             color: "black"
@@ -479,7 +383,7 @@ FocusScope {
                                     Text {
                                         anchors.centerIn: parent
                                         text: index < 26 ? String.fromCharCode(97 + index) : (index < 26 + 10 ? index - 26 : "")
-                                        font.pixelSize: Math.min(keyboardGrid.width / keyboardGrid.columns, keyboardGrid.height / keyboardGrid.rows) * 0.5 // Tamaño del texto proporcional al tamaño de la celda
+                                        font.pixelSize: Math.min(keyboardGrid.width / keyboardGrid.columns, keyboardGrid.height / keyboardGrid.rows) * 0.5
                                         color: "grey"
                                         horizontalAlignment: Text.AlignHCenter
                                         verticalAlignment: Text.AlignVCenter
@@ -578,7 +482,7 @@ FocusScope {
                         text: "Newly released games"
                         font.bold: true
                         color: "white"
-                        font.pixelSize: 20
+                        font.pixelSize: conteiner.width * 0.07  //20
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         anchors.fill: parent
@@ -608,9 +512,9 @@ FocusScope {
 
                         Text {
                             anchors.fill: parent
-                            text: model.title !== undefined ? model.title : "Title not available"
+                            text: model.title !== undefined ? model.title : ""
                             font.family: netflixSansBold.name
-                            font.pixelSize: 18
+                            font.pixelSize: conteiner.width * 0.05 //18
                             verticalAlignment: Text.AlignVCenter
                             padding: 5
                             color: "white"
@@ -696,11 +600,12 @@ FocusScope {
 
                             Image {
                                 id: searchIcon
-                                source: "assets/search.svg"
+                                source: "assets/search.png"
                                 width: vpx(16)
                                 height: vpx(16)
                                 y:35
                                 visible: searchInput.text.trim().length > 0
+                                mipmap: true
 
                                 Behavior on opacity {
                                     NumberAnimation { duration: 200 }
@@ -734,7 +639,8 @@ FocusScope {
                                 color: "white"
                                 y: 28
                                 font.family: netflixSansMedium.name
-                                font.pixelSize: 24
+                                font.pixelSize: searchBar.width * 0.024 //24
+                                anchors.verticalCenter: parent.verticalCenter
                                 visible: searchInput.length === 0
 
                                 Behavior on opacity {
@@ -790,8 +696,10 @@ FocusScope {
                                     anchors.centerIn: parent
                                     width: parent.width - 5
                                     height: parent.height - 5
-                                    sourceSize { width: 456; height: 456 }
+                                    //sourceSize { width: 456; height: 456 }
+                                    asynchronous: true
                                     fillMode: Image.Stretch
+                                    mipmap: true
                                     z: 0
                                 }
 
@@ -806,7 +714,7 @@ FocusScope {
 
                                     Text {
                                         anchors.fill: parent
-                                        text: model.title !== undefined ? model.title : "Title not available"
+                                        text: model.title !== undefined ? model.title : ""
                                         font.family: netflixSansBold.name
                                         font.pixelSize: 18
                                         verticalAlignment: Text.AlignBottom
@@ -818,9 +726,9 @@ FocusScope {
                                         layer.enabled: true
                                         layer.effect: DropShadow {
                                             color: "black"
-                                            radius: 3
-                                            samples: 16
-                                            spread: 0.5
+                                            radius: 5
+                                            samples: 32
+                                            spread: 0.8
                                         }
                                     }
                                 }
@@ -882,8 +790,8 @@ FocusScope {
                                                     game.assets.video === selectedGame.assets.video &&
                                                     game.assets.boxFront === selectedGame.assets.boxFront) {
 
-                                                    console.log("Colección actual:", collection.name);
-                                                console.log("Lanzando juego:", game.title);
+                                                    //console.log("Colección actual:", collection.name);
+                                                //console.log("Lanzando juego:", game.title);
                                                 game.launch();
                                                 collectionFound = true;
                                                 break;
@@ -894,7 +802,7 @@ FocusScope {
                                         }
 
                                         if (!collectionFound) {
-                                            console.log("El juego no se encontró en ninguna colección.");
+                                            //console.log("El juego no se encontró en ninguna colección.");
                                         }
 
                                         sidebarFocused = false;
@@ -937,7 +845,6 @@ FocusScope {
         }
     }
 
-
     function updateInitialImages() {
         if (genreFilteredModel.count > 0) {
             var firstGame = genreFilteredModel.get(0);
@@ -954,6 +861,64 @@ FocusScope {
             genreImage.source = "";
             whellImage.source = "";
         }
+    }
+
+    function createCategoriesFromGenres() {
+        var storedCategories = api.memory.has('gameCategories')
+        ? api.memory.get('gameCategories')
+        : null;
+
+        if (storedCategories) {
+            var validatedCategories = storedCategories.map(function(category) {
+                var validGames = category.games.filter(function(gameTitle) {
+                    for (var i = 0; i < api.allGames.count; i++) {
+                        if (api.allGames.get(i).title === gameTitle) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+
+                return {
+                    name: category.name,
+                    count: validGames.length,
+                    games: validGames
+                };
+            });
+
+            validatedCategories = validatedCategories.filter(function(category) {
+                return category.count > 0;
+            });
+            api.memory.set('gameCategories', validatedCategories);
+            if (validatedCategories.length > 0) {
+                return validatedCategories;
+            }
+        }
+
+        var allGenres = {};
+        for (var i = 0; i < api.allGames.count; i++) {
+            var game = api.allGames.get(i);
+            game.genreList.forEach(function(genre) {
+                var baseCategory = genre.split(/[\s\/-]/)[0].toLowerCase();
+                if (!allGenres[baseCategory]) {
+                    allGenres[baseCategory] = [];
+                }
+                allGenres[baseCategory].push(game.title);
+            });
+        }
+
+        var categoriesArray = [];
+        Object.keys(allGenres).forEach(function(category) {
+            categoriesArray.push({
+                name: category,
+                count: allGenres[category].length,
+                games: allGenres[category]
+            });
+        });
+
+        categoriesArray.sort((a, b) => b.count - a.count);
+        api.memory.set('gameCategories', categoriesArray);
+        return categoriesArray;
     }
 
     ListModel {
@@ -1117,8 +1082,10 @@ FocusScope {
                         anchors.centerIn: parent
                         width: parent.width - 5
                         height: parent.height - 5
-                        sourceSize { width: 456; height: 456 }
+                        //sourceSize { width: 456; height: 456 }
                         fillMode: Image.Stretch
+                        mipmap: true
+                        asynchronous: true
                         z: 0
                     }
                 }
@@ -1186,33 +1153,6 @@ FocusScope {
                     }
                 }
 
-                /*Keys.onPressed: {
-                    if (api.keys.isCancel(event)) {
-                        event.accepted = true;
-                        genereListView.visible = true;
-                        genereListView.focus = true;
-                        genereListView.opacity = 1;
-                    } else if (api.keys.isAccept(event)) {
-                        event.accepted = true;
-                        var selectedGameTitle = genreFilteredModel.get(gameGridView.currentIndex).title;
-                        var foundGame = null;
-
-                        for (var i = 0; i < api.allGames.count; i++) {
-                            if (api.allGames.get(i).title === selectedGameTitle) {
-                                foundGame = api.allGames.get(i);
-                                break;
-                            }
-                        }
-
-                        if (foundGame !== null) {
-                            //console.log("Lanzando el juego:", selectedGameTitle);
-                            foundGame.launch();
-                        } else {
-                            //console.log("Juego no encontrado en api.allGames.");
-                        }
-                    }
-                }*/
-
                 Keys.onPressed: {
                     if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                         let selectedGame = genreFilteredModel.get(gameGridView.currentIndex);
@@ -1278,89 +1218,33 @@ FocusScope {
 
             ListView {
                 id: genereListView
-                anchors.fill: parent
+                width: parent.width
+                height: parent.height * 0.90
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
                 spacing: 15
+                clip: true
 
                 property int indexToPosition: -1
+                property var categoriesModel: []
 
-                model: {
-                    function createCategoriesFromGenres() {
-                        var storedCategories = api.memory.has('gameCategories')
-                        ? api.memory.get('gameCategories')
-                        : null;
-
-                        if (storedCategories) {
-                            var validatedCategories = storedCategories.map(function(category) {
-                                var validGames = category.games.filter(function(gameTitle) {
-                                    for (var i = 0; i < api.allGames.count; i++) {
-                                        if (api.allGames.get(i).title === gameTitle) {
-                                            return true;
-                                        }
-                                    }
-                                    return false;
-                                });
-
-                                return {
-                                    name: category.name,
-                                    count: validGames.length,
-                                    games: validGames
-                                };
-                            });
-
-                            validatedCategories = validatedCategories.filter(function(category) {
-                                return category.count > 0;
-                            });
-                            api.memory.set('gameCategories', validatedCategories);
-                            if (validatedCategories.length > 0) {
-                                return validatedCategories;
-                            }
-                        }
-
-                        var allGenres = {};
-                        for (var i = 0; i < api.allGames.count; i++) {
-                            var game = api.allGames.get(i);
-                            game.genreList.forEach(function(genre) {
-                                var baseCategory = genre.split(/[\s\/-]/)[0].toLowerCase();
-                                if (!allGenres[baseCategory]) {
-                                    allGenres[baseCategory] = [];
-                                }
-                                allGenres[baseCategory].push(game.title);
-                            });
-                        }
-
-                        var categoriesArray = [];
-                        Object.keys(allGenres).forEach(function(category) {
-                            categoriesArray.push({
-                                name: category,
-                                count: allGenres[category].length,
-                                games: allGenres[category]
-                            });
-                        });
-
-                        categoriesArray.sort((a, b) => b.count - a.count);
-                        api.memory.set('gameCategories', categoriesArray);
-                        return categoriesArray;
-                    }
-
-                    createCategoriesFromGenres()
-                }
+                model: categoriesModel
 
                 property string selectedCategory: ""
 
                 delegate: Item {
                     width: ListView.view.width
-                    height: 50
+                    height: root.height * 0.08
 
                     Text {
                         text: modelData.name.charAt(0).toUpperCase() + modelData.name.slice(1) + " (" + modelData.count + " games)"
                         anchors.fill: parent
-                        wrapMode: Text.Wrap
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
                         color: genereListView.currentIndex === index ? "white" : "gray"
                         font.family: index === genereListView.currentIndex ? boldFontLoader.name : mediumFontLoader.name
                         font.bold: index === genereListView.currentIndex
-                        font.pixelSize: genereListView.currentIndex === index ? 24 : 18
+                        font.pixelSize: genereListView.currentIndex === index
+                        ? Math.round(root.width * 0.020)
+                        : Math.round(root.width * 0.016)
                         opacity: genereListView.currentIndex === index ? 1.0 : 0.5
                     }
                 }
@@ -1390,6 +1274,10 @@ FocusScope {
                     indexToPosition = currentIndex;
                     selectedCategory = model[currentIndex].name;
                     genreFilteredModel.filterCategory(selectedCategory);
+                }
+
+                Component.onCompleted: {
+                    categoriesModel = createCategoriesFromGenres();
                 }
 
                 Behavior on indexToPosition {
@@ -1809,7 +1697,7 @@ FocusScope {
 
                     Image {
                         id: favoriteImage
-                        source: gameAxis.currentItem.game.favorite ? "assets/check.svg" : "assets/plus.svg"
+                        source: gameAxis.currentItem.game.favorite ? "assets/check.svg" : "assets/plus.png"
                         width: parent.height * 0.9
                         height: parent.height * 0.9
                         rotation: gameAxis.currentItem.game.favorite ? 360 : 0

@@ -11,6 +11,12 @@
 <details>
 <summary>Cambios Recientes en el Tema 12/24 </summary>
 
+  <details>
+  <summary>Actualizacion de sidebar</summary>
+  
+  - Se ha simplificado el código de la barra lateral y se ha añadido una nueva opción: 'Play Something', que permite jugar algo aleatorio en momentos de indecisión."
+  
+  <details>
 
   <details>
   <summary>Mejoras en Category</summary>
@@ -22,6 +28,9 @@
 
   **Proceso de ordenamiento**
   - Si hay categorías almacenadas en **api.memory**, se valida que los juegos en cada categoría aún existan en **api.allGames** (lo que requiere activar la opción "Mostrar solo juegos existentes" en la configuración de Pegasus Frontend). Si esta opción no está activada, los juegos pueden aparecer en las categorías pero no ser ejecutables, lo que afecta negativamente la experiencia del usuario. En caso de que algún juego ya no exista, se elimina, y si una categoría se queda sin juegos, también se elimina. Si no quedan categorías válidas o no hay categorías, se procesan desde cero utilizando **api.allGames**, y luego se actualiza **api.memory** con las categorías validadas. Este proceso mantiene las categorías actualizadas, optimiza el rendimiento al mantenerlas en memoria, se adapta a los cambios en la biblioteca de juegos y elimina las referencias a juegos eliminados.
+  
+    **Cambios en la captura de pantalla y logo en la "Categoría"**
+  - Ahora, tanto la captura de pantalla como el logo del juego se actualizarán dinámicamente según el juego seleccionado en el GridView.
 
   ![Category](https://github.com/ZagonAb/FlixNet_Plus/blob/d2d2ca920ad0247228c9a6cacf6635050fc95e6f/.meta/screenshots/category.png)
 
@@ -65,11 +74,6 @@
 
   **Objetivo de la Barra**
   La barra y las fases proporcionan una forma visualmente atractiva de seguir el progreso del jugador.
-
-
-
-  **Cambios en la captura de pantalla y logo en la "Categoría"**
-  - Ahora, tanto la captura de pantalla como el logo del juego se actualizarán dinámicamente según el juego seleccionado en el GridView.
   
   </details>
   
