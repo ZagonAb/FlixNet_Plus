@@ -37,6 +37,7 @@ FocusScope {
     readonly property int sidebarWidth: 60
     property bool navigatedDown: false
     property bool sidebarFocused: false
+    property bool videoPauseFocused: false
     property bool searchFocused: false
     property int selectedIndex: sidebarFocused ? 1 : -1
     property int virtualKeyboardIndex: 0
@@ -154,6 +155,7 @@ FocusScope {
         Keys.onRightPressed: {
             if (sidebarFocused) {
                 sidebarFocused = false;
+                videoPauseFocused = false;
                 searchFocused = false;
                 selectionMarker.opacity = 1.0;
                 collectionAxis.focus = true;
@@ -165,6 +167,7 @@ FocusScope {
             if (!event.isAutoRepeat && api.keys.isAccept(event)) {
                 if (selectedIndex === 1) {
                     sidebarFocused = false;
+                    videoPauseFocused = false;
                     searchFocused = false;
                     selectionMarker.opacity = 1.0;
                     collectionAxis.focus = true;
@@ -186,6 +189,7 @@ FocusScope {
                 } else if (selectedIndex === 2) {
                     sidebarFocused = false;
                     searchFocused = false;
+                    videoPauseFocused = false;
                     selectionMarker.opacity = 1.0;
                     collectionAxis.focus = true;
                     collectionAxis.currentIndex = 1;
@@ -205,6 +209,7 @@ FocusScope {
             } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
                 event.accepted = true;
                 sidebarFocused = false;
+                videoPauseFocused = false;
                 searchFocused = false;
                 selectionMarker.opacity = 1.0;
                 collectionAxis.focus = true;
@@ -1326,7 +1331,16 @@ FocusScope {
         }
     }
 
+    onVideoPauseFocusedChanged: {
+        if (!videoPauseFocused) {
+            videoPlayer.isPaused = false;
+        } else {
+            videoPlayer.isPaused = true;
+        }
+    }
+
     Video {
+        id: videoPlayer
         game: collectionAxis.currentItem ? collectionAxis.currentItem.currentGame : null
         anchors {
             top: parent.top
@@ -1605,7 +1619,9 @@ FocusScope {
         clip: true
         preferredHighlightBegin: 1 / 4
         preferredHighlightEnd: preferredHighlightBegin
+
         focus: true
+
         Keys.onUpPressed: decrementCurrentIndex()
         Keys.onDownPressed: incrementCurrentIndex()
 
@@ -1613,6 +1629,7 @@ FocusScope {
             if (currentItem.axis.currentIndex === 0) {
                 selectionMarker.opacity = 0.0;
                 sidebarFocused = true;
+                videoPauseFocused = true;
                 searchFocused = true;
                 collectionAxis.focus = false;
             } else {
@@ -1626,6 +1643,7 @@ FocusScope {
             if (sidebarFocused) {
                 selectionMarker.opacity = 1.0;
                 sidebarFocused = false
+                videoPauseFocused = false;
                 searchFocused = false
                 collectionAxis.focus = true
                 collectionAxis.currentIndex = Math.min(collectionAxis.currentIndex, collectionAxis.model.count - 1)

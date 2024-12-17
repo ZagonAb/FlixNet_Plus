@@ -7,6 +7,15 @@ Item {
     property bool videoEnded: false
     property alias screenshot: screenshotImg.source
     property int screenshotDuration: 500
+    property bool isPaused: false
+
+    onIsPausedChanged: {
+        if (isPaused) {
+            vid.pause();
+        } else {
+            vid.play();
+        }
+    }
 
     width: vid.width
     height: vid.height
@@ -45,6 +54,7 @@ Item {
             }
         }
     }
+
 
     Image {
         anchors.fill: parent

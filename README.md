@@ -13,6 +13,11 @@
   <br>
   
   <details>
+  <summary>Pausa en video</sumamry>
+  - Ahora, el video se pausa al acceder al sidebar y se reanuda automáticamente al salir de él.
+  </details>
+  
+  <details>
   <summary>Corrección y mejora del delegate "Newly Released Games"</summary>
 
   - Ahora es posible identificar títulos similares de diferentes consolas utilizando el **"shortname"** de la colección.
