@@ -511,7 +511,6 @@ FocusScope {
                         }
 
                         RowLayout {
-                            //anchors.fill: parent
                             width: parent.width * 0.8
                             anchors.centerIn: parent
                             spacing: 2
@@ -524,7 +523,6 @@ FocusScope {
                                 color: "white"
                                 elide: Text.ElideRight
                                 Layout.fillWidth: true
-                                //verticalAlignment: Text.AlignVCenter
                             }
 
                             Text {
@@ -535,7 +533,6 @@ FocusScope {
                                 color: "white"
                                 elide: Text.ElideRight
                                 Layout.alignment: Qt.AlignRight
-                                //verticalAlignment: Text.AlignVCenter
                             }
                         }
                     }
@@ -1201,8 +1198,8 @@ FocusScope {
                                         game.assets.video === selectedGame.assets.video &&
                                         game.assets.boxFront === selectedGame.assets.boxFront) {
 
-                                        console.log("Colección actual:", collection.name);
-                                    console.log("Lanzando juego:", game.title);
+                                        //console.log("Colección actual:", collection.name);
+                                    //console.log("Lanzando juego:", game.title);
                                     game.launch();
                                     collectionFound = true;
                                     break;
@@ -1213,7 +1210,7 @@ FocusScope {
                             }
 
                             if (!collectionFound) {
-                                console.log("El juego no se encontró en ninguna colección.");
+                                //console.log("El juego no se encontró en ninguna colección.");
                             }
                         }
 
