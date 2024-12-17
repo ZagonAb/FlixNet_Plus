@@ -9,8 +9,9 @@
 
 
 <details>
-<summary>Cambios Recientes en el Tema 12/24 </summary> 
-
+<summary>Cambios Recientes en el Tema 12/24</summary> 
+  <br> <!-- Salto de línea -->
+  
   <details>
   <summary>Corrección y mejora del delegate "Newly Released Games"</summary>
 
