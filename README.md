@@ -15,7 +15,7 @@
   <details>
   <summary>Pausa en video</summary>
   
-  - Ahora, el video se pausa al acceder al sidebar y se reanuda automáticamente al salir de él. (Se mejoro.!)
+  - Ahora, el video se pausa al acceder al sidebar y se reanuda automáticamente al salir de él. (¡Mejorado!)
   
   </details>
   
