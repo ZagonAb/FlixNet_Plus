@@ -57,6 +57,7 @@ FocusScope {
         }
     }
 
+    // Sidebar
     Rectangle {
         id: sidebar
         width: parent.width * 0.06
@@ -260,6 +261,7 @@ FocusScope {
             color: "black"
             visible: searchVisible
 
+            // buttonKeyContainer
             Rectangle {
                 id: buttonKeyContainer
                 width: parent.width
@@ -337,6 +339,7 @@ FocusScope {
                 }
             }
 
+            // Teclado
             Rectangle {
                 id: virtualKeyboardContainer
                 width: parent.width
@@ -462,6 +465,7 @@ FocusScope {
                 }
             }
 
+            // Recién Lanzados ListView
             Rectangle {
                 id: historySearch
                 width: parent.width
@@ -595,6 +599,7 @@ FocusScope {
                 }
             }
 
+            // Barra de búsqueda
             Item {
                 id: searchResultsContainer
                 width: parent.width * 3.80
@@ -688,6 +693,7 @@ FocusScope {
                     }
                 }
 
+                // Resultado de búsqueda
                 Rectangle {
                     width: parent.width
                     height: parent.height
@@ -824,9 +830,6 @@ FocusScope {
                                                 if (game.title === selectedGame.title &&
                                                     game.assets.video === selectedGame.assets.video &&
                                                     game.assets.boxFront === selectedGame.assets.boxFront) {
-
-                                                    //console.log("Colección actual:", collection.name);
-                                                //console.log("Lanzando juego:", game.title);
                                                 game.launch();
                                                 collectionFound = true;
                                                 break;
@@ -1081,6 +1084,7 @@ FocusScope {
             }
         }
 
+        // GridView juegos de Categorías
         Rectangle {
             id: rectangleGridView
             width: parent.width * 0.75
@@ -1229,7 +1233,7 @@ FocusScope {
                 }
             }
         }
-
+        // Listview Categorías
         Rectangle {
             id: rectangleListView
             width: screenBackGround.width / 4
@@ -1272,7 +1276,7 @@ FocusScope {
                     height: root.height * 0.08
 
                     Text {
-                        text: modelData.name.charAt(0).toUpperCase() + modelData.name.slice(1) + " (" + modelData.count + " games)"
+                        text: modelData.name.charAt(0).toUpperCase() + modelData.name.slice(1) /*+ " (" + modelData.count + " games)"*/
                         anchors.fill: parent
                         color: genereListView.currentIndex === index ? "white" : "gray"
                         font.family: index === genereListView.currentIndex ? boldFontLoader.name : mediumFontLoader.name
@@ -1731,9 +1735,10 @@ FocusScope {
                     Image {
                         id: favoriteYesImage
                         source: "assets/favoriteyes.png"
-                        width: parent.height * 0.9
-                        height: parent.height * 0.9
-                        sourceSize { width: 45; height: 45 }
+                        width: parent.height * 1
+                        height: parent.height * 1
+                        //sourceSize { width: 45; height: 45 }
+                        mipmap: true
                     }
 
                     Text {

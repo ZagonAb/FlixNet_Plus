@@ -11,9 +11,18 @@ Item {
 
     onIsPausedChanged: {
         if (isPaused) {
-            vid.pause();
+            if (vid.source && !videoEnded) {
+                vid.pause();
+            }
+
+            if (!vid.source || videoEnded) {
+                screenshotImg.visible = true;
+            }
         } else {
-            vid.play();
+            if (vid.source) {
+                vid.play();
+                screenshotImg.visible = false;
+            }
         }
     }
 
@@ -27,7 +36,9 @@ Item {
         running: false
         onTriggered: {
             screenshotImg.visible = false
-            vid.play()
+            if (vid.source) {
+                vid.play();
+            }
         }
     }
 
@@ -41,9 +52,9 @@ Item {
 
         onStopped: {
             if (vid.position === vid.duration) {
-                screenshotImg.source = (game && game.assets.screenshots.length > 0) ? game.assets.screenshots[0] : ""
-                screenshotImg.visible = true
-                videoEnded = true
+                screenshotImg.source = (game && game.assets.screenshots.length > 0) ? game.assets.screenshots[0] : "";
+                screenshotImg.visible = true;
+                videoEnded = true;
             }
         }
 
@@ -58,18 +69,19 @@ Item {
 
     Image {
         anchors.fill: parent
-        source: "assets/crt.png" 
+        source: "assets/crt.png"
         fillMode: Image.Tile
         visible: true
-        opacity: 0.2 
+        opacity: 0.2
     }
 
     Image {
         id: screenshotImg
         anchors.fill: parent
         source: (game && game.assets.screenshots.length > 0) ? game.assets.screenshots[0] : ""
-        visible: screenshotTimer.running
-        
+        visible: (!vid.source || isPaused || videoEnded)
+
+
         Image {
             anchors.fill: parent
             source: "assets/crt.png"
