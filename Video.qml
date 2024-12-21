@@ -16,12 +16,12 @@ Item {
             }
 
             if (!vid.source || videoEnded) {
-                screenshotImg.visible = true;
+                screenshotImg.opacity = 1;
             }
         } else {
             if (vid.source) {
                 vid.play();
-                screenshotImg.visible = false;
+                screenshotImg.opacity = 0;
             }
         }
     }
@@ -35,9 +35,9 @@ Item {
         interval: screenshotDuration
         running: false
         onTriggered: {
-            screenshotImg.visible = false
             if (vid.source) {
                 vid.play();
+                screenshotImg.opacity = 0;
             }
         }
     }
@@ -48,12 +48,12 @@ Item {
         source: game ? (game.assets ? game.assets.video : "") : ""
         fillMode: VideoOutput.Stretch
         autoPlay: false
-        visible: !screenshotImg.visible
+        visible: true
 
         onStopped: {
             if (vid.position === vid.duration) {
                 screenshotImg.source = (game && game.assets.screenshots.length > 0) ? game.assets.screenshots[0] : "";
-                screenshotImg.visible = true;
+                screenshotImg.opacity = 1;
                 videoEnded = true;
             }
         }
@@ -65,7 +65,6 @@ Item {
             }
         }
     }
-
 
     Image {
         anchors.fill: parent
@@ -79,8 +78,15 @@ Item {
         id: screenshotImg
         anchors.fill: parent
         source: (game && game.assets.screenshots.length > 0) ? game.assets.screenshots[0] : ""
-        visible: (!vid.source || isPaused || videoEnded)
+        opacity: 1.0
+        visible: opacity > 0
 
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 500
+                easing.type: Easing.InOutQuad
+            }
+        }
 
         Image {
             anchors.fill: parent
@@ -157,7 +163,7 @@ Item {
         videoEnded = false
         if (game && game.assets.screenshots.length > 0) {
             screenshotImg.source = game.assets.screenshots[0]
-            screenshotImg.visible = true
+            screenshotImg.opacity = 1
             screenshotTimer.restart()
         } else {
             vid.play()
