@@ -39,7 +39,7 @@
   <details>
   <summary>Mejoras en Category</summary>
 
-  - Se ha actualizado el modelo de **"Category"** para mejorar y simplificar el código, con el fin de optimizar el rendimiento y ofrecer una visualización más clara de los "géneros". En el sistema anterior, cada título podía tener su propio género, lo que significaba que podía haber tantos géneros como títulos en el lisview, lo que resultaba complicado de gestionar y poco atractivo para el usuario final.
+  - Se ha actualizado el modelo de **Categories** para mejorar y simplificar el código, con el fin de optimizar el rendimiento y ofrecer una visualización más clara de los "géneros". En el sistema anterior, cada título podía tener su propio género, lo que significaba que podía haber tantos géneros como títulos en el lisview, lo que resultaba complicado de gestionar y poco atractivo para el usuario final.
 
   **Recopilación de géneros**
   - La Recopilación  de géneros consiste en revisar todos los juegos de la biblioteca, extraer y normalizar los nombres de los géneros. Luego, se agrupan los juegos por una categoría base, tomando la primera palabra de cada género (por ejemplo, "Action Adventure" y "Action RPG" se agrupan bajo "**Action**"). A continuación, se crea un modelo de categorías que incluye el nombre de la categoría, el número de juegos en ella y la lista de juegos correspondientes. Finalmente, las categorías se ordenan según el número de juegos, de mayor a menor.
@@ -56,7 +56,9 @@
 
   <details>
   <summary>Mejoras en la barra de progreso</summary>
+  
   **Barra de Progreso de Tiempo de Juego y Fases**
+  
   - **La barra de progreso muestra visualmente el tiempo de juego acumulado, ayudando a los jugadores a ver su avance de manera clara y dinámica. A medida que el jugador acumula más tiempo en el juego, la barra cambia de color y se adapta a las diferentes fases de progreso.**
 
   **Visualización de la Fase**
