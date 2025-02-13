@@ -11,7 +11,7 @@
 <details>
 <summary>Cambios Recientes en el Tema 12/24</summary> 
   <br>
-  
+
   <details>
   <summary>Pausa en video</summary>
   
@@ -95,6 +95,14 @@
   **Objetivo de la Barra**
   La barra y las fases proporcionan una forma visualmente atractiva de seguir el progreso del jugador.
 
+  </details>
+
+  
+  <details>
+  <summary>Logica de video mejorada</summary>
+  
+  - El componente Video ahora solo es visible cuando hasVideo es true, evitando la pantalla negra cuando no hay video.
+  
   </details>
   
 </details>
