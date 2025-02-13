@@ -8,18 +8,16 @@ Item {
     property alias screenshot: screenshotImg.source
     property int screenshotDuration: 500
     property bool isPaused: false
+    property bool hasVideo: game && game.assets && game.assets.video ? true : false
 
     onIsPausedChanged: {
         if (isPaused) {
-            if (vid.source && !videoEnded) {
+            if (hasVideo && !videoEnded) {
                 vid.pause();
             }
-
-            if (!vid.source || videoEnded) {
-                screenshotImg.opacity = 1;
-            }
+            screenshotImg.opacity = 1;
         } else {
-            if (vid.source) {
+            if (hasVideo) {
                 vid.play();
                 screenshotImg.opacity = 0;
             }
@@ -35,7 +33,7 @@ Item {
         interval: screenshotDuration
         running: false
         onTriggered: {
-            if (vid.source) {
+            if (hasVideo) {
                 vid.play();
                 screenshotImg.opacity = 0;
             }
@@ -48,7 +46,7 @@ Item {
         source: game ? (game.assets ? game.assets.video : "") : ""
         fillMode: VideoOutput.Stretch
         autoPlay: false
-        visible: true
+        visible: hasVideo
 
         onStopped: {
             if (vid.position === vid.duration) {
@@ -60,8 +58,7 @@ Item {
 
         onPositionChanged: {
             if (videoEnded && vid.position < vid.duration) {
-                screenshotImg.source = ""
-                videoEnded = false
+                videoEnded = false;
             }
         }
     }
@@ -79,7 +76,7 @@ Item {
         anchors.fill: parent
         source: (game && game.assets.screenshots.length > 0) ? game.assets.screenshots[0] : ""
         opacity: 1.0
-        visible: opacity > 0
+        visible: opacity > 0 || !hasVideo
 
         Behavior on opacity {
             NumberAnimation {
@@ -158,15 +155,22 @@ Item {
     }
 
     onGameChanged: {
-        vid.source = game ? (game.assets ? game.assets.video : "") : ""
-        screenshotImg.source = ""
-        videoEnded = false
+        vid.source = game ? (game.assets ? game.assets.video : "") : "";
+        videoEnded = false;
+        hasVideo = game && game.assets && game.assets.video ? true : false;
+
         if (game && game.assets.screenshots.length > 0) {
-            screenshotImg.source = game.assets.screenshots[0]
-            screenshotImg.opacity = 1
-            screenshotTimer.restart()
+            screenshotImg.source = game.assets.screenshots[0];
+            screenshotImg.opacity = 1;
+
+            if (hasVideo) {
+                screenshotTimer.restart();
+            }
         } else {
-            vid.play()
+            screenshotImg.source = "";
+            if (hasVideo) {
+                vid.play();
+            }
         }
     }
 }
