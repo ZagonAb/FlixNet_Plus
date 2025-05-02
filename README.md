@@ -102,6 +102,7 @@
   <summary>Logica de video mejorada</summary>
   
   - El componente Video ahora solo es visible cuando hasVideo es true, evitando la pantalla negra cuando no hay video.
+  - Requiere de "show existing games" activado.
   
   </details>
   
