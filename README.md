@@ -32,11 +32,6 @@
 
 https://github.com/user-attachments/assets/256ea16e-2557-48ff-8dff-77541c1538ef
 
-![1](https://github.com/user-attachments/assets/cc4083fa-2c94-4d77-a494-79febfcf32b1)
-![2](https://github.com/user-attachments/assets/d214ce54-8c3f-4441-83f0-c0502df1e7f4)
-![3](https://github.com/user-attachments/assets/11459dba-8e27-4c60-a7af-7e5e92082f2b)
-![4](https://github.com/user-attachments/assets/c6f0a4f1-7bae-4977-8c8c-cca67d182a8c)
-
 ## Instalación
 
 [Descarga](https://github.com/ZagonAb/FlixNet_Plus/archive/refs/heads/main.zip) y extrae el tema a tu [directorio de temas](http://pegasus-frontend.org/docs/user-guide/installing-themes). Luego puede seleccionarlo en el menú de configuración de Pegasus.
