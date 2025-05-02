@@ -2,10 +2,6 @@
  - Un tema inspirado en los televisores inteligentes y las aplicaciones de transmisión de video.
  - Bifurcado de [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet)
 
-- Sigo actualizando partes del código por lo que puede variar este repositorio. No olvide hacer una copia de su tema instalado.
-- También puede ver las versiones remplazadas [Aquí](https://www.mediafire.com/folder/wycdtzwa6hdoh/FlixNet_Plus_Versiones)
-
-
 <details>
 <summary>Cambios Recientes en el Tema 2/05/25</summary> 
   <br>
