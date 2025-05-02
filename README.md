@@ -33,7 +33,7 @@
 
 - Usarlo siempre en pantalla completa para una mejor experiencia.
 - Requiere elementos del juego para lucir el tema:  "Screenshots,boxFront,Videos y Wheel"  que los puedes obtener de 
-[Skraper](https://www.skraper.net/) y crear los metadatos con [Bellerophon](https://github.com/valsou/bellerophon)
+[Skraper](https://www.skraper.net/) y crear el archivo de metadatos con [Bellerophon](https://github.com/valsou/bellerophon)
 
 # Demostración
 
