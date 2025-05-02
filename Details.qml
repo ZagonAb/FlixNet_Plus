@@ -19,43 +19,98 @@ import "qrc:/qmlutils" as PegasusUtils
 
 Item {
     property var game: null
-
     visible: game
 
-    Image {
-        id: logoImage
-        
-        asynchronous: true
-        source: game && game.assets && game.assets.logo ? game.assets.logo : ""
-        fillMode: Image.PreserveAspectFit
-        smooth: true
-        visible: game && game.assets && game.assets.logo && game.assets.logo !== ""
-        width: parent.width * 0.4
-        height: parent.height * 0.4
-
+    // Loader para alternar entre logo e imagen de texto
+    Loader {
+        id: logoLoader
         anchors {
             top: parent.top
             left: parent.left
             margins: vpx(10)
         }
+        width: parent.width * 0.4
+        height: parent.height * 0.4
 
+        // Definir qué componente cargar
+        sourceComponent: game && game.assets && game.assets.logo && game.assets.logo !== "" ?
+        logoComponent : titleTextComponent
+
+        // Animación de opacidad al cambiar
         opacity: 0
-
         Behavior on opacity {
-            OpacityAnimator { duration: 2500 }
+            OpacityAnimator {
+                duration: 2500
+            }
         }
     }
 
+    // Componente para el logo
+    Component {
+        id: logoComponent
+
+        Image {
+            asynchronous: true
+            source: game && game.assets && game.assets.logo ? game.assets.logo : ""
+            fillMode: Image.PreserveAspectFit
+            smooth: true
+            width: parent.width
+            height: parent.height
+        }
+    }
+
+    // Componente para el texto del título
+    Component {
+        id: titleTextComponent
+
+        Item {
+            width: parent.width
+            height: parent.height
+
+            FontLoader {
+                id: titleFont
+                source: "font/NetflixSansBold.ttf"
+            }
+
+            Text {
+                anchors.fill: parent
+                text: game ? game.title : ""
+                color: "white"
+                font {
+                    family: titleFont.name
+                    pixelSize: vpx(24)
+                    bold: true
+                }
+                wrapMode: Text.WordWrap
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+                maximumLineCount: 3
+            }
+        }
+    }
+
+    // Fuente para el resto del texto
+    FontLoader {
+        id: customFont
+        source: "font/NetflixSansMedium.ttf"
+    }
+
+    // Fuente para el título
+    FontLoader {
+        id: titleBoldFont
+        source: "font/NetflixSansBold.ttf"
+    }
+
     onGameChanged: {
-        logoImage.opacity = 0;
-        logoImage.opacity = 1;
+        // Reiniciar la animación al cambiar de juego
+        logoLoader.opacity = 0;
+        logoLoader.opacity = 1;
     }
 
     DetailsInfoBar {
         id: infobar
-
         anchors {
-            top: logoImage.bottom
+            top: logoLoader.bottom
             left: parent.left
             right: parent.right
             topMargin: vpx(10)
@@ -68,12 +123,7 @@ Item {
             left: parent.left
             right: parent.right
             topMargin: vpx(25)
-            bottom: parent.bottom 
-        }
-
-        FontLoader {
-            id: customFont
-            source: "font/NetflixSansMedium.ttf"
+            bottom: parent.bottom
         }
 
         Text {
@@ -92,7 +142,7 @@ Item {
             }
             width: parent.width
             wrapMode: Text.Wrap
-            font.family: customFont.name 
+            font.family: customFont.name
             color: "#aeaeae"
             font {
                 pixelSize: vpx(14)
