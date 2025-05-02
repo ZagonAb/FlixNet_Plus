@@ -201,9 +201,30 @@ FocusScope {
                     genereListView.focus = true;
                 } else if (selectedIndex === 5) {
                     if (api.allGames.count > 0) {
-                        var randomIndex = Math.floor(Math.random() * api.allGames.count);
-                        var randomGame = api.allGames.get(randomIndex);
-                        randomGame.launch();
+                        var attempts = 0;
+                        var maxAttempts = 50;
+                        var randomGame = null;
+
+                        while (attempts < maxAttempts) {
+                            var randomIndex = Math.floor(Math.random() * api.allGames.count);
+                            randomGame = api.allGames.get(randomIndex);
+                            var isMovie = false;
+                            for (var j = 0; j < randomGame.collections.count; j++) {
+                                if (randomGame.collections.get(j).name === "Movies") {
+                                    isMovie = true;
+                                    break;
+                                }
+                            }
+
+                            if (!isMovie) {
+                                break;
+                            }
+                            attempts++;
+                        }
+
+                        if (randomGame && !isMovie) {
+                            randomGame.launch();
+                        }
                     }
                 }
             } else if (!event.isAutoRepeat && api.keys.isCancel(event)) {
@@ -235,10 +256,22 @@ FocusScope {
 
         filters: [
             RegExpFilter {
-                roleName: "title";
-                pattern: "^" + gamesFiltered.searchTerm.trim().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ".+";
-                caseSensitivity: Qt.CaseInsensitive;
-                enabled: gamesFiltered.searchTerm !== "";
+                roleName: "title"
+                pattern: "^" + gamesFiltered.searchTerm.trim().replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ".+"
+                caseSensitivity: Qt.CaseInsensitive
+                    enabled: gamesFiltered.searchTerm !== ""
+            },
+
+            ExpressionFilter {
+                expression: {
+                    for (var i = 0; i < modelData.collections.count; i++) {
+                        var collection = modelData.collections.get(i);
+                        if (collection.name === "Movies" || collection.shortName === "movies") {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
             }
         ]
 
@@ -464,7 +497,6 @@ FocusScope {
                 }
             }
 
-            // Recién Lanzados ListView
             Rectangle {
                 id: historySearch
                 width: parent.width
@@ -490,7 +522,7 @@ FocusScope {
                         text: "Newly released games"
                         font.bold: true
                         color: "white"
-                        font.pixelSize: conteiner.width * 0.07  //20
+                        font.pixelSize: conteiner.width * 0.07
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         anchors.fill: parent
@@ -598,7 +630,6 @@ FocusScope {
                 }
             }
 
-            // Barra de búsqueda
             Item {
                 id: searchResultsContainer
                 width: parent.width * 3.80
@@ -678,7 +709,7 @@ FocusScope {
                                 color: "white"
                                 y: 28
                                 font.family: netflixSansMedium.name
-                                font.pixelSize: searchBar.width * 0.024 //24
+                                font.pixelSize: searchBar.width * 0.024
                                 anchors.verticalCenter: parent.verticalCenter
                                 visible: searchInput.length === 0
 
@@ -692,7 +723,6 @@ FocusScope {
                     }
                 }
 
-                // Resultado de búsqueda
                 Rectangle {
                     width: parent.width
                     height: parent.height
@@ -736,7 +766,6 @@ FocusScope {
                                     anchors.centerIn: parent
                                     width: parent.width - 5
                                     height: parent.height - 5
-                                    //sourceSize { width: 456; height: 456 }
                                     asynchronous: true
                                     fillMode: Image.Stretch
                                     mipmap: true
@@ -909,7 +938,8 @@ FocusScope {
             var validatedCategories = storedCategories.map(function(category) {
                 var validGames = category.games.filter(function(gameTitle) {
                     for (var i = 0; i < api.allGames.count; i++) {
-                        if (api.allGames.get(i).title === gameTitle) {
+                        var game = api.allGames.get(i);
+                        if (game.title === gameTitle && !isMovie(game)) {
                             return true;
                         }
                     }
@@ -935,6 +965,8 @@ FocusScope {
         var allGenres = {};
         for (var i = 0; i < api.allGames.count; i++) {
             var game = api.allGames.get(i);
+            if (isMovie(game)) continue;
+
             game.genreList.forEach(function(genre) {
                 var baseCategory = genre.split(/[\s\/-]/)[0].toLowerCase();
                 if (!allGenres[baseCategory]) {
@@ -958,6 +990,15 @@ FocusScope {
         return categoriesArray;
     }
 
+    function isMovie(game) {
+        for (var j = 0; j < game.collections.count; j++) {
+            if (game.collections.get(j).name === "Movies") {
+                return true;
+            }
+        }
+        return false;
+    }
+
     ListModel {
         id: genreFilteredModel
 
@@ -965,6 +1006,8 @@ FocusScope {
             clear();
             for (var i = 0; i < api.allGames.count; i++) {
                 var game = api.allGames.get(i);
+                if (isMovie(game)) continue;
+
                 var gameCategories = game.genreList.map(function(genre) {
                     return genre.split(/[\s\/-]/)[0].toLowerCase();
                 });
@@ -1083,7 +1126,6 @@ FocusScope {
             }
         }
 
-        // GridView juegos de Categorías
         Rectangle {
             id: rectangleGridView
             width: parent.width * 0.75
@@ -1232,7 +1274,7 @@ FocusScope {
                 }
             }
         }
-        // Listview Categorías
+
         Rectangle {
             id: rectangleListView
             width: screenBackGround.width / 4
@@ -1423,9 +1465,12 @@ FocusScope {
 
                 for (var i = 0; i < api.collections.count; ++i) {
                     var collection = api.collections.get(i);
-                    if (collection.name !== "My list" && collection.name !== "Continue playing") {
+                    if (collection.name !== "My list" &&
+                        collection.name !== "Continue playing" &&
+                        collection.name !== "Movies" &&
+                        collection.shortName !== "movies") {
                         collectionsListModel.append(collection);
-                    }
+                        }
                 }
             }
         }
@@ -1433,13 +1478,26 @@ FocusScope {
         SortFilterProxyModel {
             id: gamesFiltered4
             sourceModel: api.allGames
+
             sorters: RoleSorter {
                 roleName: "players"
                 sortOrder: Qt.AscendingOrder
             }
+
             filters: [
                 ExpressionFilter {
                     expression: players > 1
+                },
+                ExpressionFilter {
+                    expression: {
+                        for (var i = 0; i < modelData.collections.count; i++) {
+                            var collection = modelData.collections.get(i);
+                            if (collection.name === "Movies" || collection.shortName === "movies") {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
                 }
             ]
         }
@@ -1468,9 +1526,7 @@ FocusScope {
                 for (var i = 0; i < gamesFiltered2.count; ++i) {
                     games.push(gamesFiltered2.get(i));
                 }
-                // Mezclar los juegos
                 games = shuffle(games);
-                // Añadir los juegos mezclados al ListModel
                 for (var j = 0; j < games.length; ++j) {
                     gamesRandon.append(games[j]);
                 }
@@ -1503,7 +1559,22 @@ FocusScope {
         SortFilterProxyModel {
             id: gamesFiltered2
             sourceModel: api.allGames
-            sorters: RoleSorter { roleName: "name"; sortOrder: Qt.AscendingOrder; }
+            sorters: RoleSorter {
+                roleName: "title"
+                sortOrder: Qt.AscendingOrder
+            }
+
+            filters: ExpressionFilter {
+                expression: {
+                    for (var i = 0; i < modelData.collections.count; i++) {
+                        var collection = modelData.collections.get(i);
+                        if (collection.name === "Movies" || collection.shortName === "movies") {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
         }
 
         ListModel {
@@ -1532,7 +1603,22 @@ FocusScope {
         SortFilterProxyModel {
             id: filteredGames1
             sourceModel: api.allGames
-            sorters: RoleSorter { roleName: "lastPlayed"; sortOrder: Qt.DescendingOrder }
+            sorters: RoleSorter {
+                roleName: "lastPlayed"
+                sortOrder: Qt.DescendingOrder
+            }
+
+            filters: ExpressionFilter {
+                expression: {
+                    for (var i = 0; i < modelData.collections.count; i++) {
+                        var collection = modelData.collections.get(i);
+                        if (collection.name === "Movies" || collection.shortName === "movies") {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
         }
 
         ListModel {
@@ -1573,7 +1659,26 @@ FocusScope {
         SortFilterProxyModel {
             id: favoritesProxyModel
             sourceModel: api.allGames
-            filters: ValueFilter { roleName: "favorite"; value: true }
+
+            filters: [
+                ValueFilter {
+                    roleName: "favorite"
+                    value: true
+                },
+
+                ExpressionFilter {
+                    expression: {
+                        for (var i = 0; i < modelData.collections.count; i++) {
+                            var collection = modelData.collections.get(i);
+                            if (collection.name === "Movies" || collection.shortName === "movies") {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                }
+            ]
+
             onCountChanged: {
                 if (count === 0 && collectionsListModel.favoritesIndex !== -1) {
                     collectionsListModel.remove(collectionsListModel.favoritesIndex, 1);
