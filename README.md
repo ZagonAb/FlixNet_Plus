@@ -11,6 +11,14 @@
 <summary>Cambios Recientes en el Tema 2/05/25</summary> 
   <br>
   
+<details>
+<summary>Exclusión de la colección "Movies"</summary>
+
+- Con la reciente integración de [PMDB-Scraper](https://github.com/ZagonAb/PMDB-Scraper) al entorno de Pegasus-Fe, se ha implementado un filtro sobre `api.allGames` para excluir los elementos pertenecientes a la colección "Movies". Esto evita que las películas se muestren en la interfaz, manteniéndola enfocada exclusivamente en videojuegos.
+</details>
+
+
+  
   <details>
   <summary>Logica de video mejorada</summary>
   
