@@ -1,43 +1,21 @@
-# Tema Flixnet+ para pegasus-frontend.
- - Un tema inspirado en los televisores inteligentes y las aplicaciones de transmisión de video.
- - Bifurcado de [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet)
+# Flixnet+ Theme for Pegasus Frontend
+- A theme inspired by smart TVs and video streaming applications.  
+- Forked from [Flixnet](https://github.com/mmatyas/pegasus-theme-flixnet)  
+ 
+ 
+## SCREENSHOTS
 
-<details>
-<summary>Cambios Recientes en el Tema 2/05/25</summary> 
-  <br>
-  
-<details>
-<summary>Exclusión de la colección "Movies"</summary>
+![screen](https://github.com/ZagonAb/FlixNet_Plus/blob/3d15a155ecad26ba74fe36665e2524d6c55c55b1/.meta/screenshots/screen0.png)
+![screen1](https://github.com/ZagonAb/FlixNet_Plus/blob/3d15a155ecad26ba74fe36665e2524d6c55c55b1/.meta/screenshots/screen1.png)
+![screen2](https://github.com/ZagonAb/FlixNet_Plus/blob/3d15a155ecad26ba74fe36665e2524d6c55c55b1/.meta/screenshots/screen2.png)
 
-- Con la reciente integración de [PMDB-Scraper](https://github.com/ZagonAb/PMDB-Scraper) al entorno de Pegasus-Fe, se ha implementado un filtro sobre `api.allGames` para excluir los elementos pertenecientes a la colección "Movies". Esto evita que las películas se muestren en la interfaz, manteniéndola enfocada exclusivamente en videojuegos.
-</details>
+# Small Details
+- This theme requires certain game assets to look its best: **Screenshots, boxFront, Videos, and Wheel**.  
+  You can obtain them using [Skraper](https://www.skraper.net/) and generate the metadata file with [Bellerophon](https://github.com/valsou/bellerophon).  
 
-
-  
-  <details>
-  <summary>Logica de video mejorada</summary>
-  
-  - El componente Video ahora solo es visible cuando hasVideo es true, evitando la pantalla negra cuando no hay video.
-  - Requiere de "show existing games" activado.
-  
-  </details>
-  
-</details>
-
-
-# Pequeños detalles
-
-- Usarlo siempre en pantalla completa para una mejor experiencia.
-- Requiere elementos del juego para lucir el tema:  "Screenshots,boxFront,Videos y Wheel"  que los puedes obtener de 
-[Skraper](https://www.skraper.net/) y crear el archivo de metadatos con [Bellerophon](https://github.com/valsou/bellerophon)
-
-# Demostración
-
-https://github.com/user-attachments/assets/256ea16e-2557-48ff-8dff-77541c1538ef
-
-## Instalación
-
-[Descarga](https://github.com/ZagonAb/FlixNet_Plus/archive/refs/heads/main.zip) y extrae el tema a tu [directorio de temas](http://pegasus-frontend.org/docs/user-guide/installing-themes). Luego puede seleccionarlo en el menú de configuración de Pegasus.
+## Installation
+[Download](https://github.com/ZagonAb/FlixNet_Plus/archive/refs/heads/main.zip) and extract the theme into your [themes directory](http://pegasus-frontend.org/docs/user-guide/installing-themes).  
+Then, you can select it from the Pegasus settings menu.
 
 
 # Licencia
